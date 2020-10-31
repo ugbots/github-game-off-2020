@@ -9,4 +9,4 @@ So far there's no game yet. Stay tuned!
 This repo was cloned from Joseph Bustamante's Phaser3 TypeScript Starter Kit.
 https://github.com/josephmbustamante/phaser3-typescript-starter-kit
 
-Thanks, Justin!
+Thanks, Joseph!
