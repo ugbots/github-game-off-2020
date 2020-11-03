@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import { getGameWidth, getGameHeight } from '../helpers';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -58,7 +59,7 @@ export class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
-      this.scene.start('MainMenu');
+      this.scene.start('Cannon');
     });
 
     this.loadAssets();
@@ -74,5 +75,8 @@ export class BootScene extends Phaser.Scene {
 
     // Source: Open Game Art
     this.load.image('man', 'assets/sprites/character.png');
+
+    this.load.image('white', 'assets/sprites/white.png');
+    this.load.image('planet', 'assets/sprites/planet.png');
   }
 }

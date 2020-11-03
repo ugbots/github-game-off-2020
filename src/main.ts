@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import Scenes from './scenes';
+import { ALL_SCENES } from './scenes/scenes';
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
   title: 'Sample',
@@ -7,11 +7,16 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
 
   scale: {
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: 1280,
+    height: 720,
   },
 
-  scene: Scenes,
+  scene: ALL_SCENES,
+
+  render: {
+    antialias: false,
+    antialiasGL: false,
+  },
 
   physics: {
     default: 'arcade',
