@@ -5,6 +5,7 @@ import { SCREEN_DIMENSIONS } from '../../util/screen';
 export interface SceneConfig {
   readonly cursorKeys: CursorKeys;
   readonly rotationEasing: EasingButton;
+  readonly starCount: number;
   planetPivot: Vector2;
   cannonPivot: Vector2;
   rotation: number;
@@ -20,6 +21,7 @@ const DEFAULT_CANNON_PIVOT = SCREEN_DIMENSIONS.clone().multiply(
 export const DEFAULT_SCENE_CONFIG = {
   planetPivot: DEFAULT_PLANET_PIVOT.clone(),
   cannonPivot: DEFAULT_CANNON_PIVOT.clone(),
+  starCount: 100,
   rotationEasing: new EasingButton({
     fn: easeInOut,
     speed: 0.002,
