@@ -22,7 +22,7 @@ export const DEFAULT_SCENE_CONFIG = {
   cannonPivot: DEFAULT_CANNON_PIVOT.clone(),
   rotationEasing: new EasingButton({
     fn: easeInOut,
-    speed: 0.001,
+    speed: 0.002,
     friction: 0.93,
     scale: 0.02,
   }),

@@ -16,9 +16,11 @@ export class CannonTurret {
 
   update(time: number, dt: number, sc: SceneConfig): CannonTurret {
     const r = sc.rotationEasing.getValue();
-    this.sprite.rotation = r * 20;
+    const t = r * (1 + 0.3 * Math.sin(0.01 * time));
 
-    const px = sc.cannonPivot.x + sc.rotationEasing.getValue() * 2000;
+    this.sprite.rotation = t * 20;
+
+    const px = sc.cannonPivot.x + t * 1500;
     const py = sc.cannonPivot.y - SCREEN_DIMENSIONS.y / 10;
 
     this.sprite.setPosition(px, py);
