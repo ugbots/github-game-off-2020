@@ -37,9 +37,15 @@ export class BootScene extends Phaser.Scene {
       0x888888,
     );
 
-    const loadingText = this.add.text(halfWidth - 75, halfHeight - 100, 'Loading...').setFontSize(24);
-    const percentText = this.add.text(halfWidth - 25, halfHeight, '0%').setFontSize(24);
-    const assetText = this.add.text(halfWidth - 25, halfHeight + 100, '').setFontSize(24);
+    const loadingText = this.add
+      .text(halfWidth - 75, halfHeight - 100, 'Loading...')
+      .setFontSize(24);
+    const percentText = this.add
+      .text(halfWidth - 25, halfHeight, '0%')
+      .setFontSize(24);
+    const assetText = this.add
+      .text(halfWidth - 25, halfHeight + 100, '')
+      .setFontSize(24);
 
     this.load.on('progress', (value) => {
       progressBar.width = (progressBarWidth - 30) * value;
@@ -73,12 +79,20 @@ export class BootScene extends Phaser.Scene {
   private loadAssets() {
     // Load sample assets
 
-    // Source: Open Game Art
+    // Images
     this.load.image('man', 'assets/sprites/character.png');
 
+    this.load.image('brown', 'assets/sprites/brown.png');
     this.load.image('white', 'assets/sprites/white.png');
     this.load.image('planet', 'assets/sprites/planet.png');
     this.load.image('cannon_base', 'assets/sprites/cannon_base.png');
     this.load.image('cannon_turret', 'assets/sprites/cannon_turret.png');
+
+    // Particles
+    this.load.atlas(
+      'dirt',
+      'assets/sprites/brown.png',
+      'assets/particles/dirt.json',
+    );
   }
 }

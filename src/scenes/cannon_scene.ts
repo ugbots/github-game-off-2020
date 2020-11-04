@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import { CannonBase } from '../model/cannon/cannon_base';
 import { CannonTurret } from '../model/cannon/cannon_turret';
+import { DirtParticles } from '../model/cannon/dirt_particles';
 import { Planet } from '../model/cannon/planet';
 import {
   DEFAULT_SCENE_CONFIG,
@@ -20,6 +21,7 @@ export class CannonScene extends Phaser.Scene {
   private cannonBase: CannonBase;
   private cannonTurret: CannonTurret;
   private stars: readonly Star[];
+  private dirtParticles: DirtParticles;
 
   private sceneConfig: SceneConfig;
 
@@ -40,6 +42,7 @@ export class CannonScene extends Phaser.Scene {
 
     this.cannonBase = new CannonBase().create(this, this.sceneConfig);
     this.cannonTurret = new CannonTurret().create(this, this.sceneConfig);
+    this.dirtParticles = new DirtParticles().create(this, this.sceneConfig);
     this.planet = new Planet().create(this, this.sceneConfig);
   }
 
@@ -49,6 +52,7 @@ export class CannonScene extends Phaser.Scene {
     this.planet.update(time, dt, this.sceneConfig);
     this.cannonBase.update(time, dt, this.sceneConfig);
     this.cannonTurret.update(time, dt, this.sceneConfig);
+    this.dirtParticles.update(time, dt, this.sceneConfig);
     this.stars.forEach(s => {
       s.update(time, dt, this.sceneConfig);
     })
