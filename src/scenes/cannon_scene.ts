@@ -3,6 +3,7 @@ import { CannonBase } from '../model/cannon/cannon_base';
 import { CannonTurret } from '../model/cannon/cannon_turret';
 import { DirtParticles } from '../model/cannon/dirt_particles';
 import { FireParticles } from '../model/cannon/fire_particles';
+import { FuelIndicator } from '../model/cannon/fuel_indicator';
 import { Planet } from '../model/cannon/planet';
 import {
   getInitialSceneConfig,
@@ -26,6 +27,7 @@ export class CannonScene extends Phaser.Scene {
   private dirtParticles: DirtParticles;
   private fireParticles: FireParticles;
   private ship: Ship;
+  private fuelIndicator: FuelIndicator;
 
   private sceneConfig: SceneConfig;
 
@@ -50,6 +52,7 @@ export class CannonScene extends Phaser.Scene {
     this.cannonTurret = new CannonTurret().create(this, this.sceneConfig);
     this.dirtParticles = new DirtParticles().create(this, this.sceneConfig);
     this.planet = new Planet().create(this, this.sceneConfig);
+    this.fuelIndicator = new FuelIndicator().create(this, this.sceneConfig);
   }
 
   /* override */
@@ -61,6 +64,7 @@ export class CannonScene extends Phaser.Scene {
     this.cannonTurret.update(time, dt, this.sceneConfig);
     this.dirtParticles.update(time, dt, this.sceneConfig);
     this.fireParticles.update(time, dt, this.sceneConfig);
+    this.fuelIndicator.update(time, dt, this.sceneConfig);
     this.stars.forEach(s => {
       s.update(time, dt, this.sceneConfig);
     })

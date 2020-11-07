@@ -12,6 +12,7 @@ export interface SceneConfig {
   readonly rotationEasing: EasingButton;
   readonly cannonFireEasing: EasingButton;
   readonly starCount: number;
+  loadedFuel: number;
   sceneState: SceneState;
   planetPivot: Vector2;
   cannonPivot: Vector2;
@@ -29,6 +30,7 @@ export const getInitialSceneConfig = () => ({
   planetPivot: DEFAULT_PLANET_PIVOT.clone(),
   cannonPivot: DEFAULT_CANNON_PIVOT.clone(),
   starCount: 100,
+  loadedFuel: 0,
   sceneState: SceneState.ROTATE_CANNON,
   rotationEasing: new EasingButton({
     fn: easeInOut,

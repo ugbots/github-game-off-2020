@@ -10,3 +10,6 @@ export const Vector2 = Phaser.Math.Vector2;
 
 export type ParticleEmitter = Phaser.GameObjects.Particles.ParticleEmitter;
 export const ParticleEmitter = Phaser.GameObjects.Particles.ParticleEmitter;
+
+export type Rectangle = Phaser.GameObjects.Rectangle;
+export const Rectangle = Phaser.GameObjects.Rectangle;
