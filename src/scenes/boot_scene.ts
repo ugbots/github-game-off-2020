@@ -94,5 +94,10 @@ export class BootScene extends Phaser.Scene {
       'assets/sprites/brown.png',
       'assets/particles/dirt.json',
     );
+    this.load.atlas(
+      'fire_particles',
+      'assets/sprites/fire_particles.png',
+      'assets/particles/fire_particles.json',
+    );
   }
 }

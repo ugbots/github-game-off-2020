@@ -27,6 +27,7 @@ export class Star {
     this.angle = this.initialPolar.θ;
 
     cartesianFromPolar(this.cartesian, this.initialPolar);
+    this.cartesian.add(sc.planetPivot);
 
     const scale = 3 + Math.random() * 15;
 

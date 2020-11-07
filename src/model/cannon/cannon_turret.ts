@@ -1,9 +1,11 @@
 import { Sprite } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
-import { SceneConfig } from './scene_config';
+import { SceneConfig, SceneState } from './scene_config';
 
 export class CannonTurret {
   private sprite: Sprite;
+
+  private alreadyFired = false;
 
   create(scene: Phaser.Scene, sc: SceneConfig): CannonTurret {
     this.sprite = scene.physics.add.sprite(
@@ -20,8 +22,12 @@ export class CannonTurret {
 
     this.sprite.rotation = t * 20;
 
+    const recoil = sc.cannonFireEasing.getValue();
+
     const px = sc.cannonPivot.x + t * 1500;
-    const py = sc.cannonPivot.y - SCREEN_DIMENSIONS.y / 10;
+    const py = sc.cannonPivot.y 
+             - SCREEN_DIMENSIONS.y / 10
+             + recoil * 100;
 
     this.sprite.setPosition(px, py);
     return this;

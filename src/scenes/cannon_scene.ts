@@ -2,12 +2,14 @@ import * as Phaser from 'phaser';
 import { CannonBase } from '../model/cannon/cannon_base';
 import { CannonTurret } from '../model/cannon/cannon_turret';
 import { DirtParticles } from '../model/cannon/dirt_particles';
+import { FireParticles } from '../model/cannon/fire_particles';
 import { Planet } from '../model/cannon/planet';
 import {
-  DEFAULT_SCENE_CONFIG,
+  getInitialSceneConfig,
   SceneConfig,
   updateSceneConfig,
 } from '../model/cannon/scene_config';
+import { Ship } from '../model/cannon/ship';
 import { Star } from '../model/cannon/star';
 
 const settingsConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -22,6 +24,7 @@ export class CannonScene extends Phaser.Scene {
   private cannonTurret: CannonTurret;
   private stars: readonly Star[];
   private dirtParticles: DirtParticles;
+  private fireParticles: FireParticles;
 
   private sceneConfig: SceneConfig;
 
@@ -32,7 +35,7 @@ export class CannonScene extends Phaser.Scene {
   /* override */
   create(): void {
     this.sceneConfig = {
-      ...DEFAULT_SCENE_CONFIG,
+      ...getInitialSceneConfig(),
       cursorKeys: this.input.keyboard.createCursorKeys(),
     };
 
@@ -40,6 +43,7 @@ export class CannonScene extends Phaser.Scene {
       .fill(0)
       .map(() => new Star().create(this, this.sceneConfig));
 
+    this.fireParticles = new FireParticles().create(this, this.sceneConfig);
     this.cannonBase = new CannonBase().create(this, this.sceneConfig);
     this.cannonTurret = new CannonTurret().create(this, this.sceneConfig);
     this.dirtParticles = new DirtParticles().create(this, this.sceneConfig);
@@ -53,6 +57,7 @@ export class CannonScene extends Phaser.Scene {
     this.cannonBase.update(time, dt, this.sceneConfig);
     this.cannonTurret.update(time, dt, this.sceneConfig);
     this.dirtParticles.update(time, dt, this.sceneConfig);
+    this.fireParticles.update(time, dt, this.sceneConfig);
     this.stars.forEach(s => {
       s.update(time, dt, this.sceneConfig);
     })
