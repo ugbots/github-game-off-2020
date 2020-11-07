@@ -25,6 +25,7 @@ export class CannonScene extends Phaser.Scene {
   private stars: readonly Star[];
   private dirtParticles: DirtParticles;
   private fireParticles: FireParticles;
+  private ship: Ship;
 
   private sceneConfig: SceneConfig;
 
@@ -43,6 +44,7 @@ export class CannonScene extends Phaser.Scene {
       .fill(0)
       .map(() => new Star().create(this, this.sceneConfig));
 
+    this.ship = new Ship().create(this, this.sceneConfig);
     this.fireParticles = new FireParticles().create(this, this.sceneConfig);
     this.cannonBase = new CannonBase().create(this, this.sceneConfig);
     this.cannonTurret = new CannonTurret().create(this, this.sceneConfig);
@@ -53,6 +55,7 @@ export class CannonScene extends Phaser.Scene {
   /* override */
   update(time: number, dt: number): void {
     updateSceneConfig(this.sceneConfig, dt);
+    this.ship.update(time, dt, this.sceneConfig);
     this.planet.update(time, dt, this.sceneConfig);
     this.cannonBase.update(time, dt, this.sceneConfig);
     this.cannonTurret.update(time, dt, this.sceneConfig);

@@ -83,6 +83,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image('man', 'assets/sprites/character.png');
 
     this.load.image('brown', 'assets/sprites/brown.png');
+    this.load.image('drillship', 'assets/sprites/drillship.png');
     this.load.image('white', 'assets/sprites/white.png');
     this.load.image('planet', 'assets/sprites/planet.png');
     this.load.image('cannon_base', 'assets/sprites/cannon_base.png');
