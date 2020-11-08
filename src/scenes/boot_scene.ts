@@ -66,7 +66,7 @@ export class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
-      this.scene.start('Cannon', new GameState());
+      this.scene.start('Flight', new GameState());
     });
 
     this.loadAssets();
