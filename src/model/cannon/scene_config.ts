@@ -17,12 +17,12 @@ export enum SceneState {
 
 export interface SceneConfig {
   readonly scene: Scene;
+  readonly gameState: GameState;
   readonly cursorKeys: CursorKeys;
   readonly rotationEasing: EasingButton;
   readonly cannonFireEasing: EasingButton;
   readonly loadedFuelEasing: EasingButton;
   readonly starCount: number;
-  readonly gameState: GameState;
   loadedFuel: number;
   sceneState: SceneState;
   planetPivot: Vector2;
@@ -39,12 +39,12 @@ const DEFAULT_CANNON_PIVOT = SCREEN_DIMENSIONS.clone().multiply(
 
 export const getInitialSceneConfig = (scene: Scene, gameState: GameState) => ({
   scene,
+  gameState,
   planetPivot: DEFAULT_PLANET_PIVOT.clone(),
   cannonPivot: DEFAULT_CANNON_PIVOT.clone(),
   starCount: 100,
   loadedFuel: 0,
   sceneState: SceneState.ROTATE_CANNON,
-  gameState,
   rotationEasing: new EasingButton({
     fn: easeInOut,
     speed: 0.002,
@@ -140,6 +140,10 @@ const updateLoadedFuel = (sc: SceneConfig, dt: number): SceneConfig => {
   sc.loadedFuelEasing.update(dt, dir);
 
   const maxFuel = Math.min(100, sc.gameState.getFuel());
-  sc.loadedFuel = clamp(0, Math.floor(maxFuel * sc.loadedFuelEasing.getValue()), maxFuel);
+  sc.loadedFuel = clamp(
+    0,
+    Math.floor(maxFuel * sc.loadedFuelEasing.getValue()),
+    maxFuel,
+  );
   return sc;
 };
