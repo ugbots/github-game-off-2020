@@ -94,6 +94,10 @@ const updateSceneState = (sc: SceneConfig, dt: number): SceneConfig => {
   if (sc.cursorKeys.space.isDown) {
     sc.sceneState = SceneState.LAUNCH_SHIP;
     sc.gameState.useFuel(sc.loadedFuel);
+
+    setTimeout(() => {
+      sc.scene.scene.start('Flight', sc.gameState);
+    }, 2_000);
   }
   return sc;
 };

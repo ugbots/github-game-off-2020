@@ -14,12 +14,6 @@ import { Ship } from '../model/cannon/ship';
 import { Star } from '../model/cannon/star';
 import { GameState } from '../model/game/game_state';
 
-const settingsConfig: Phaser.Types.Scenes.SettingsConfig = {
-  active: false,
-  visible: false,
-  key: 'Cannon',
-};
-
 export class CannonScene extends Phaser.Scene {
   private gameState: GameState;
 
@@ -35,7 +29,11 @@ export class CannonScene extends Phaser.Scene {
   private sceneConfig: SceneConfig;
 
   constructor() {
-    super(settingsConfig);
+    super({
+      active: false,
+      visible: false,
+      key: 'Cannon',
+    });
   }
 
   /* override */
@@ -73,8 +71,8 @@ export class CannonScene extends Phaser.Scene {
     this.dirtParticles.update(time, dt, this.sceneConfig);
     this.fireParticles.update(time, dt, this.sceneConfig);
     this.fuelIndicator.update(time, dt, this.sceneConfig);
-    this.stars.forEach(s => {
+    this.stars.forEach((s) => {
       s.update(time, dt, this.sceneConfig);
-    })
+    });
   }
 }
