@@ -5,6 +5,7 @@ export interface EasingButtonConfig {
   readonly speed: number;
   readonly scale: number;
   readonly friction: number;
+  readonly canGoNegative: boolean;
 }
 
 export enum EasingDirection {
@@ -27,7 +28,10 @@ export class EasingButton {
       this.value = Math.min(1, this.value + this.config.speed * dt);
     }
     if (direction == EasingDirection.DECREASE) {
-      this.value = Math.max(-1, this.value - this.config.speed * dt);
+      this.value = Math.max(
+        this.config.canGoNegative ? -1 : 0,
+        this.value - this.config.speed * dt,
+      );
     }
     if (direction == EasingDirection.NONE) {
       this.value *= this.config.friction;

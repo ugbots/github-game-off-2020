@@ -2,16 +2,20 @@ import { failure, Result, success } from '../../types/either';
 import { Unit, UNIT } from '../../types/unit';
 
 export interface Inventory {
-  readonly fuel: number;
+  fuel: number;
 }
 
 const INITIAL_EARTH_INVENTORY: Inventory = {
-  fuel: 100,
+  fuel: 20,
 };
 
 /** State that needs to be passed between scenes. */
 export class GameState {
   private readonly earthInventory = INITIAL_EARTH_INVENTORY;
+
+  getFuel(): number {
+    return this.earthInventory.fuel;
+  }
 
   hasFuel(fuel: number): boolean {
     return fuel <= this.earthInventory.fuel;
@@ -24,6 +28,7 @@ export class GameState {
       );
     }
 
+    this.earthInventory.fuel -= fuel;
     return success(UNIT);
   }
 }

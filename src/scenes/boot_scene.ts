@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 import { getGameWidth, getGameHeight } from '../helpers';
+import { GameState } from '../model/game/game_state';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -65,7 +66,7 @@ export class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
-      this.scene.start('Cannon');
+      this.scene.start('Cannon', new GameState());
     });
 
     this.loadAssets();
@@ -76,18 +77,16 @@ export class BootScene extends Phaser.Scene {
    * should be added to this method. Once loaded in, the loader will keep track of them, indepedent of which scene
    * is currently active, so they can be accessed anywhere.
    */
-  private loadAssets() {
+  private loadAssets(): void {
     // Load sample assets
 
     // Images
-    this.load.image('man', 'assets/sprites/character.png');
-
     this.load.image('brown', 'assets/sprites/brown.png');
-    this.load.image('drillship', 'assets/sprites/drillship.png');
-    this.load.image('white', 'assets/sprites/white.png');
-    this.load.image('planet', 'assets/sprites/planet.png');
     this.load.image('cannon_base', 'assets/sprites/cannon_base.png');
     this.load.image('cannon_turret', 'assets/sprites/cannon_turret.png');
+    this.load.image('drillship', 'assets/sprites/drillship.png');
+    this.load.image('planet', 'assets/sprites/planet.png');
+    this.load.image('white', 'assets/sprites/white.png');
 
     // Particles
     this.load.atlas(

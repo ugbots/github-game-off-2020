@@ -1,5 +1,5 @@
 import { Sprite } from '../../util/phaser_types';
-import { SceneConfig } from './scene_config';
+import { SceneConfig, SceneState } from './scene_config';
 
 export class CannonBase {
   private sprite: Sprite;
@@ -15,6 +15,12 @@ export class CannonBase {
 
   update(time: number, dt: number, sc: SceneConfig): CannonBase {
     this.sprite.setPosition(sc.cannonPivot.x, sc.cannonPivot.y);
+
+    // Shake based on loaded fuel
+    if (sc.sceneState === SceneState.ROTATE_CANNON) {
+      this.sprite.scale = 1 + 0.001 * Math.random() * sc.loadedFuel;
+      this.sprite.setRotation((0.5 - Math.random()) * 0.001 * sc.loadedFuel);
+    }
     return this;
   }
 }

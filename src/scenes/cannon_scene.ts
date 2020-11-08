@@ -12,6 +12,7 @@ import {
 } from '../model/cannon/scene_config';
 import { Ship } from '../model/cannon/ship';
 import { Star } from '../model/cannon/star';
+import { GameState } from '../model/game/game_state';
 
 const settingsConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -20,6 +21,8 @@ const settingsConfig: Phaser.Types.Scenes.SettingsConfig = {
 };
 
 export class CannonScene extends Phaser.Scene {
+  private gameState: GameState;
+
   private planet: Planet;
   private cannonBase: CannonBase;
   private cannonTurret: CannonTurret;
@@ -36,9 +39,14 @@ export class CannonScene extends Phaser.Scene {
   }
 
   /* override */
+  init(gameState: GameState): void {
+    this.gameState = gameState;
+  }
+
+  /* override */
   create(): void {
     this.sceneConfig = {
-      ...getInitialSceneConfig(),
+      ...getInitialSceneConfig(this, this.gameState),
       cursorKeys: this.input.keyboard.createCursorKeys(),
     };
 
@@ -57,7 +65,7 @@ export class CannonScene extends Phaser.Scene {
 
   /* override */
   update(time: number, dt: number): void {
-    updateSceneConfig(this.sceneConfig, dt);
+    updateSceneConfig(time, dt, this.sceneConfig);
     this.ship.update(time, dt, this.sceneConfig);
     this.planet.update(time, dt, this.sceneConfig);
     this.cannonBase.update(time, dt, this.sceneConfig);

@@ -25,11 +25,15 @@ export class CannonTurret {
     const recoil = sc.cannonFireEasing.getValue();
 
     const px = sc.cannonPivot.x + t * 1500;
-    const py = sc.cannonPivot.y 
-             - SCREEN_DIMENSIONS.y / 10
-             + recoil * 100;
+    const py = sc.cannonPivot.y - SCREEN_DIMENSIONS.y / 10 + recoil * 100;
 
     this.sprite.setPosition(px, py);
+
+    // Shake based on loaded fuel
+    if (sc.sceneState === SceneState.ROTATE_CANNON) {
+      this.sprite.scale = 1 + 0.001 * Math.random() * sc.loadedFuel;
+      this.sprite.rotation += (0.5 - Math.random()) * 0.001 * sc.loadedFuel;
+    }
     return this;
   }
 }
