@@ -66,15 +66,16 @@ export class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
-      this.scene.start('Flight', new GameState());
+      this.scene.start('Shop', new GameState());
     });
 
     this.loadAssets();
   }
 
   /**
-   * All assets that need to be loaded by the game (sprites, images, animations, tiles, music, etc)
-   * should be added to this method. Once loaded in, the loader will keep track of them, indepedent of which scene
+   * All assets that need to be loaded by the game (sprites, images, animations,
+   * tiles, music, etc) should be added to this method. Once loaded in, the
+   * loader will keep track of them, indepedent of which scene
    * is currently active, so they can be accessed anywhere.
    */
   private loadAssets(): void {
@@ -86,6 +87,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image('cannon_turret', 'assets/sprites/cannon_turret.png');
     this.load.image('drillship', 'assets/sprites/drillship.png');
     this.load.image('planet', 'assets/sprites/planet.png');
+    this.load.image('shop_chevron', 'assets/sprites/shop_chevron.png');
     this.load.image('white', 'assets/sprites/white.png');
 
     // Particles
