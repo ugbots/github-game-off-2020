@@ -16,12 +16,17 @@ export class Star {
     );
     this.alphaTime = 1 + Math.random() * 2;
     this.alphaT = Math.random() * Phaser.Math.PI2;
-    this.sprite.scale = 3 + 20 * Math.random();
+    this.sprite.scale = 3 + 10 * Math.random();
 
     return this;
   }
   update(time: number, dt: number, sc: SceneConfig): void {
     this.sprite.alpha =
       0.6 + 0.4 * Math.sin(time * 0.003 * this.alphaTime + this.alphaT);
+    this.sprite.y = this.sprite.y + (5 - 12 / this.sprite.scale);
+    if (this.sprite.y >= 800) {
+      this.sprite.y = 0;
+      this.sprite.x = SCREEN_DIMENSIONS.x * Math.random();
+    }
   }
 }
