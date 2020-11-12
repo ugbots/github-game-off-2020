@@ -1,3 +1,5 @@
+import { GameState } from '../model/game/game_state';
+import { showShop } from '../services/shop/shop_service';
 import { MenuButton } from '../ui/menu-button';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -16,17 +18,27 @@ export class MainMenuScene extends Phaser.Scene {
 
   public create(): void {
     this.add
-      .text(100, 50, 'This is a sample main menu. Click the "Start" button below to run your game.', {
-        fill: '#FFFFFF',
-      })
+      .text(
+        100,
+        50,
+        'This is a sample main menu. Click the "Start" button below to run your game.',
+        {
+          fill: '#FFFFFF',
+        },
+      )
       .setFontSize(24);
 
     new MenuButton(this, 100, 150, 'Start Game', () => {
-      this.scene.start('Game');
+      this.scene.start('Cannon', new GameState());
     });
 
-    new MenuButton(this, 100, 250, 'Settings', () => console.log('settings button clicked'));
+    new MenuButton(this, 100, 250, 'Shop', () => {
+      console.log('Shop');
+      this.scene.start('Shop', new GameState());
+    });
 
-    new MenuButton(this, 100, 350, 'Help', () => console.log('help button clicked'));
+    new MenuButton(this, 100, 350, 'Help', () =>
+      console.log('help button clicked'),
+    );
   }
 }

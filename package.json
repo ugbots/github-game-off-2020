@@ -12,7 +12,16 @@
     "dev": "webpack-dev-server"
   },
   "dependencies": {
-    "phaser": "^3.23.0"
+    "@angular/common": "^11.0.0",
+    "@angular/compiler": "^11.0.0",
+    "@angular/core": "^11.0.0",
+    "@angular/platform-browser": "^11.0.0",
+    "@angular/platform-browser-dynamic": "^11.0.0",
+    "angular": "^1.8.2",
+    "phaser": "^3.23.0",
+    "rxjs": "^6.6.3",
+    "zone": "^0.3.4",
+    "zone.js": "^0.11.3"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.0.2",
