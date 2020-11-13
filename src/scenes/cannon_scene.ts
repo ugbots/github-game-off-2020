@@ -7,12 +7,13 @@ import { FuelIndicator } from '../model/cannon/fuel_indicator';
 import { Planet } from '../model/cannon/planet';
 import {
   getInitialSceneConfig,
-  SceneConfig,
+  CannonSceneConfig,
   updateSceneConfig,
-} from '../model/cannon/scene_config';
+} from '../model/cannon/cannon_scene_config';
 import { Ship } from '../model/cannon/ship';
 import { Star } from '../model/cannon/star';
 import { GameState } from '../model/game/game_state';
+import { keys } from '../util/keys';
 
 export class CannonScene extends Phaser.Scene {
   private gameState: GameState;
@@ -26,13 +27,13 @@ export class CannonScene extends Phaser.Scene {
   private ship: Ship;
   private fuelIndicator: FuelIndicator;
 
-  private sceneConfig: SceneConfig;
+  private sceneConfig: CannonSceneConfig;
 
   constructor() {
     super({
       active: false,
       visible: false,
-      key: 'Cannon',
+      key: keys.scenes.cannon,
     });
   }
 
@@ -43,10 +44,7 @@ export class CannonScene extends Phaser.Scene {
 
   /* override */
   create(): void {
-    this.sceneConfig = {
-      ...getInitialSceneConfig(this, this.gameState),
-      cursorKeys: this.input.keyboard.createCursorKeys(),
-    };
+    this.sceneConfig = getInitialSceneConfig(this, this.gameState);
 
     this.stars = Array(this.sceneConfig.starCount)
       .fill(0)

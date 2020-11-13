@@ -1,22 +1,23 @@
+import { keys } from '../../util/keys';
 import { Sprite } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
-import { SceneConfig, SceneState } from './scene_config';
+import { CannonSceneConfig, SceneState } from './cannon_scene_config';
 
 export class CannonTurret {
   private sprite: Sprite;
 
   private alreadyFired = false;
 
-  create(scene: Phaser.Scene, sc: SceneConfig): CannonTurret {
+  create(scene: Phaser.Scene, sc: CannonSceneConfig): CannonTurret {
     this.sprite = scene.physics.add.sprite(
       sc.cannonPivot.x,
       sc.cannonPivot.y,
-      'cannon_turret',
+      keys.sprites.cannonTurret,
     );
     return this;
   }
 
-  update(time: number, dt: number, sc: SceneConfig): CannonTurret {
+  update(time: number, dt: number, sc: CannonSceneConfig): CannonTurret {
     const r = sc.rotationEasing.getValue();
     const t = r * (1 + 0.3 * Math.sin(0.01 * time));
 

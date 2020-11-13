@@ -1,7 +1,7 @@
 import { cartesianFromPolar, Polar2 } from '../../math/polar';
+import { keys } from '../../util/keys';
 import { Sprite, Vector2 } from '../../util/phaser_types';
-import { SCREEN_DIMENSIONS } from '../../util/screen';
-import { SceneConfig } from './scene_config';
+import { CannonSceneConfig } from './cannon_scene_config';
 
 export class Star {
   private initialPolar: Polar2;
@@ -14,12 +14,12 @@ export class Star {
   private alphaTime = 0;
   private sprite: Sprite;
 
-  create(scene: Phaser.Scene, sc: SceneConfig): Star {
+  create(scene: Phaser.Scene, sc: CannonSceneConfig): Star {
     this.initialPolar = {
       r: 1024 + Math.random() * (maxStarDistance(sc) - 1024),
       θ: Math.random() * Phaser.Math.PI2,
     };
-    this.polar = {...this.initialPolar};
+    this.polar = { ...this.initialPolar };
 
     this.alphaTime = 1 + Math.random() * 2;
     this.alphaT = Math.random() * Phaser.Math.PI2;
@@ -34,7 +34,7 @@ export class Star {
     this.sprite = scene.physics.add.sprite(
       this.cartesian.x,
       this.cartesian.y,
-      'white',
+      keys.sprites.white,
     );
     this.sprite.scaleX = scale;
     this.sprite.scaleY = scale;
@@ -44,7 +44,7 @@ export class Star {
     return this;
   }
 
-  update(time: number, dt: number, sc: SceneConfig): Star {
+  update(time: number, dt: number, sc: CannonSceneConfig): Star {
     this.polar.θ = this.initialPolar.θ + sc.rotation;
 
     cartesianFromPolar(this.cartesian, this.polar);
@@ -53,12 +53,12 @@ export class Star {
 
     this.sprite.setPosition(this.cartesian.x, this.cartesian.y);
 
-    this.sprite.alpha = .6 + .4 * Math.sin(
-      time * 0.003 * this.alphaTime + this.alphaT);
+    this.sprite.alpha =
+      0.6 + 0.4 * Math.sin(time * 0.003 * this.alphaTime + this.alphaT);
 
     return this;
   }
 }
 
-const maxStarDistance = (sc: SceneConfig): number =>
+const maxStarDistance = (sc: CannonSceneConfig): number =>
   sc.planetPivot.length();

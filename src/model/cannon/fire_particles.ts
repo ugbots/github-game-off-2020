@@ -1,6 +1,7 @@
+import { keys } from '../../util/keys';
 import { Vector2 } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
-import { SceneConfig, SceneState } from './scene_config';
+import { CannonSceneConfig, SceneState } from './cannon_scene_config';
 
 export class FireParticles {
   private manager: Phaser.GameObjects.Particles.ParticleEmitterManager;
@@ -11,8 +12,8 @@ export class FireParticles {
 
   private alreadyFired = false;
 
-  create(scene: Phaser.Scene, sc: SceneConfig): FireParticles {
-    this.manager = scene.add.particles('fire_particles');
+  create(scene: Phaser.Scene, sc: CannonSceneConfig): FireParticles {
+    this.manager = scene.add.particles(keys.particles.fire.atlas);
 
     this.position = sc.cannonPivot.clone();
     this.position.y -= SCREEN_DIMENSIONS.y / 20;
@@ -46,7 +47,7 @@ export class FireParticles {
     return this;
   }
 
-  update(time: number, dt: number, sc: SceneConfig): FireParticles {
+  update(time: number, dt: number, sc: CannonSceneConfig): FireParticles {
     if (sc.sceneState === SceneState.LAUNCH_SHIP && !this.alreadyFired) {
       this.emitter.setQuantity(100);
       this.alreadyFired = true;

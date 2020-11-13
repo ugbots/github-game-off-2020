@@ -1,8 +1,9 @@
-import { SceneConfig } from './scene_config';
+import { CannonSceneConfig } from './cannon_scene_config';
 import { ParticleEmitter, Vector2 } from '../../util/phaser_types';
 
 import * as Phaser from 'phaser';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
+import { keys } from '../../util/keys';
 
 export class DirtParticles {
   private manager: Phaser.GameObjects.Particles.ParticleEmitterManager;
@@ -10,8 +11,8 @@ export class DirtParticles {
 
   private position: Vector2;
 
-  create(scene: Phaser.Scene, sc: SceneConfig): DirtParticles {
-    this.manager = scene.add.particles('dirt');
+  create(scene: Phaser.Scene, sc: CannonSceneConfig): DirtParticles {
+    this.manager = scene.add.particles(keys.particles.dirt.atlas);
 
     this.position = new Vector2(
       sc.cannonPivot.x,
@@ -40,7 +41,7 @@ export class DirtParticles {
     return this;
   }
 
-  update(time: number, dt: number, sc: SceneConfig): DirtParticles {
+  update(time: number, dt: number, sc: CannonSceneConfig): DirtParticles {
     const left = sc.cursorKeys.left.isDown;
     const right = sc.cursorKeys.right.isDown;
 

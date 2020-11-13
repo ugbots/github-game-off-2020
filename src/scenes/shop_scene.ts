@@ -1,9 +1,7 @@
 import { Scene } from 'phaser';
-import { getInitialSceneConfig, SceneConfig } from '../model/shop/scene_config';
 import { GameState } from '../model/game/game_state';
-import { SpriteButton } from '../ui/sprite_button';
-import { SCREEN_DIMENSIONS } from '../util/screen';
 import { showShop } from '../services/shop/shop_service';
+import { keys } from '../util/keys';
 
 let subFn: (g: GameState) => void = undefined;
 
@@ -12,15 +10,11 @@ export const finishShopping = (g: GameState): void => {
 };
 
 export class ShopScene extends Scene {
-  private sceneConfig: SceneConfig;
-
-  private spriteButtons: SpriteButton[];
-
   constructor() {
     super({
       active: false,
       visible: false,
-      key: 'Shop',
+      key: keys.scenes.shop,
     });
   }
 
@@ -29,7 +23,7 @@ export class ShopScene extends Scene {
     showShop(gameState);
 
     subFn = (doneGameState: GameState) => {
-      this.scene.start('Cannon', doneGameState);
+      this.scene.start(keys.scenes.cannon, doneGameState);
     };
   }
 }

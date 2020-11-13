@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { GameState } from '../model/game/game_state';
+import { keys } from '../util/keys';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -66,7 +67,7 @@ export class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
-      this.scene.start('Shop', new GameState());
+      this.scene.start(keys.scenes.mainMenu, new GameState());
     });
 
     this.loadAssets();
@@ -82,22 +83,23 @@ export class BootScene extends Phaser.Scene {
     // Load sample assets
 
     // Images
-    this.load.image('brown', 'assets/sprites/brown.png');
-    this.load.image('cannon_base', 'assets/sprites/cannon_base.png');
-    this.load.image('cannon_turret', 'assets/sprites/cannon_turret.png');
-    this.load.image('drillship', 'assets/sprites/drillship.png');
-    this.load.image('planet', 'assets/sprites/planet.png');
-    this.load.image('shop_chevron', 'assets/sprites/shop_chevron.png');
-    this.load.image('white', 'assets/sprites/white.png');
+    this.load.image(keys.sprites.cannonBase, 'assets/sprites/cannon_base.png');
+    this.load.image(
+      keys.sprites.cannonTurret,
+      'assets/sprites/cannon_turret.png',
+    );
+    this.load.image(keys.sprites.drillShip, 'assets/sprites/drillship.png');
+    this.load.image(keys.sprites.planet, 'assets/sprites/planet.png');
+    this.load.image(keys.sprites.white, 'assets/sprites/white.png');
 
     // Particles
     this.load.atlas(
-      'dirt',
+      keys.particles.dirt.atlas,
       'assets/sprites/brown.png',
       'assets/particles/dirt.json',
     );
     this.load.atlas(
-      'fire_particles',
+      keys.particles.fire.atlas,
       'assets/sprites/fire_particles.png',
       'assets/particles/fire_particles.json',
     );

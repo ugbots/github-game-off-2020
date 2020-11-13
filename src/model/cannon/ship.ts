@@ -1,6 +1,7 @@
 import { Scene } from 'phaser';
+import { keys } from '../../util/keys';
 import { Sprite } from '../../util/phaser_types';
-import { SceneConfig, SceneState } from './scene_config';
+import { CannonSceneConfig, SceneState } from './cannon_scene_config';
 
 export class Ship {
   private sprite: Sprite;
@@ -8,11 +9,11 @@ export class Ship {
   private rotation = 0;
   private alreadyFired = false;
 
-  create(scene: Scene, sc: SceneConfig): Ship {
+  create(scene: Scene, sc: CannonSceneConfig): Ship {
     this.sprite = scene.physics.add.sprite(
       sc.cannonPivot.x,
       sc.cannonPivot.y,
-      'drillship',
+      keys.sprites.drillShip,
     );
 
     this.sprite.setVisible(false);
@@ -20,7 +21,7 @@ export class Ship {
     return this;
   }
 
-  update(time: number, dt: number, sc: SceneConfig): Ship {
+  update(time: number, dt: number, sc: CannonSceneConfig): Ship {
     if (sc.sceneState === SceneState.LAUNCH_SHIP && !this.alreadyFired) {
       this.alreadyFired = true;
       this.sprite.setVisible(true);
@@ -28,7 +29,7 @@ export class Ship {
     }
 
     if (sc.sceneState === SceneState.LAUNCH_SHIP) {
-      this.sprite.setRotation(this.rotation += dt * 0.03);
+      this.sprite.setRotation((this.rotation += dt * 0.03));
     }
 
     return this;

@@ -1,11 +1,11 @@
 import { GameState } from '../model/game/game_state';
-import { showShop } from '../services/shop/shop_service';
 import { MenuButton } from '../ui/menu-button';
+import { keys } from '../util/keys';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
-  key: 'MainMenu',
+  key: keys.scenes.mainMenu,
 };
 
 /**
@@ -29,12 +29,11 @@ export class MainMenuScene extends Phaser.Scene {
       .setFontSize(24);
 
     new MenuButton(this, 100, 150, 'Start Game', () => {
-      this.scene.start('Cannon', new GameState());
+      this.scene.start(keys.scenes.cannon, new GameState());
     });
 
     new MenuButton(this, 100, 250, 'Shop', () => {
-      console.log('Shop');
-      this.scene.start('Shop', new GameState());
+      this.scene.start(keys.scenes.shop, new GameState());
     });
 
     new MenuButton(this, 100, 350, 'Help', () =>

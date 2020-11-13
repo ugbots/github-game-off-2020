@@ -1,16 +1,16 @@
+import { keys } from '../../util/keys';
 import { Sprite } from '../../util/phaser_types';
-import { SCREEN_DIMENSIONS } from '../../util/screen';
-import { SceneConfig } from './scene_config';
+import { CannonSceneConfig } from './cannon_scene_config';
 
 export class Planet {
   private background: Sprite;
   private foreground: Sprite;
 
-  create(scene: Phaser.Scene, sc: SceneConfig): Planet {
+  create(scene: Phaser.Scene, sc: CannonSceneConfig): Planet {
     this.background = scene.physics.add.sprite(
       sc.planetPivot.x,
       sc.planetPivot.y,
-      'planet',
+      keys.sprites.planet,
     );
 
     this.background.scaleX = 16;
@@ -19,7 +19,7 @@ export class Planet {
     this.foreground = scene.physics.add.sprite(
       sc.planetPivot.x,
       sc.planetPivot.y,
-      'planet',
+      keys.sprites.planet,
     );
 
     this.foreground.scaleX = 16;
@@ -28,7 +28,7 @@ export class Planet {
     return this;
   }
 
-  update(time: number, dt: number, sc: SceneConfig): Planet {
+  update(time: number, dt: number, sc: CannonSceneConfig): Planet {
     this.background.rotation = sc.rotation;
     this.foreground.rotation = sc.rotation;
     return this;

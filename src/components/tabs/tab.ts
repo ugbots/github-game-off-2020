@@ -1,11 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { Tab } from './tab_group_config';
-
-const buildEmptyTab = <T>(): Tab<T> => ({
-  label: '(unknown label)',
-  isSelected: false,
-  value: undefined,
-});
+import { buildEmptyTab, Tab } from './tab_group_config';
 
 @Component({
   selector: 'rat-tab',

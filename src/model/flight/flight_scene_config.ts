@@ -1,12 +1,12 @@
 import { Scene } from 'phaser';
 import { GameState } from '../game/game_state';
-import { CursorKeys, Vector2 } from '../../util/phaser_types';
+import { CursorKeys } from '../../util/phaser_types';
 
 export enum SceneState {
   SHIP_X,
 }
 
-export interface SceneConfig {
+export interface FlightSceneConfig {
   readonly gameState: GameState;
   readonly scene: Scene;
   readonly cursorKeys: CursorKeys;
@@ -15,7 +15,7 @@ export interface SceneConfig {
 export const getInitialSceneConfig = (
   scene: Scene,
   gameState: GameState,
-): SceneConfig => ({
+): FlightSceneConfig => ({
   gameState,
   scene,
   cursorKeys: scene.input.keyboard.createCursorKeys(),
@@ -24,7 +24,7 @@ export const getInitialSceneConfig = (
 export const updateSceneConfig = (
   time: number,
   dt: number,
-  config: SceneConfig,
-): SceneConfig => {
+  config: FlightSceneConfig,
+): FlightSceneConfig => {
   return config;
 };

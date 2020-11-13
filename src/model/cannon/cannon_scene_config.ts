@@ -6,6 +6,7 @@ import {
   recoil,
 } from '../../math/easing';
 import { clamp } from '../../math/math';
+import { keys } from '../../util/keys';
 import { CursorKeys, Vector2 } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
 import { GameState } from '../game/game_state';
@@ -15,7 +16,7 @@ export enum SceneState {
   LAUNCH_SHIP,
 }
 
-export interface SceneConfig {
+export interface CannonSceneConfig {
   readonly scene: Scene;
   readonly gameState: GameState;
   readonly cursorKeys: CursorKeys;
@@ -37,9 +38,13 @@ const DEFAULT_CANNON_PIVOT = SCREEN_DIMENSIONS.clone().multiply(
   new Vector2(0.5, 0.55),
 );
 
-export const getInitialSceneConfig = (scene: Scene, gameState: GameState) => ({
+export const getInitialSceneConfig = (
+  scene: Scene,
+  gameState: GameState,
+): CannonSceneConfig => ({
   scene,
   gameState,
+  cursorKeys: scene.input.keyboard.createCursorKeys(),
   planetPivot: DEFAULT_PLANET_PIVOT.clone(),
   cannonPivot: DEFAULT_CANNON_PIVOT.clone(),
   starCount: 100,
@@ -72,13 +77,13 @@ export const getInitialSceneConfig = (scene: Scene, gameState: GameState) => ({
 export const updateSceneConfig = (
   time: number,
   dt: number,
-  config: SceneConfig,
-): SceneConfig => {
+  config: CannonSceneConfig,
+): CannonSceneConfig => {
   switch (config.sceneState) {
     case SceneState.ROTATE_CANNON: {
       updateRotationEasing(config, dt);
-      updateCannonPivot(config, dt);
-      updateSceneState(config, dt);
+      updateCannonPivot(config);
+      updateSceneState(config);
       updateLoadedFuel(config, dt);
       break;
     }
@@ -90,19 +95,22 @@ export const updateSceneConfig = (
   return config;
 };
 
-const updateSceneState = (sc: SceneConfig, dt: number): SceneConfig => {
+const updateSceneState = (sc: CannonSceneConfig): CannonSceneConfig => {
   if (sc.cursorKeys.space.isDown) {
     sc.sceneState = SceneState.LAUNCH_SHIP;
     sc.gameState.useFuel(sc.loadedFuel);
 
     setTimeout(() => {
-      sc.scene.scene.start('Flight', sc.gameState);
+      sc.scene.scene.start(keys.scenes.flight, sc.gameState);
     }, 2_000);
   }
   return sc;
 };
 
-const updateRotationEasing = (config: SceneConfig, dt: number): SceneConfig => {
+const updateRotationEasing = (
+  config: CannonSceneConfig,
+  dt: number,
+): CannonSceneConfig => {
   const left = config.cursorKeys.left.isDown;
   const right = config.cursorKeys.right.isDown;
 
@@ -120,7 +128,7 @@ const updateRotationEasing = (config: SceneConfig, dt: number): SceneConfig => {
   return config;
 };
 
-const updateCannonPivot = (sc: SceneConfig, dt: number): SceneConfig => {
+const updateCannonPivot = (sc: CannonSceneConfig): CannonSceneConfig => {
   sc.cannonPivot = DEFAULT_CANNON_PIVOT.clone();
 
   sc.cannonPivot.x += sc.rotationEasing.getValue() * 2000;
@@ -130,7 +138,10 @@ const updateCannonPivot = (sc: SceneConfig, dt: number): SceneConfig => {
   return sc;
 };
 
-const updateLoadedFuel = (sc: SceneConfig, dt: number): SceneConfig => {
+const updateLoadedFuel = (
+  sc: CannonSceneConfig,
+  dt: number,
+): CannonSceneConfig => {
   const up = sc.cursorKeys.up.isDown;
   const down = sc.cursorKeys.down.isDown;
 

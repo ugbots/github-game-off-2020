@@ -1,7 +1,7 @@
 import { Scene } from 'phaser';
 import { Rectangle } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
-import { SceneConfig } from './scene_config';
+import { CannonSceneConfig } from './cannon_scene_config';
 
 
 export class FuelIndicator {
@@ -10,7 +10,7 @@ export class FuelIndicator {
   private fuelBarBg: Rectangle;
   private fuelBarFg: Rectangle;
 
-  create(scene: Scene, sc: SceneConfig): FuelIndicator {
+  create(scene: Scene, sc: CannonSceneConfig): FuelIndicator {
     const borderWidth = SCREEN_DIMENSIONS.x / 3;
     const borderHeight = SCREEN_DIMENSIONS.y / 7;
     const borderX = SCREEN_DIMENSIONS.x / 2;
@@ -51,7 +51,7 @@ export class FuelIndicator {
     return this;
   }
 
-  update(time: number, dt: number, sc: SceneConfig): FuelIndicator {
+  update(time: number, dt: number, sc: CannonSceneConfig): FuelIndicator {
     this.label.text = `Propellant: ${sc.loadedFuel}%`;
     this.updateFuelBar(sc.loadedFuel);
     return this;

@@ -1,6 +1,7 @@
+import { keys } from '../../util/keys';
 import { Sprite } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
-import { SceneConfig } from './scene_config';
+import { FlightSceneConfig } from './flight_scene_config';
 
 export class Star {
   private alphaT = 1;
@@ -8,11 +9,11 @@ export class Star {
 
   private sprite: Sprite;
 
-  create(sc: SceneConfig): Star {
+  create(sc: FlightSceneConfig): Star {
     this.sprite = sc.scene.physics.add.sprite(
       SCREEN_DIMENSIONS.x * Math.random(),
       SCREEN_DIMENSIONS.y * Math.random(),
-      'white',
+      keys.sprites.white,
     );
     this.alphaTime = 1 + Math.random() * 2;
     this.alphaT = Math.random() * Phaser.Math.PI2;
@@ -20,7 +21,8 @@ export class Star {
 
     return this;
   }
-  update(time: number, dt: number, sc: SceneConfig): void {
+
+  update(time: number, dt: number, sc: FlightSceneConfig): void {
     this.sprite.alpha =
       0.6 + 0.4 * Math.sin(time * 0.003 * this.alphaTime + this.alphaT);
     this.sprite.y = this.sprite.y + (5 - 12 / this.sprite.scale);

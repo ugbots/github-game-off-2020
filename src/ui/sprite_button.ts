@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import { SceneConfig } from '../model/shop/scene_config';
+import { ShopSceneConfig } from '../model/shop/shop_scene_config';
 import { Sprite } from '../util/phaser_types';
 
 export class SpriteButton {
@@ -7,7 +7,7 @@ export class SpriteButton {
   private onClick: () => void;
 
   create(
-    sc: SceneConfig,
+    sc: ShopSceneConfig,
     key: string,
     x: number,
     y: number,
@@ -44,7 +44,7 @@ export class SpriteButton {
     return this;
   }
 
-  updateUi(sc: SceneConfig): void {
+  updateUi(sc: ShopSceneConfig): void {
 
   }
 }

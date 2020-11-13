@@ -1,15 +1,16 @@
 import { Scene } from 'phaser';
 import {
   getInitialSceneConfig,
-  SceneConfig,
+  FlightSceneConfig,
   updateSceneConfig,
-} from '../model/flight/scene_config';
+} from '../model/flight/flight_scene_config';
 import { Star } from '../model/flight/star';
 import { GameState } from '../model/game/game_state';
 import { Ship } from '../model/flight/ship';
+import { keys } from '../util/keys';
 
 export class FlightScene extends Scene {
-  private sceneConfig: SceneConfig;
+  private sceneConfig: FlightSceneConfig;
   private gameState: GameState;
   private stars: readonly Star[];
   private ship: Ship;
@@ -18,7 +19,7 @@ export class FlightScene extends Scene {
     super({
       active: false,
       visible: false,
-      key: 'Flight',
+      key: keys.scenes.flight,
     });
   }
 

@@ -1,7 +1,7 @@
 import { Scene } from 'phaser';
 import { GameState } from '../game/game_state';
 
-export interface SceneConfig {
+export interface ShopSceneConfig {
   readonly scene: Scene;
   readonly gameState: GameState;
 }
@@ -9,7 +9,7 @@ export interface SceneConfig {
 export const getInitialSceneConfig = (
   scene: Scene,
   gameState: GameState,
-): SceneConfig => ({
+): ShopSceneConfig => ({
   scene,
   gameState,
 });
