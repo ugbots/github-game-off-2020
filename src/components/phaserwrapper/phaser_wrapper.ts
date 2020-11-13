@@ -3,8 +3,8 @@ import { ShopState } from '../../services/shop/shop_service';
 
 @Component({
   selector: 'rat-phaser-wrapper',
-  templateUrl: 'assets/templates/phaser_wrapper.ng.html',
-  styleUrls: ['assets/css/phaser_wrapper.css'],
+  templateUrl: 'assets/templates/phaserwrapper/phaser_wrapper.ng.html',
+  styleUrls: ['assets/css/phaserwrapper/phaser_wrapper.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhaserWrapperComponent implements OnChanges {

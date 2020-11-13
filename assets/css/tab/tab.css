@@ -1,0 +1,14 @@
+.tab-wrapper {
+  padding: 8px;
+  text-align: center;
+  background-color: #333;
+  border-radius: 4px 4px 0 0;
+  user-select: none;
+  cursor: pointer;
+  color: white;
+}
+
+.tab-wrapper.selected {
+  background-color: #999;
+  color: black;
+}

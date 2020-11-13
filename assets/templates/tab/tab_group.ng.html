@@ -1,0 +1,6 @@
+<div class="tab-group-wrapper">
+  <rat-tab *ngFor="let tab of config.tabs" 
+           [tab]="tab"
+           (click)="selectTab(tab)">
+  </rat-tab>
+</div>

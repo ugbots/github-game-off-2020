@@ -1,5 +1,4 @@
 import { Inject, Injectable, NgZone } from '@angular/core';
-import { Game } from 'phaser';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GameState } from '../../model/game/game_state';
@@ -8,6 +7,16 @@ import { finishShopping } from '../../scenes/shop_scene';
 export enum ShopState {
   SHOP_SHOW,
   SHOP_HIDE,
+}
+
+export enum ShopContext {
+  CONTEXT_SHOP,
+  CONTEXT_BUILD,
+}
+
+export enum EquipmentType {
+  EQUIPMENT_DRILLS,
+  EQUIPMENT_BATTERIES,
 }
 
 let subFn: (g: GameState) => void = undefined;
@@ -33,10 +42,6 @@ export class ShopService {
     };
   }
 
-  setShopState(shopState: ShopState): void {
-    this.shopStateSubject.next(shopState);
-  }
-
   finishShopping(): void {
     this.setShopState(ShopState.SHOP_HIDE);
 
@@ -45,15 +50,19 @@ export class ShopService {
     });
   }
 
-  setGameState(gameState: GameState): void {
-    this.gameStateSubject.next(gameState);
-  }
-
   getShopState$(): Observable<ShopState> {
     return this.shopStateSubject;
   }
 
-  getGameState$(): Observable<GameState|undefined> {
+  setShopState(shopState: ShopState): void {
+    this.shopStateSubject.next(shopState);
+  }
+
+  getGameState$(): Observable<GameState | undefined> {
     return this.gameStateSubject;
+  }
+
+  setGameState(gameState: GameState): void {
+    this.gameStateSubject.next(gameState);
   }
 }

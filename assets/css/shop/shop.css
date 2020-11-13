@@ -1,0 +1,17 @@
+.hidden {
+  display: none;
+}
+
+.shop-wrapper {
+  background-color: #404040;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 20px;
+}
+
+.context-selector {
+  background-color: #111;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}

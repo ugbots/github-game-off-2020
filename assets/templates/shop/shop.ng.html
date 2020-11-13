@@ -1,0 +1,16 @@
+<div
+  class="shop-wrapper"
+  [class.hidden]="hidden"
+  [style.width]="screenDimensions.x + 'px'"
+  [style.height]="screenDimensions.y + 'px'"
+>
+  <div class="context-selector">
+    <rat-tab-group [config]="tabGroupConfig"
+                   (tabSelected)="handleTabSelected($event)">
+    </rat-tab-group>
+  </div>
+  <div class="context-body">
+    <rat-shop-panel *ngIf="shouldShowShopPanel">
+    </rat-shop-panel>
+  </div>
+</div>

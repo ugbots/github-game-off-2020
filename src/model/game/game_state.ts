@@ -1,4 +1,4 @@
-import { failure, Result, success } from '../../types/either';
+import { failure, Result, success } from '../../types/result';
 import { Unit, UNIT } from '../../types/unit';
 
 export interface Inventory {
