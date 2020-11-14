@@ -18,12 +18,12 @@ export enum SceneState {
 
 export interface CannonSceneConfig {
   readonly scene: Scene;
-  readonly gameState: GameState;
   readonly cursorKeys: CursorKeys;
   readonly rotationEasing: EasingButton;
   readonly cannonFireEasing: EasingButton;
   readonly loadedFuelEasing: EasingButton;
   readonly starCount: number;
+  gameState: GameState;
   loadedFuel: number;
   sceneState: SceneState;
   planetPivot: Vector2;
@@ -98,7 +98,22 @@ export const updateSceneConfig = (
 const updateSceneState = (sc: CannonSceneConfig): CannonSceneConfig => {
   if (sc.cursorKeys.space.isDown) {
     sc.sceneState = SceneState.LAUNCH_SHIP;
-    sc.gameState.useFuel(sc.loadedFuel);
+
+    const fuelToUse = sc.loadedFuel;
+    const fuelAvailable = sc.gameState.earthInventory.fuel;
+    if (fuelToUse > fuelAvailable) {
+      throw new Error(
+        `Can't use ${fuelToUse} fuel! ${fuelAvailable} available.`,
+      );
+    }
+
+    sc.gameState = {
+      ...sc.gameState,
+      earthInventory: {
+        ...sc.gameState.earthInventory,
+        fuel: fuelAvailable - fuelToUse,
+      },
+    };
 
     setTimeout(() => {
       sc.scene.scene.start(keys.scenes.flight, sc.gameState);
@@ -154,7 +169,7 @@ const updateLoadedFuel = (
   }
   sc.loadedFuelEasing.update(dt, dir);
 
-  const maxFuel = Math.min(100, sc.gameState.getFuel());
+  const maxFuel = Math.min(100, sc.gameState.earthInventory.fuel);
   sc.loadedFuel = clamp(
     0,
     Math.floor(maxFuel * sc.loadedFuelEasing.getValue()),

@@ -1,0 +1,41 @@
+<div class="build-panel-wrapper">
+  <div class="equipment-header">
+    Equipment
+  </div>
+  <div class="equipment-list">
+    <rat-select
+      [config]="equipmentSelectConfig"
+      (selectChange)="handleEquipSelectChange($event)"
+    ></rat-select>
+  </div>
+
+  <div class="equipped-header">
+    Equipped
+  </div>
+  <div class="equipped-list">
+    <rat-select
+      [config]="equippedSelectConfig"
+      (selectChange)="handleRemoveSelectChange($event)"
+    >
+    </rat-select>
+  </div>
+
+  <div class="eq-movement-buttons">
+    <div class="movement-button">
+      <rat-button
+        text="⇒"
+        [disabled]="currentSelectedEquipment === undefined"
+        (click)="equipCurrentSelection()"
+      >
+      </rat-button>
+    </div>
+    <div class="movement-button">
+      <rat-button
+        text="⇐"
+        [disabled]="currentSelectedEquipped === undefined"
+        (click)="removeCurrentSelection()"
+      >
+      </rat-button>
+    </div>
+  </div>
+</div>

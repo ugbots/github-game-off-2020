@@ -6,6 +6,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
+import { GameState } from '../../model/game/game_state';
 import {
   ShopContext,
   ShopService,
@@ -26,9 +27,12 @@ export class ShopComponent implements OnChanges {
   screenDimensions = SCREEN_DIMENSIONS;
   hidden = true;
   tabGroupConfig = this.generateTabGroupConfig();
-  shouldShowShopPanel = true;
+  shouldShowShopPanel = false;
+  shouldShowBuildPanel = true;
 
   constructor(@Inject(ShopService) private readonly shopService: ShopService) {}
+
+  gameState$ = this.shopService.getGameState$();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['shopState']) {
@@ -42,6 +46,11 @@ export class ShopComponent implements OnChanges {
   handleTabSelected(tab: Tab<ShopContext>): void {
     this.tabGroupConfig = selectTab(this.tabGroupConfig, tab);
     this.shouldShowShopPanel = tab.value === ShopContext.CONTEXT_SHOP;
+    this.shouldShowBuildPanel = tab.value === ShopContext.CONTEXT_BUILD;
+  }
+
+  handleGameStateChange(gs: GameState): void {
+    this.shopService.setGameState(gs);
   }
 
   closeShop(): void {
@@ -53,12 +62,12 @@ export class ShopComponent implements OnChanges {
       tabs: [
         {
           label: 'Shop',
-          isSelected: true,
+          isSelected: false,
           value: ShopContext.CONTEXT_SHOP,
         },
         {
           label: 'Build',
-          isSelected: false,
+          isSelected: true,
           value: ShopContext.CONTEXT_BUILD,
         },
       ],

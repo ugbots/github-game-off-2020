@@ -1,0 +1,50 @@
+.build-panel-wrapper {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 64px 1fr 1fr;
+  grid-template-rows: 0.25fr 1fr;
+  grid-template-areas:
+    'equipment-header missing             equipped-header ship-header'
+    'equipment-list   eq-movement-buttons equipped-list   ship-stats';
+}
+
+.equipment-header {
+  grid-area: equipment-header;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.equipment-list {
+  grid-area: equipment-list;
+}
+
+.equipped-header {
+  grid-area: equipped-header;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.equipped-list {
+  grid-area: equipped-list;
+}
+
+.eq-movement-buttons {
+  grid-area: eq-movement-buttons;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.eq-movement-buttons > * {
+  padding-top: 16px;
+}
+
+.movement-button {
+  width: 64px;
+  height: 64px;
+  font-size: 2em;
+}

@@ -12,5 +12,9 @@
   <div class="context-body">
     <rat-shop-panel *ngIf="shouldShowShopPanel">
     </rat-shop-panel>
+    <rat-build-panel *ngIf="shouldShowBuildPanel"
+                     [gameState]="gameState$ | async"
+                     (gameStateChange)="handleGameStateChange($event)">
+    </rat-build-panel>
   </div>
 </div>

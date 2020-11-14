@@ -1,0 +1,10 @@
+<select class="select-wrapper" 
+        size="10"
+        (change)="handleSelectChange($event)">
+  <ng-container *ngFor="let option of config.options">
+    <option [attr.value]="option.label"
+            [attr.disabled]="(!!option.disabled) ? null : true">
+      {{option.label}}
+    </option>
+  </ng-container>
+</select>

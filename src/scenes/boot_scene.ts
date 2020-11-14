@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 import { getGameWidth, getGameHeight } from '../helpers';
-import { GameState } from '../model/game/game_state';
+import { GameState, INITIAL_GAME_STATE } from '../model/game/game_state';
 import { keys } from '../util/keys';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -67,7 +67,7 @@ export class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
-      this.scene.start(keys.scenes.mainMenu, new GameState());
+      this.scene.start(keys.scenes.shop, INITIAL_GAME_STATE);
     });
 
     this.loadAssets();
