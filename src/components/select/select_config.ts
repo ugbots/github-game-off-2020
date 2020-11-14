@@ -4,6 +4,7 @@ export interface SelectConfig<T> {
 
 export interface SelectOption<T> {
   readonly disabled?: boolean;
+  readonly selected?: boolean;
   readonly label: string;
   readonly value: T;
 }

@@ -9,6 +9,11 @@ export interface Inventory {
   readonly drills: readonly Drill[];
 }
 
+export const EMPTY_INVENTORY: Inventory = {
+  fuel: 0,
+  drills: [],
+};
+
 const INITIAL_EARTH_INVENTORY: Inventory = {
   fuel: 20,
   drills: [CRAPPY_DRILL, BETTER_DRILL],

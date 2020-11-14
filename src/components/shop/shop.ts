@@ -35,7 +35,7 @@ export class ShopComponent implements OnChanges {
   gameState$ = this.shopService.getGameState$();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['shopState']) {
+    if (changes['shopState'] || changes['shopContext']) {
       this.hidden = this.shopState === ShopState.SHOP_HIDE;
     }
     if (changes['shopContext']) {

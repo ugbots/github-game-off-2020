@@ -48,3 +48,14 @@
   height: 64px;
   font-size: 2em;
 }
+
+.ship-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-area: ship-header;
+}
+
+.ship-stats {
+  grid-area: ship-stats;
+}

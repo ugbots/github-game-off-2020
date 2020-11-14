@@ -7,10 +7,10 @@ import {
   EventEmitter,
   SimpleChanges,
 } from '@angular/core';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { Drill } from '../../model/game/drills';
 import {
   dequipItem,
+  EMPTY_INVENTORY,
   equipItem,
   GameState,
   Inventory,
@@ -38,16 +38,27 @@ export class BuildPanelComponent implements OnChanges {
   currentSelectedEquipment?: Item;
   currentSelectedEquipped?: Item;
 
+  currentInventory: Inventory = EMPTY_INVENTORY;
+  nextInventory?: Inventory;
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['gameState'] && this.gameState !== undefined) {
-      console.log(this.gameState.earthInventory.drills);
       this.equipmentSelectConfig = this.generateEquipmentSelectConfig();
       this.equippedSelectConfig = this.generateEquippedSelectConfig();
+      this.currentInventory = this.gameState.shipInventory;
     }
   }
 
   handleEquipSelectChange(item?: Item): void {
     this.currentSelectedEquipment = item;
+    this.currentSelectedEquipped = undefined;
+    this.equipmentSelectConfig = this.generateEquipmentSelectConfig();
+    this.equippedSelectConfig = this.generateEquippedSelectConfig();
+
+    this.nextInventory = undefined;
+    if (item !== undefined) {
+      this.nextInventory = equipItem(this.gameState, item).shipInventory;
+    }
   }
 
   equipCurrentSelection(): void {
@@ -60,10 +71,19 @@ export class BuildPanelComponent implements OnChanges {
       equipItem(this.gameState, this.currentSelectedEquipment),
     );
     this.currentSelectedEquipment = undefined;
+    this.nextInventory = undefined;
   }
 
   handleRemoveSelectChange(item?: Item): void {
     this.currentSelectedEquipped = item;
+    this.currentSelectedEquipment = undefined;
+    this.equipmentSelectConfig = this.generateEquipmentSelectConfig();
+    this.equippedSelectConfig = this.generateEquippedSelectConfig();
+
+    this.nextInventory = undefined;
+    if (item !== undefined) {
+      this.nextInventory = dequipItem(this.gameState, item).shipInventory;
+    }
   }
 
   removeCurrentSelection(): void {
@@ -76,30 +96,42 @@ export class BuildPanelComponent implements OnChanges {
       dequipItem(this.gameState, this.currentSelectedEquipped),
     );
     this.currentSelectedEquipped = undefined;
+    this.nextInventory = undefined;
   }
 
   private generateEquipmentSelectConfig(): SelectConfig<Item> {
-    return this.generateInventorySelectConfig(this.gameState.earthInventory);
+    return this.generateInventorySelectConfig(
+      this.gameState.earthInventory,
+      this.currentSelectedEquipment,
+    );
   }
 
   private generateEquippedSelectConfig(): SelectConfig<Item> {
-    return this.generateInventorySelectConfig(this.gameState.shipInventory);
+    return this.generateInventorySelectConfig(
+      this.gameState.shipInventory,
+      this.currentSelectedEquipped,
+    );
   }
 
-  private generateInventorySelectConfig(inv: Inventory): SelectConfig<Item> {
+  private generateInventorySelectConfig(
+    inv: Inventory,
+    selectedItem: Item,
+  ): SelectConfig<Item> {
     return {
       options: [
         this.buildDisabledOption('Drills'),
-        ...this.generateDrillsOption(inv.drills),
+        ...this.generateDrillsOption(inv.drills, selectedItem),
       ],
     };
   }
 
   private generateDrillsOption(
     drills: readonly Drill[],
+    selectedItem: Item,
   ): readonly SelectOption<Item>[] {
     return drills.map((drill) => ({
-      disabled: true,
+      disabled: false,
+      selected: drill === selectedItem,
       label: '....... ' + drill.name,
       value: drill,
     }));
@@ -107,7 +139,8 @@ export class BuildPanelComponent implements OnChanges {
 
   private buildDisabledOption(label: string): SelectOption<Item> {
     return {
-      disabled: false,
+      disabled: true,
+      selected: false,
       label,
       value: undefined,
     };

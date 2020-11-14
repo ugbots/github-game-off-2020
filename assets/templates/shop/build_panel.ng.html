@@ -9,17 +9,6 @@
     ></rat-select>
   </div>
 
-  <div class="equipped-header">
-    Equipped
-  </div>
-  <div class="equipped-list">
-    <rat-select
-      [config]="equippedSelectConfig"
-      (selectChange)="handleRemoveSelectChange($event)"
-    >
-    </rat-select>
-  </div>
-
   <div class="eq-movement-buttons">
     <div class="movement-button">
       <rat-button
@@ -37,5 +26,25 @@
       >
       </rat-button>
     </div>
+  </div>
+
+  <div class="equipped-header">
+    Equipped
+  </div>
+  <div class="equipped-list">
+    <rat-select
+      [config]="equippedSelectConfig"
+      (selectChange)="handleRemoveSelectChange($event)"
+    >
+    </rat-select>
+  </div>
+
+  <div class="ship-header">
+    Ship stats
+  </div>
+  <div class="ship-stats">
+    <rat-ship-stats-diff [prev]="currentInventory"
+                         [next]="nextInventory">
+    </rat-ship-stats-diff>
   </div>
 </div>
