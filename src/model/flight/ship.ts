@@ -1,7 +1,7 @@
 import { keys } from '../../util/keys';
 import { Sprite } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
-import { FlightSceneConfig } from './flight_scene_config';
+import { FlightSceneConfig, FlightSceneState } from './flight_scene_config';
 
 export class Ship {
   private sprite: Sprite;
@@ -18,11 +18,10 @@ export class Ship {
   }
 
   update(time: number, dt: number, sc: FlightSceneConfig): void {
-    if (this.sprite.x >= SCREEN_DIMENSIONS.x) {
-      this.sprite.x = SCREEN_DIMENSIONS.x;
-    }
-    if (this.sprite.y >= SCREEN_DIMENSIONS.y) {
-      this.sprite.y = SCREEN_DIMENSIONS.y;
+    this.sprite.rotation += dt * sc.shipRotationVelocity;
+
+    if (sc.sceneState === FlightSceneState.INTRO) {
+      this.sprite.y = SCREEN_DIMENSIONS.y - sc.shipIntroEasing.getValue() * 100;
     }
   }
 }
