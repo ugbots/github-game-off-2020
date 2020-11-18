@@ -6,8 +6,8 @@ import { CannonSceneConfig, SceneState } from './cannon_scene_config';
 export class Ship {
   private sprite: Sprite;
 
-  private rotation = 0;
   private alreadyFired = false;
+  private rotation = 0;
 
   create(scene: Scene, sc: CannonSceneConfig): Ship {
     this.sprite = scene.physics.add.sprite(
@@ -29,7 +29,7 @@ export class Ship {
     }
 
     if (sc.sceneState === SceneState.LAUNCH_SHIP) {
-      this.sprite.setRotation((this.rotation += dt * 0.03));
+      this.sprite.setRotation((this.rotation += dt * sc.shipRotationVelocity));
     }
 
     return this;

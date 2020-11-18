@@ -2,7 +2,8 @@
         size="10"
         (change)="handleSelectChange($event)">
   <ng-container *ngFor="let option of config.options">
-    <option [attr.value]="option.label"
+    <option class="select-option"
+            [attr.value]="option.label"
             [attr.disabled]="(!option.disabled) ? null : true"
             [attr.selected]="(!option.selected) ? null : true">
       {{option.label}}

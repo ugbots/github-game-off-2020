@@ -9,6 +9,7 @@ import { clamp } from '../../math/math';
 import { keys } from '../../util/keys';
 import { CursorKeys, Vector2 } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
+import { FlightSceneInput } from '../flight/flight_scene_input';
 import { GameState } from '../game/game_state';
 
 export enum SceneState {
@@ -25,6 +26,7 @@ export interface CannonSceneConfig {
   readonly starCount: number;
   gameState: GameState;
   loadedFuel: number;
+  shipRotationVelocity: number;
   sceneState: SceneState;
   planetPivot: Vector2;
   cannonPivot: Vector2;
@@ -49,6 +51,7 @@ export const getInitialSceneConfig = (
   cannonPivot: DEFAULT_CANNON_PIVOT.clone(),
   starCount: 100,
   loadedFuel: 0,
+  shipRotationVelocity: 0,
   sceneState: SceneState.ROTATE_CANNON,
   rotationEasing: new EasingButton({
     fn: easeInOut,
@@ -90,6 +93,7 @@ export const updateSceneConfig = (
     case SceneState.LAUNCH_SHIP: {
       config.cannonFireEasing.update(dt, EasingDirection.INCREASE);
       config.rotationEasing.update(dt, EasingDirection.NONE);
+      config.shipRotationVelocity += dt * 0.000005;
     }
   }
   return config;
@@ -116,7 +120,11 @@ const updateSceneState = (sc: CannonSceneConfig): CannonSceneConfig => {
     };
 
     setTimeout(() => {
-      sc.scene.scene.start(keys.scenes.flight, sc.gameState);
+      const input: FlightSceneInput = {
+        gameState: sc.gameState,
+        shipRotationVelocity: sc.shipRotationVelocity,
+      };
+      sc.scene.scene.start(keys.scenes.flight, input);
     }, 2_000);
   }
   return sc;

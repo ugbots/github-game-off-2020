@@ -23,7 +23,7 @@ export class EasingButton {
     this.config = config;
   }
 
-  update(dt: number, direction: EasingDirection) {
+  update(dt: number, direction: EasingDirection): void {
     if (direction == EasingDirection.INCREASE) {
       this.value = Math.min(1, this.value + this.config.speed * dt);
     }
@@ -38,6 +38,10 @@ export class EasingButton {
     }
   }
 
+  getInternalValue(): number {
+    return this.value;
+  }
+
   getValue(): number {
     const multiplier = this.value < 0 ? -1 : 1;
     return (
@@ -46,7 +50,7 @@ export class EasingButton {
   }
 }
 
-export const easeInOut = (x: number) =>
+export const easeInOut = (x: number): number =>
   x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
 
 export const recoil = (x: number): number =>

@@ -3,3 +3,7 @@
   height: 80%;
   width: 80%;
 }
+
+.select-option {
+  white-space: pre;
+}

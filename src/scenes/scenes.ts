@@ -1,4 +1,4 @@
-import { BootScene } from './boot_scene';
+import BootScene from './boot_scene';
 import { CannonScene } from './cannon_scene';
 import { FlightScene } from './flight_scene';
 import { MainMenuScene } from './main_menu_scene';

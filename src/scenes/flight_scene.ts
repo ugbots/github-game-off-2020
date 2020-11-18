@@ -8,10 +8,11 @@ import { Star } from '../model/flight/star';
 import { GameState } from '../model/game/game_state';
 import { Ship } from '../model/flight/ship';
 import { keys } from '../util/keys';
+import { FlightSceneInput } from '../model/flight/flight_scene_input';
 
 export class FlightScene extends Scene {
   private sceneConfig: FlightSceneConfig;
-  private gameState: GameState;
+  private flightSceneInput: FlightSceneInput;
   private stars: readonly Star[];
   private ship: Ship;
 
@@ -24,14 +25,14 @@ export class FlightScene extends Scene {
   }
 
   /* override */
-  init(gameState: GameState): void {
-    this.gameState = gameState;
+  init(flightSceneInput: FlightSceneInput): void {
+    this.flightSceneInput = flightSceneInput;
   }
 
   /* override */
   create(): void {
     this.sceneConfig = {
-      ...getInitialSceneConfig(this, this.gameState),
+      ...getInitialSceneConfig(this, this.flightSceneInput),
       cursorKeys: this.input.keyboard.createCursorKeys(),
     };
 

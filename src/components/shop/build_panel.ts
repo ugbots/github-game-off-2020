@@ -139,7 +139,7 @@ export class BuildPanelComponent implements OnChanges {
       .map((item) => ({
         disabled: false,
         selected: item === selectedItem,
-        label: `....... ${item.name}`,
+        label: item.name,
         value: item,
       }));
   }
