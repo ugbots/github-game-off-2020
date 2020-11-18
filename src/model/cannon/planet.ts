@@ -6,7 +6,7 @@ export class Planet {
   private background: Sprite;
   private foreground: Sprite;
 
-  create(scene: Phaser.Scene, sc: CannonSceneConfig): Planet {
+  create(scene: Phaser.Scene, sc: CannonSceneConfig, createBetweenPlanets: () => void): Planet {
     this.background = scene.physics.add.sprite(
       sc.planetPivot.x,
       sc.planetPivot.y,
@@ -15,6 +15,8 @@ export class Planet {
 
     this.background.scaleX = 16;
     this.background.scaleY = 16;
+
+    createBetweenPlanets();
 
     this.foreground = scene.physics.add.sprite(
       sc.planetPivot.x,

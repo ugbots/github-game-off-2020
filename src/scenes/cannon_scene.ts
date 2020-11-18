@@ -50,12 +50,16 @@ export class CannonScene extends Phaser.Scene {
       .fill(0)
       .map(() => new Star().create(this, this.sceneConfig));
 
-    this.ship = new Ship().create(this, this.sceneConfig);
-    this.fireParticles = new FireParticles().create(this, this.sceneConfig);
-    this.cannonBase = new CannonBase().create(this, this.sceneConfig);
-    this.cannonTurret = new CannonTurret().create(this, this.sceneConfig);
-    this.dirtParticles = new DirtParticles().create(this, this.sceneConfig);
-    this.planet = new Planet().create(this, this.sceneConfig);
+    // Change the renedering order here.
+    this.planet = new Planet().create(this, this.sceneConfig, () => {
+      // Anything rendering on the planet goes in this block.
+      this.ship = new Ship().create(this, this.sceneConfig);
+      this.fireParticles = new FireParticles().create(this, this.sceneConfig);
+      this.cannonBase = new CannonBase().create(this, this.sceneConfig);
+      this.cannonTurret = new CannonTurret().create(this, this.sceneConfig);
+      this.dirtParticles = new DirtParticles().create(this, this.sceneConfig);
+    });
+
     this.fuelIndicator = new FuelIndicator().create(this, this.sceneConfig);
   }
 
