@@ -42,6 +42,10 @@ export class EasingButton {
     return this.value;
   }
 
+  setValue(value: number): void {
+    this.value = value;
+  }
+
   getValue(): number {
     const multiplier = this.value < 0 ? -1 : 1;
     return (
@@ -49,6 +53,8 @@ export class EasingButton {
     );
   }
 }
+
+export const linear = (x: number): number => x;
 
 export const easeInOut = (x: number): number =>
   x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;

@@ -18,7 +18,7 @@ export class Ship {
   }
 
   update(time: number, dt: number, sc: FlightSceneConfig): void {
-    this.sprite.rotation += dt * sc.shipRotationVelocity;
+    this.sprite.rotation -= dt * sc.shipRotationVelocity;
 
     if (sc.sceneState === FlightSceneState.INTRO) {
       this.sprite.y = SCREEN_DIMENSIONS.y - sc.shipIntroEasing.getValue() * 100;

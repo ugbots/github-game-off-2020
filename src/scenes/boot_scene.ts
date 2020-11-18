@@ -1,3 +1,4 @@
+import { BinaryOperatorExpr } from '@angular/compiler';
 import * as Phaser from 'phaser';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { INITIAL_GAME_STATE } from '../model/game/game_state';
@@ -67,10 +68,26 @@ export default class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
-      this.scene.start(keys.scenes.cannon, INITIAL_GAME_STATE);
+      this.startScene(keys.scenes.flight);
     });
 
     this.loadAssets();
+  }
+
+  private startScene(sceneKey: string): void {
+    switch (sceneKey) {
+      case keys.scenes.flight: {
+        this.scene.start(sceneKey, {
+          gameState: INITIAL_GAME_STATE,
+          shipRotationVelocity: 0.01,
+        });
+        break;
+      }
+      default: {
+        this.scene.start(sceneKey, INITIAL_GAME_STATE);
+        break;
+      }
+    }
   }
 
   /**
