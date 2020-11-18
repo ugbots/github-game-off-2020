@@ -10,7 +10,7 @@ export class Planet {
     this.background = scene.physics.add.sprite(
       sc.planetPivot.x,
       sc.planetPivot.y,
-      keys.sprites.planet,
+      keys.sprites.planetBg,
     );
 
     this.background.scaleX = 16;
@@ -21,7 +21,7 @@ export class Planet {
     this.foreground = scene.physics.add.sprite(
       sc.planetPivot.x,
       sc.planetPivot.y,
-      keys.sprites.planet,
+      keys.sprites.planetFg,
     );
 
     this.foreground.scaleX = 16;

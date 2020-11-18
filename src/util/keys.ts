@@ -9,8 +9,9 @@ export const keys = Object.freeze({
     cannonBase: 'CannonBaseSprite',
     cannonTurret: 'CannonTurretSprite',
     drillShip: 'DrillShipSprite',
-    planet: 'PlanetSprite',
+    planetBg: 'PlanetBackgroundSprite',
     white: 'WhiteSprite',
+    planetFg: 'PlanetForegroundSprite'
   },
   particles: {
     dirt: {
