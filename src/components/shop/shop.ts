@@ -18,7 +18,6 @@ import { selectTab, Tab, TabGroupConfig } from '../tabs/tab_group_config';
 @Component({
   selector: 'rat-shop',
   templateUrl: 'assets/templates/shop/shop.ng.html',
-  styleUrls: ['assets/css/shop/shop.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShopComponent implements OnChanges {

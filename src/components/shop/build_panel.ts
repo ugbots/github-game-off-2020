@@ -7,7 +7,6 @@ import {
   EventEmitter,
   SimpleChanges,
 } from '@angular/core';
-import { Drill } from '../../model/game/drills';
 import {
   dequipItem,
   EMPTY_INVENTORY,

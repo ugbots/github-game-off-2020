@@ -6,17 +6,22 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { EMPTY_INVENTORY, Inventory } from '../../model/game/game_state';
-import { getDiff, getShipStats, ShipStats } from '../../model/game/ship_stats';
+import { getDiff, getShipStats } from '../../model/game/ship_stats';
+
+const NEUTRAL_CLASSES: readonly string[] = ['text-gray-100'];
+
+const POSITIVE_CLASSES: readonly string[] = ['text-green-500'];
+
+const NEGATIVE_CLASSES: readonly string[] = ['text-red-500'];
 
 interface StatsRow {
   readonly text: string;
-  readonly class: string;
+  readonly classes: readonly string[];
 }
 
 @Component({
   selector: 'rat-ship-stats-diff',
   templateUrl: 'assets/templates/shop/ship_stats_diff.ng.html',
-  styleUrls: ['assets/css/shop/ship_stats_diff.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShipStatsDiffComponent implements OnChanges {
@@ -63,7 +68,11 @@ export class ShipStatsDiffComponent implements OnChanges {
 
     return {
       text: `${text}: ${totalPower} ${deltaText}`,
-      class: 'stat' + (up ? '-up' : down ? '-down' : ''),
+      classes: up
+        ? POSITIVE_CLASSES
+        : down
+        ? NEGATIVE_CLASSES
+        : NEUTRAL_CLASSES,
     };
   }
 }

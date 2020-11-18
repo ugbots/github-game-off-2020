@@ -1,6 +1,6 @@
-<div class="ship-stats-diff-wrapper">
+<div class="rounded-md w-full h-full p-2 bg-purple-900 bg-opacity-50">
   <div *ngFor="let row of statsRows"
-       [attr.class]="row.class">
+       [ngClass]="row.classes">
        {{row.text}}
   </div>
 </div>

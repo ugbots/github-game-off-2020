@@ -1,4 +1,5 @@
-<div class="tab-wrapper"
-     [class.selected]="tab.isSelected">
+<div class="font-mono cursor-pointer rounded-t p-1"
+     [class.bg-gray-600]="!tab.isSelected"
+     [class.bg-gray-100]="tab.isSelected">
   {{tab.label}}
 </div>

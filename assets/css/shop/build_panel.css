@@ -11,9 +11,6 @@
 
 .equipment-header {
   grid-area: equipment-header;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .equipment-list {
@@ -22,9 +19,6 @@
 
 .equipped-header {
   grid-area: equipped-header;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .equipped-list {
@@ -33,26 +27,9 @@
 
 .eq-movement-buttons {
   grid-area: eq-movement-buttons;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.eq-movement-buttons > * {
-  padding-top: 16px;
-}
-
-.movement-button {
-  width: 64px;
-  height: 64px;
-  font-size: 2em;
 }
 
 .ship-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   grid-area: ship-header;
 }
 

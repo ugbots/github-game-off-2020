@@ -1,8 +1,8 @@
-<select class="select-wrapper" 
+<select class="block w-full h-full bg-gray-700 shadow-lg" 
         size="10"
         (change)="handleSelectChange($event)">
   <ng-container *ngFor="let option of config.options">
-    <option class="select-option"
+    <option [ngClass]="getClasses(option)"
             [attr.value]="option.label"
             [attr.disabled]="(!option.disabled) ? null : true"
             [attr.selected]="(!option.selected) ? null : true">

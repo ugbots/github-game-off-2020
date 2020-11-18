@@ -1,3 +1,5 @@
+import './tailwind_main.css';
+
 import 'zone.js';
 import * as Phaser from 'phaser';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
