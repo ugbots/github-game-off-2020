@@ -1,5 +1,9 @@
-import { Drill } from './drills';
+export enum ItemType {
+  DRILL,
+}
 
-export type Item = Drill;
-
-export const isDrill = (item: Item): item is Drill => item.kind === 'Drill';
+export interface Item {
+  readonly type: ItemType;
+  readonly name: string;
+  readonly drills: number;
+}

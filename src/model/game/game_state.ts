@@ -1,27 +1,27 @@
 import { failure, Result, success } from '../../types/result';
 import { Unit, UNIT } from '../../types/unit';
 import { sortBy } from '../../util/arrays';
-import { BETTER_DRILL, CRAPPY_DRILL, Drill } from './drills';
-import { isDrill, Item } from './item';
+import { BETTER_DRILL, CRAPPY_DRILL, Drill, isDrill } from './drills';
+import { Item } from './item';
 
 export interface Inventory {
-  fuel: number;
-  readonly drills: readonly Drill[];
+  readonly fuel: number;
+  readonly items: readonly Item[];
 }
 
 export const EMPTY_INVENTORY: Inventory = {
   fuel: 0,
-  drills: [],
+  items: [],
 };
 
 const INITIAL_EARTH_INVENTORY: Inventory = {
   fuel: 20,
-  drills: [CRAPPY_DRILL, BETTER_DRILL],
+  items: [CRAPPY_DRILL, BETTER_DRILL],
 };
 
 const INITIAL_SHIP_INVENTORY: Inventory = {
   fuel: 0,
-  drills: [CRAPPY_DRILL],
+  items: [CRAPPY_DRILL],
 };
 
 export interface GameState {
@@ -66,27 +66,15 @@ const moveItem = (
   item: Item,
 ): [Inventory, Inventory] => [removeItem(source, item), addItem(dest, item)];
 
-const removeItem = (inv: Inventory, item: Item): Inventory => {
-  if (isDrill(item)) {
-    return {
-      ...inv,
-      drills: sortBy(removeOne(inv.drills, item), (x) => x.name),
-    };
-  }
+const removeItem = (inv: Inventory, item: Item): Inventory => ({
+  ...inv,
+  items: sortBy(removeOne(inv.items, item), (x) => x.name),
+});
 
-  throw new Error("Can't remove item: Can't determine item type.");
-};
-
-const addItem = (inv: Inventory, item: Item): Inventory => {
-  if (isDrill(item)) {
-    return {
-      ...inv,
-      drills: sortBy([...inv.drills, item], (x) => x.name),
-    };
-  }
-
-  throw new Error("Can't add item: Can't determine item type.");
-};
+const addItem = (inv: Inventory, item: Item): Inventory => ({
+  ...inv,
+  items: sortBy([...inv.items, item], (x) => x.name),
+});
 
 const removeOne = <T>(ts: readonly T[], t: T): readonly T[] => {
   const newArray = [];

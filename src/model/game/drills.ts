@@ -1,17 +1,20 @@
-export interface Drill {
-  readonly kind: 'Drill';
-  readonly name: string;
-  readonly power: number;
+import { Item, ItemType } from './item';
+
+export interface Drill extends Item {
+  readonly type: ItemType.DRILL;
 }
 
+export const isDrill = (item: Item): item is Drill =>
+  item.type === ItemType.DRILL;
+
 export const CRAPPY_DRILL: Drill = {
-  kind: 'Drill',
+  type: ItemType.DRILL,
   name: 'Crappy drill',
-  power: 1,
+  drills: 1,
 };
 
 export const BETTER_DRILL: Drill = {
-  kind: 'Drill',
+  type: ItemType.DRILL,
   name: 'Better drill',
-  power: 3,
+  drills: 3,
 };

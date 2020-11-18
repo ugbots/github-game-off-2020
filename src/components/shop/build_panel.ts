@@ -15,7 +15,7 @@ import {
   GameState,
   Inventory,
 } from '../../model/game/game_state';
-import { Item } from '../../model/game/item';
+import { Item, ItemType } from '../../model/game/item';
 import {
   buildEmptySelectConfig,
   SelectConfig,
@@ -120,21 +120,24 @@ export class BuildPanelComponent implements OnChanges {
     return {
       options: [
         this.buildDisabledOption('Drills'),
-        ...this.generateDrillsOption(inv.drills, selectedItem),
+        ...this.buildItemsOption(ItemType.DRILL, inv.items, selectedItem),
       ],
     };
   }
 
-  private generateDrillsOption(
-    drills: readonly Drill[],
+  private buildItemsOption(
+    itemType: ItemType,
+    items: readonly Item[],
     selectedItem: Item,
   ): readonly SelectOption<Item>[] {
-    return drills.map((drill) => ({
-      disabled: false,
-      selected: drill === selectedItem,
-      label: '....... ' + drill.name,
-      value: drill,
-    }));
+    return items
+      .filter((x) => x.type === itemType)
+      .map((item) => ({
+        disabled: false,
+        selected: item === selectedItem,
+        label: `....... ${item.name}`,
+        value: item,
+      }));
   }
 
   private buildDisabledOption(label: string): SelectOption<Item> {
