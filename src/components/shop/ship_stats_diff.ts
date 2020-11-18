@@ -39,7 +39,15 @@ export class ShipStatsDiffComponent implements OnChanges {
     const currentStats = getShipStats(this.prev);
     const diff = this.next ? getDiff(this.prev, this.next) : undefined;
 
-    return [this.generateStatsRow('Drill', currentStats.drills, diff?.drills)];
+    return [
+      this.generateStatsRow('Drill', currentStats.drills, diff?.drills),
+      this.generateStatsRow('Boosters', currentStats.boosters, diff?.boosters),
+      this.generateStatsRow(
+        'Batteries',
+        currentStats.batteries,
+        diff?.batteries,
+      ),
+    ];
   }
 
   private generateStatsRow(
@@ -47,12 +55,11 @@ export class ShipStatsDiffComponent implements OnChanges {
     power: number,
     diffPower?: number,
   ): StatsRow {
-    const up = diffPower !== undefined && diffPower >= 0;
+    const up = diffPower !== undefined && diffPower > 0;
     const down = diffPower !== undefined && diffPower < 0;
 
     const deltaText = up ? `(+${diffPower})` : down ? `(${diffPower})` : '';
     const totalPower = power + (diffPower ?? 0);
-
 
     return {
       text: `${text}: ${totalPower} ${deltaText}`,

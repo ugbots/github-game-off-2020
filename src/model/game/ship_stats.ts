@@ -3,10 +3,14 @@ import { Item } from './item';
 
 export interface ShipStats {
   readonly drills: number;
+  readonly boosters: number;
+  readonly batteries: number;
 }
 
 export const getShipStats = (inv: Inventory): ShipStats => ({
+  batteries: sumItemsByGetter(inv, (x) => x.batteries),
   drills: sumItemsByGetter(inv, (x) => x.drills),
+  boosters: sumItemsByGetter(inv, (x) => x.boosters),
 });
 
 const sumItemsByGetter = (inv: Inventory, getter: (i: Item) => number) =>
@@ -18,5 +22,7 @@ export const getDiff = (prev: Inventory, next: Inventory): ShipStats => {
 
   return {
     drills: nextStats.drills - prevStats.drills,
+    boosters: nextStats.boosters - prevStats.boosters,
+    batteries: nextStats.batteries - prevStats.batteries,
   };
 };
