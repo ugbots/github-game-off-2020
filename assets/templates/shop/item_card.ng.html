@@ -1,0 +1,16 @@
+<div class="rounded-lg h-64 w-64 m-2 shadow-lg select-none"
+     [ngClass]="baseClasses">
+  <span class="rounded-t-lg p-2 flex 
+               justify-center align-center
+               cursor-context-menu"
+        [attr.title]="rarityString"
+        [ngClass]="imageBannerClasses">
+    <img class="transform scale-150" [attr.src]="item.imageUrl">
+  </span>
+
+  <div class="m-2">
+    <div>
+      {{item.name}}
+    </div>
+  </div>
+</div>

@@ -1,7 +1,18 @@
-<div class="shop-panel-wrapper">
-  <div class="equipment-selector">
-    <rat-tab-group [config]="equipmentTabGroupConfig"
-                   (tabSelected)="handleEquipmentTabSelected($event)">
-    </rat-tab-group>
+<rat-tab-group [config]="equipmentTabGroupConfig"
+                (tabSelected)="handleEquipmentTabSelected($event)">
+</rat-tab-group>
+
+<div class="flex h-full m-8">
+  <div class="rounded-lg m-2 w-3/4 h-4/6 bg-gray-400 shadow-inner
+              flex justify-center flex-wrap 
+              overflow-auto">
+    <rat-item-card *ngFor="let item of items"
+                   class="cursor-pointer"
+                   [item]="item"
+                   [isSelected]="item === selectedItem"
+                   (click)="selectItem(item)">
+    </rat-item-card>
+  </div>
+  <div class="rounded-lg m-2 w-1/4 h-4/6 bg-gray-200 shadow-lg">
   </div>
 </div>

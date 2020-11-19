@@ -14,11 +14,6 @@ export enum ShopContext {
   CONTEXT_BUILD,
 }
 
-export enum EquipmentType {
-  EQUIPMENT_DRILLS,
-  EQUIPMENT_BATTERIES,
-}
-
 let subFn: (g: GameState) => void = undefined;
 
 export const showShop = (g: GameState): void => {

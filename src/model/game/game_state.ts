@@ -1,9 +1,7 @@
-import { failure, Result, success } from '../../types/result';
-import { Unit, UNIT } from '../../types/unit';
 import { sortBy } from '../../util/arrays';
 import { CRAPPY_BATTERY } from './batteries';
 import { CRAPPY_BOOSTER } from './boosters';
-import { BETTER_DRILL, CRAPPY_DRILL, Drill, isDrill } from './drills';
+import { IRON_DRILL, COPPER_DRILL } from './drills';
 import { Item } from './item';
 
 export interface Inventory {
@@ -18,12 +16,12 @@ export const EMPTY_INVENTORY: Inventory = {
 
 const INITIAL_EARTH_INVENTORY: Inventory = {
   fuel: 20,
-  items: [CRAPPY_DRILL, BETTER_DRILL, CRAPPY_BOOSTER, CRAPPY_BATTERY],
+  items: [COPPER_DRILL, IRON_DRILL, CRAPPY_BOOSTER, CRAPPY_BATTERY],
 };
 
 const INITIAL_SHIP_INVENTORY: Inventory = {
   fuel: 0,
-  items: [CRAPPY_DRILL, CRAPPY_BOOSTER, CRAPPY_BATTERY],
+  items: [COPPER_DRILL, CRAPPY_BOOSTER, CRAPPY_BATTERY],
 };
 
 export interface GameState {

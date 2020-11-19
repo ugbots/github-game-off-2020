@@ -1,5 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { EquipmentType } from '../../services/shop/shop_service';
+import { ALL_ITEMS } from '../../model/game/all_items';
+import { ALL_DRILLS } from '../../model/game/drills';
+import { Item, ItemType } from '../../model/game/item';
 import { selectTab, Tab, TabGroupConfig } from '../tabs/tab_group_config';
 
 @Component({
@@ -11,22 +13,36 @@ import { selectTab, Tab, TabGroupConfig } from '../tabs/tab_group_config';
 export class ShopPanelComponent {
   equipmentTabGroupConfig = this.generateEquipmentTabGroupConfig();
 
-  handleEquipmentTabSelected(tab: Tab<EquipmentType>): void {
+  items: readonly Item[] = ALL_DRILLS;
+  selectedItem?: Item;
+
+  handleEquipmentTabSelected(tab: Tab<ItemType>): void {
     this.equipmentTabGroupConfig = selectTab(this.equipmentTabGroupConfig, tab);
+    this.items = ALL_ITEMS.filter((x) => x.type === tab.value);
+    this.selectedItem = undefined;
   }
 
-  private generateEquipmentTabGroupConfig(): TabGroupConfig<EquipmentType> {
+  selectItem(item: Item): void {
+    this.selectedItem = item;
+  }
+
+  private generateEquipmentTabGroupConfig(): TabGroupConfig<ItemType> {
     return {
       tabs: [
         {
           label: 'Drills',
           isSelected: true,
-          value: EquipmentType.EQUIPMENT_DRILLS,
+          value: ItemType.DRILL,
         },
         {
           label: 'Batteries',
           isSelected: false,
-          value: EquipmentType.EQUIPMENT_BATTERIES,
+          value: ItemType.BATTERY,
+        },
+        {
+          label: 'Boosters',
+          isSelected: false,
+          value: ItemType.BOOSTER,
         },
       ],
     };

@@ -26,18 +26,16 @@ export class ShopComponent implements OnChanges {
   screenDimensions = SCREEN_DIMENSIONS;
   hidden = true;
   tabGroupConfig = this.generateTabGroupConfig();
-  shouldShowShopPanel = false;
-  shouldShowBuildPanel = true;
+  shouldShowShopPanel = true;
+  shouldShowBuildPanel = false;
 
   constructor(@Inject(ShopService) private readonly shopService: ShopService) {}
 
   gameState$ = this.shopService.getGameState$();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['shopState'] || changes['shopContext']) {
+    if (changes['shopState']) {
       this.hidden = this.shopState === ShopState.SHOP_HIDE;
-    }
-    if (changes['shopContext']) {
       this.tabGroupConfig = this.generateTabGroupConfig();
     }
   }
@@ -61,12 +59,12 @@ export class ShopComponent implements OnChanges {
       tabs: [
         {
           label: 'Shop',
-          isSelected: false,
+          isSelected: true,
           value: ShopContext.CONTEXT_SHOP,
         },
         {
           label: 'Build',
-          isSelected: true,
+          isSelected: false,
           value: ShopContext.CONTEXT_BUILD,
         },
       ],
