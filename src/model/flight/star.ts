@@ -25,9 +25,18 @@ export class Star {
   update(time: number, dt: number, sc: FlightSceneConfig): void {
     this.sprite.alpha =
       0.6 + 0.4 * Math.sin(time * 0.003 * this.alphaTime + this.alphaT);
-    this.sprite.y = this.sprite.y + (5 - 12 / this.sprite.scale);
-    if (this.sprite.y >= 800) {
-      this.sprite.y = 0;
+
+    this.sprite.y += 0.5 * sc.verticalVelocity * (5 - 12 / this.sprite.scale);
+
+    // Sprite goes off the bottom
+    if (this.sprite.y > SCREEN_DIMENSIONS.y + this.sprite.scale) {
+      this.sprite.y = -this.sprite.scale;
+      this.sprite.x = SCREEN_DIMENSIONS.x * Math.random();
+    }
+
+    // Sprite goes off the top
+    if (this.sprite.y < -this.sprite.scale) {
+      this.sprite.y = SCREEN_DIMENSIONS.y + this.sprite.scale;
       this.sprite.x = SCREEN_DIMENSIONS.x * Math.random();
     }
   }

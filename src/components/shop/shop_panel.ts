@@ -35,6 +35,7 @@ export class ShopPanelComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['gameState']) {
       this.wallet = this.gameState?.wallet;
+      this.canBuySelectedItem = this.generateCanBuySelectedItem();
     }
   }
 
@@ -106,6 +107,11 @@ export class ShopPanelComponent implements OnChanges {
           label: 'Boosters',
           isSelected: false,
           value: ItemType.BOOSTER,
+        },
+        {
+          label: 'Stabilizers',
+          isSelected: false,
+          value: ItemType.STABILIZER,
         },
       ],
     };

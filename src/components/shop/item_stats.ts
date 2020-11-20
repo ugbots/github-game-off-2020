@@ -37,6 +37,7 @@ export class ItemStatsComponent implements OnChanges {
       { name: 'Drill', value: this.item.drills },
       { name: 'Battery', value: this.item.batteries },
       { name: 'Booster', value: this.item.boosters },
+      { name: 'Stabilizers', value: this.item.stabilizers },
     ].filter((x) => x.value !== 0);
   }
 }

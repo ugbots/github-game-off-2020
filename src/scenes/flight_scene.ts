@@ -5,16 +5,17 @@ import {
   updateSceneConfig,
 } from '../model/flight/flight_scene_config';
 import { Star } from '../model/flight/star';
-import { GameState } from '../model/game/game_state';
 import { Ship } from '../model/flight/ship';
 import { keys } from '../util/keys';
 import { FlightSceneInput } from '../model/flight/flight_scene_input';
+import { Altimiter } from '../model/flight/altimiter';
 
 export class FlightScene extends Scene {
   private sceneConfig: FlightSceneConfig;
   private flightSceneInput: FlightSceneInput;
   private stars: readonly Star[];
   private ship: Ship;
+  private altimiter: Altimiter;
 
   constructor() {
     super({
@@ -31,10 +32,7 @@ export class FlightScene extends Scene {
 
   /* override */
   create(): void {
-    this.sceneConfig = {
-      ...getInitialSceneConfig(this, this.flightSceneInput),
-      cursorKeys: this.input.keyboard.createCursorKeys(),
-    };
+    this.sceneConfig = getInitialSceneConfig(this, this.flightSceneInput);
 
     this.stars = Array(50)
       .fill(0)
@@ -42,6 +40,8 @@ export class FlightScene extends Scene {
         return new Star().create(this.sceneConfig);
       });
     this.ship = new Ship().create(this.sceneConfig);
+
+    this.altimiter = new Altimiter().create(this.sceneConfig);
   }
 
   /* override */
@@ -51,5 +51,6 @@ export class FlightScene extends Scene {
     this.stars.forEach((star) => {
       star.update(time, dt, this.sceneConfig);
     });
+    this.altimiter.update(time, dt, this.sceneConfig);
   }
 }

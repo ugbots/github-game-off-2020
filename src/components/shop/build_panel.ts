@@ -124,6 +124,8 @@ export class BuildPanelComponent implements OnChanges {
         ...this.buildItemsOption(ItemType.BOOSTER, inv.items, selectedItem),
         this.buildDisabledOption('Batteries'),
         ...this.buildItemsOption(ItemType.BATTERY, inv.items, selectedItem),
+        this.buildDisabledOption('Stabilizers'),
+        ...this.buildItemsOption(ItemType.STABILIZER, inv.items, selectedItem),
       ],
     };
   }

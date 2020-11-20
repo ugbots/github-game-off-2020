@@ -1,8 +1,8 @@
-import { failure, flatMap, map, Result, success } from '../../types/result';
+import { failure, map, Result, success } from '../../types/result';
 import { sortBy } from '../../util/arrays';
 import { CRAPPY_BATTERY } from './batteries';
 import { CRAPPY_BOOSTER } from './boosters';
-import { addFunds, canAfford, Cost, COST_FREE, purchase, salePrice } from './cost';
+import { addFunds, Cost, COST_FREE, purchase, salePrice } from './cost';
 import { IRON_DRILL, COPPER_DRILL } from './drills';
 import { Item, itemEquals } from './item';
 
@@ -17,7 +17,7 @@ export const EMPTY_INVENTORY: Inventory = {
 };
 
 const INITIAL_EARTH_INVENTORY: Inventory = {
-  fuel: 20,
+  fuel: 1_000,
   items: [COPPER_DRILL, IRON_DRILL, CRAPPY_BOOSTER, CRAPPY_BATTERY],
 };
 
@@ -40,6 +40,9 @@ export const INITIAL_GAME_STATE: GameState = {
     gold: 100,
   },
 };
+
+export const shipStatTotal = (gs: GameState, f: (i: Item) => number): number =>
+  gs.shipInventory.items.map(f).reduce((a, b) => a + b, 0);
 
 export const equipItem = (gs: GameState, item: Item): GameState => {
   const source = gs.earthInventory;

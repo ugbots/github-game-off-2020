@@ -1,6 +1,7 @@
 import { BinaryOperatorExpr } from '@angular/compiler';
 import * as Phaser from 'phaser';
 import { getGameWidth, getGameHeight } from '../helpers';
+import { FlightSceneInput } from '../model/flight/flight_scene_input';
 import { INITIAL_GAME_STATE } from '../model/game/game_state';
 import { keys } from '../util/keys';
 
@@ -68,7 +69,7 @@ export default class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
-      this.startScene(keys.scenes.shop);
+      this.startScene(keys.scenes.cannon);
     });
 
     this.loadAssets();
@@ -77,10 +78,12 @@ export default class BootScene extends Phaser.Scene {
   private startScene(sceneKey: string): void {
     switch (sceneKey) {
       case keys.scenes.flight: {
-        this.scene.start(sceneKey, {
+        const input: FlightSceneInput = {
           gameState: INITIAL_GAME_STATE,
           shipRotationVelocity: 0.01,
-        });
+          cannonVelocityPercent: 20,
+        };
+        this.scene.start(sceneKey, input);
         break;
       }
       default: {
@@ -109,6 +112,9 @@ export default class BootScene extends Phaser.Scene {
     this.load.image(keys.sprites.planetFg, 'assets/sprites/frontPlanet.png');
     this.load.image(keys.sprites.white, 'assets/sprites/white.png');
     this.load.image(keys.sprites.planetBg, 'assets/sprites/planet.png');
+
+    // Sounds
+    this.load.audio(keys.sounds.crash, 'assets/sound/crash.mp3');
 
     // Particles
     this.load.atlas(

@@ -1,6 +1,7 @@
 export const keys = Object.freeze({
   scenes: {
     cannon: 'CannonScene',
+    crash: 'CrashScene',
     flight: 'FlightScene',
     mainMenu: 'MainMenuScene',
     shop: 'ShopScene',
@@ -12,6 +13,9 @@ export const keys = Object.freeze({
     planetBg: 'PlanetBackgroundSprite',
     white: 'WhiteSprite',
     planetFg: 'PlanetForegroundSprite'
+  },
+  sounds: {
+    crash: 'Crash',
   },
   particles: {
     dirt: {

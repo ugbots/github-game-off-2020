@@ -3,10 +3,10 @@ import { Rectangle } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
 import { CannonSceneConfig } from './cannon_scene_config';
 
-
 export class FuelIndicator {
   private border: Rectangle;
   private label: Phaser.GameObjects.Text;
+  private remainingLabel: Phaser.GameObjects.Text;
   private fuelBarBg: Rectangle;
   private fuelBarFg: Rectangle;
 
@@ -24,19 +24,28 @@ export class FuelIndicator {
       0.7,
     );
 
-    this.label = scene.add
-      .text(borderX - 70, borderY + 30, `Propellant: ${sc.loadedFuel}%`)
+    this.remainingLabel = scene.add
+      .text(
+        borderX - 70,
+        borderY - 20,
+        `Remaining fuel: ${sc.gameState.earthInventory.fuel}`,
+      )
       .setFontFamily('"Press Start 2P", monospace')
       .setFontSize(12)
-      .setColor('#00ff00')
-      .setAlign('center');
+      .setColor('#00ff00');
+
+    this.label = scene.add
+      .text(borderX - 50, borderY + 30, `Propellant: ${sc.loadedFuel}%`)
+      .setFontFamily('"Press Start 2P", monospace')
+      .setFontSize(12)
+      .setColor('#00ff00');
 
     this.fuelBarBg = scene.add.rectangle(
       borderX,
       borderY + 10,
       borderWidth - 40,
       16,
-      0
+      0,
     );
 
     this.fuelBarFg = scene.add.rectangle(
@@ -52,7 +61,7 @@ export class FuelIndicator {
   }
 
   update(time: number, dt: number, sc: CannonSceneConfig): FuelIndicator {
-    this.label.text = `Propellant: ${sc.loadedFuel}%`;
+    this.label.text = `Propellant: ${Math.floor(sc.loadedFuel)}%`;
     this.updateFuelBar(sc.loadedFuel);
     return this;
   }

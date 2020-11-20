@@ -26,6 +26,10 @@ const start = async () => {
       antialiasGL: false,
     },
 
+    audio: {
+      disableWebAudio: true,
+    },
+
     physics: {
       default: 'arcade',
       arcade: {

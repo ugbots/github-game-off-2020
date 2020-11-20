@@ -25,6 +25,7 @@ export interface CannonSceneConfig {
   readonly loadedFuelEasing: EasingButton;
   readonly starCount: number;
   gameState: GameState;
+  /** The fuel in the cannon, ∈ [1, 100] */
   loadedFuel: number;
   shipRotationVelocity: number;
   sceneState: SceneState;
@@ -50,7 +51,7 @@ export const getInitialSceneConfig = (
   planetPivot: DEFAULT_PLANET_PIVOT.clone(),
   cannonPivot: DEFAULT_CANNON_PIVOT.clone(),
   starCount: 100,
-  loadedFuel: 0,
+  loadedFuel: 50,
   shipRotationVelocity: 0,
   sceneState: SceneState.ROTATE_CANNON,
   rotationEasing: new EasingButton({
@@ -70,9 +71,9 @@ export const getInitialSceneConfig = (
   loadedFuelEasing: new EasingButton({
     fn: easeInOut,
     speed: 0.001,
-    friction: 1,
+    friction: 0.5,
     scale: 1,
-    canGoNegative: false,
+    canGoNegative: true,
   }),
   rotation: 0,
 });
@@ -123,6 +124,7 @@ const updateSceneState = (sc: CannonSceneConfig): CannonSceneConfig => {
       const input: FlightSceneInput = {
         gameState: sc.gameState,
         shipRotationVelocity: sc.shipRotationVelocity,
+        cannonVelocityPercent: fuelToUse,
       };
       sc.scene.scene.start(keys.scenes.flight, input);
     }, 2_000);
@@ -177,11 +179,9 @@ const updateLoadedFuel = (
   }
   sc.loadedFuelEasing.update(dt, dir);
 
+  sc.loadedFuel += sc.loadedFuelEasing.getValue() * 5;
+
   const maxFuel = Math.min(100, sc.gameState.earthInventory.fuel);
-  sc.loadedFuel = clamp(
-    0,
-    Math.floor(maxFuel * sc.loadedFuelEasing.getValue()),
-    maxFuel,
-  );
+  sc.loadedFuel = clamp(0, sc.loadedFuel, maxFuel);
   return sc;
 };
