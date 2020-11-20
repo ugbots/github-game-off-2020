@@ -1,3 +1,4 @@
+import { COST_FREE } from './cost';
 import { EMPTY_ITEM, Item, ItemType, Rarity } from './item';
 
 export interface Drill extends Item {
@@ -14,6 +15,7 @@ export const COPPER_DRILL: Drill = {
   name: 'Copper drill',
   drills: 1,
   cost: {
+    ...COST_FREE,
     gold: 100,
   },
 };
@@ -48,6 +50,11 @@ export const DIAMOND_DRILL: Drill = {
   rarity: Rarity.LEGENDARY,
   name: 'Diamond drill',
   drills: 5,
+  cost: {
+    ...COST_FREE,
+    emerald: 3,
+    ruby: 10,
+  },
 };
 
 export const ALL_DRILLS: readonly Drill[] = [

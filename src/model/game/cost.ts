@@ -2,10 +2,14 @@ import { failure, Result, success } from '../../types/result';
 
 export interface Cost {
   readonly gold: number;
+  readonly emerald: number;
+  readonly ruby: number;
 }
 
 export const COST_FREE: Cost = {
   gold: 0,
+  emerald: 0,
+  ruby: 0,
 };
 
 const SELL_PERCENTAGE = 0.8;
@@ -48,3 +52,8 @@ export const addFunds = (source: Cost, funds: Cost): Cost =>
     }),
     {} as Partial<Cost>,
   ) as Cost;
+
+export const isFree = (cost: Cost): boolean =>
+  Object.keys(cost)
+    .map((k) => cost[k])
+    .reduce((a, b) => a + b, 0) === 0;

@@ -1,13 +1,22 @@
 <div class="text-sm select-none">
-  <div class="flex items-center">
-    <img class="cursor-context-menu inline transform scale-50" 
-         src="assets/sprites/gold.png"
-         title="Gold">
-    {{cost.gold}}
-    <span *ngIf="salePrice !== undefined"
-          class="mx-1 cursor-context-menu"
-          title="Gold you get for selling this item.">
-      ({{salePrice.gold}})
-    </span>
+  <div *ngIf="isFree">
+    {{isWallet ? 'Empty' : 'Free'}}
   </div>
+    <ng-container *ngIf="!isFree">
+    <div *ngFor="let key of costKeys"
+        class="flex items-center">
+      <img *ngIf="iconSrc(key); let src"
+           class="cursor-context-menu inline transform scale-50" 
+           [attr.src]="src"
+           [attr.title]="titleCase(key)">
+      <span *ngIf="cost[key] > 0">
+        {{cost[key]}}
+      </span>
+      <span *ngIf="salePrice !== undefined && salePrice[key] > 0"
+            class="mx-1 cursor-context-menu"
+            [attr.title]="tooltip(key)">
+        ({{salePrice[key]}})
+      </span>
+    </div>
+  </ng-container>
 </div>

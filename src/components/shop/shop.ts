@@ -28,6 +28,7 @@ export class ShopComponent implements OnChanges {
   tabGroupConfig = this.generateTabGroupConfig();
   shouldShowShopPanel = true;
   shouldShowBuildPanel = false;
+  closeShopButtonClasses = [];
 
   constructor(@Inject(ShopService) private readonly shopService: ShopService) {}
 

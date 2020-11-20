@@ -2,8 +2,8 @@
                 (tabSelected)="handleEquipmentTabSelected($event)">
 </rat-tab-group>
 
-<div class="flex h-full m-8">
-  <div class="rounded-lg m-2 w-4/6 h-4/6 bg-gray-400
+<div class="flex h-5/6 m-2">
+  <div class="rounded-lg m-2 w-4/6 h-full bg-gray-400
               flex justify-center flex-wrap 
               overflow-auto">
     <rat-item-card *ngFor="let item of items"
@@ -14,7 +14,7 @@
                    (click)="selectItem(item)">
     </rat-item-card>
   </div>
-  <div class="rounded-lg m-2 w-2/6 h-4/6 bg-gray-200 shadow-lg">
+  <div class="rounded-lg m-2 w-2/6 h-full bg-gray-200 shadow-lg">
     <rat-item-summary [item]="selectedItem"
                       [quantity]="getQuantity(selectedItem)"
                       [canBuy]="canBuySelectedItem"
@@ -22,12 +22,13 @@
                       (sellItem)="handleSellItem()">
     </rat-item-summary>
   </div>
-  <div class="rounded-lg m-2 w-1/6 h-2/6 bg-gray-800 text-gray-100 p-4">
+  <div class="rounded-lg m-2 w-1/6 h-3/6 bg-gray-800 text-gray-100 p-4">
     <div class="text-base">
       Your wallet
     </div>
     <rat-item-cost *ngIf="wallet !== undefined"
-                  [cost]="wallet">
+                  [cost]="wallet"
+                  [isWallet]="true">
     </rat-item-cost>
   </div>
 </div>
