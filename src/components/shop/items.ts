@@ -17,7 +17,7 @@ export const imageBannerClasses = (item: Item): readonly string[] => {
 
 export const quantityString = (quantity: number): string => {
   if (quantity > 0) {
-    return `${quantity} owned`;
+    return `Owned: ${quantity}`;
   }
   return '';
 };

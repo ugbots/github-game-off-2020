@@ -11,6 +11,7 @@ import { ShopPanelComponent } from './shop_panel';
 import { ShipStatsDiffComponent } from './ship_stats_diff';
 import { ItemSummaryComponent } from './item_summary';
 import { ItemCostComponent } from './item_cost';
+import { ItemStatsComponent } from './item_stats';
 
 @NgModule({
   imports: [ButtonModule, BrowserModule, SelectModule, TabsModule],
@@ -19,6 +20,7 @@ import { ItemCostComponent } from './item_cost';
     ItemCardComponent,
     ItemCostComponent,
     ItemSummaryComponent,
+    ItemStatsComponent,
     ShopComponent,
     ShopPanelComponent,
     ShipStatsDiffComponent,

@@ -35,7 +35,10 @@ export interface GameState {
 export const INITIAL_GAME_STATE: GameState = {
   earthInventory: INITIAL_EARTH_INVENTORY,
   shipInventory: INITIAL_SHIP_INVENTORY,
-  wallet: COST_FREE,
+  wallet: {
+    ...COST_FREE,
+    gold: 100,
+  },
 };
 
 export const equipItem = (gs: GameState, item: Item): GameState => {

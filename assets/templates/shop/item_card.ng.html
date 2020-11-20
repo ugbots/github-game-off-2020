@@ -10,10 +10,15 @@
 
   <div class="m-2">
     {{item.name}}
+    <div class="border-b border-gray-700 my-1 mr-16"></div>
     <div *ngIf="quantityString.length > 0" 
          class="text-sm">
       {{quantityString}}
+      <div class="border-b border-gray-700 my-1 mr-16"></div>
     </div>
+    <rat-item-stats [item]="item">
+    </rat-item-stats>
+    <div class="border-b border-gray-700 my-1 mr-16"></div>
     <rat-item-cost [cost]="item.cost">
     </rat-item-cost>
   </div>

@@ -6,16 +6,16 @@
     <div *ngFor="let key of costKeys"
         class="flex items-center">
       <img *ngIf="iconSrc(key); let src"
-           class="cursor-context-menu inline transform scale-50" 
+           class="cursor-context-menu inline transform scale-50 h-6" 
            [attr.src]="src"
            [attr.title]="titleCase(key)">
-      <span *ngIf="cost[key] > 0">
+      <ng-container *ngIf="cost[key] > 0">
         {{cost[key]}}
-      </span>
+      </ng-container>
       <span *ngIf="salePrice !== undefined && salePrice[key] > 0"
-            class="mx-1 cursor-context-menu"
+            class="mx-2 cursor-context-menu"
             [attr.title]="tooltip(key)">
-        ({{salePrice[key]}})
+        (sell for {{salePrice[key]}})
       </span>
     </div>
   </ng-container>

@@ -1,0 +1,9 @@
+<div *ngFor="let stat of itemStats"
+     class="text-sm">
+  {{stat.name}}:
+  <span [class.text-green-500]="stat.value > 0"
+        [class.text-red-500]="stat.value < 0"
+        [class.text-gray-500]="stat.value === 0">
+    {{stat.value > 0 ? '+' : ''}}{{stat.value}}
+  </span>
+</div>

@@ -15,11 +15,15 @@
     <div class="text-sm">
       {{item.description}}
     </div>
-    <div class="my-2 border-b border-gray-300">
-    </div>
-    <div class="text-sm">
+    <div class="border-b border-gray-700 my-1 mr-16"></div>
+    <div *ngIf="quantityString.length > 0"
+         class="text-sm">
       {{quantityString}}
+      <div class="border-b border-gray-700 my-1 mr-16"></div>
     </div>
+    <rat-item-stats [item]="item">
+    </rat-item-stats>
+    <div class="border-b border-gray-700 my-1 mr-16"></div>
     <rat-item-cost [cost]="item.cost"
                    [salePrice]="itemSalePrice">
     </rat-item-cost>
