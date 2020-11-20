@@ -13,12 +13,15 @@ export const COPPER_DRILL: Drill = {
   rarity: Rarity.COMMON,
   name: 'Copper drill',
   drills: 1,
+  cost: {
+    gold: 100,
+  },
 };
 
 export const IRON_DRILL: Drill = {
   ...EMPTY_ITEM,
   type: ItemType.DRILL,
-  rarity: Rarity.COMMON,
+  rarity: Rarity.UNCOMMON,
   name: 'Iron drill',
   drills: 3,
 };
@@ -26,7 +29,7 @@ export const IRON_DRILL: Drill = {
 export const BRONZE_DRILL: Drill = {
   ...EMPTY_ITEM,
   type: ItemType.DRILL,
-  rarity: Rarity.UNCOMMON,
+  rarity: Rarity.RARE,
   name: 'Bronze drill',
   drills: 5,
 };

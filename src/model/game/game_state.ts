@@ -1,8 +1,10 @@
+import { failure, flatMap, map, Result, success } from '../../types/result';
 import { sortBy } from '../../util/arrays';
 import { CRAPPY_BATTERY } from './batteries';
 import { CRAPPY_BOOSTER } from './boosters';
+import { addFunds, canAfford, Cost, COST_FREE, purchase, salePrice } from './cost';
 import { IRON_DRILL, COPPER_DRILL } from './drills';
-import { Item } from './item';
+import { Item, itemEquals } from './item';
 
 export interface Inventory {
   readonly fuel: number;
@@ -27,11 +29,13 @@ const INITIAL_SHIP_INVENTORY: Inventory = {
 export interface GameState {
   readonly earthInventory: Inventory;
   readonly shipInventory: Inventory;
+  readonly wallet: Cost;
 }
 
 export const INITIAL_GAME_STATE: GameState = {
   earthInventory: INITIAL_EARTH_INVENTORY,
   shipInventory: INITIAL_SHIP_INVENTORY,
+  wallet: COST_FREE,
 };
 
 export const equipItem = (gs: GameState, item: Item): GameState => {
@@ -58,6 +62,31 @@ export const dequipItem = (gs: GameState, item: Item): GameState => {
     earthInventory: newEarthInv,
     shipInventory: newShipInv,
   };
+};
+
+export const buyItem = (
+  gameState: GameState,
+  item: Item,
+): Result<string, GameState> => {
+  return map(purchase(gameState.wallet, item.cost), (wallet) => ({
+    ...gameState,
+    wallet,
+    earthInventory: addItem(gameState.earthInventory, item),
+  }));
+};
+
+export const sellItem = (
+  gameState: GameState,
+  item: Item,
+): Result<string, GameState> => {
+  if (!gameState.earthInventory.items.find((x) => itemEquals(x, item))) {
+    return failure("Can't sell item, no item in inventory!");
+  }
+  return success({
+    ...gameState,
+    wallet: addFunds(gameState.wallet, salePrice(item.cost)),
+    earthInventory: removeItem(gameState.earthInventory, item),
+  });
 };
 
 const moveItem = (

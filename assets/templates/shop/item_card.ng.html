@@ -9,8 +9,12 @@
   </span>
 
   <div class="m-2">
-    <div>
-      {{item.name}}
+    {{item.name}}
+    <div *ngIf="quantityString.length > 0" 
+         class="text-sm">
+      {{quantityString}}
     </div>
+    <rat-item-cost [cost]="item.cost">
+    </rat-item-cost>
   </div>
 </div>

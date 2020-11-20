@@ -6,7 +6,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Item, Rarity } from '../../model/game/item';
-import { titleCase } from '../../strings';
+import { titleCase } from '../../util/strings';
+import { imageBannerClasses, quantityString } from './items';
 
 const NOT_SELECTED_CLASSES: readonly string[] = [
   'bg-truegray-900',
@@ -25,20 +26,29 @@ const SELECTED_CLASSES: readonly string[] = [
 })
 export class ItemCardComponent implements OnChanges {
   @Input() item?: Item;
+  @Input() quantity?: number;
   @Input() isSelected = false;
 
   rarityString = '(unknown rarity)';
+  quantityString = '(unknown quantity)';
   baseClasses: readonly string[] = NOT_SELECTED_CLASSES;
   imageBannerClasses: readonly string[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['item']) {
+    if (changes['item'] && this.item !== undefined) {
       this.rarityString = titleCase(Rarity[this.item.rarity]);
-      this.imageBannerClasses = this.generateImageBannerClasses();
+      this.imageBannerClasses = imageBannerClasses(this.item);
+    }
+    if (changes['quantity']) {
+      this.quantityString = this.generateQuantityString();
     }
     if (changes['isSelected']) {
       this.baseClasses = this.generateSelectionClasses();
     }
+  }
+
+  private generateQuantityString(): string {
+    return quantityString(this.quantity ?? 0);
   }
 
   private generateSelectionClasses(): readonly string[] {
@@ -46,20 +56,5 @@ export class ItemCardComponent implements OnChanges {
       return SELECTED_CLASSES;
     }
     return NOT_SELECTED_CLASSES;
-  }
-
-  private generateImageBannerClasses(): readonly string[] {
-    switch (this.item.rarity) {
-      case Rarity.COMMON:
-        return ['bg-truegray-500'];
-      case Rarity.UNCOMMON:
-        return ['bg-green-500'];
-      case Rarity.RARE:
-        return ['bg-blue-500'];
-      case Rarity.EPIC:
-        return ['bg-purple-500'];
-      case Rarity.LEGENDARY:
-        return ['bg-orange-500'];
-    }
   }
 }

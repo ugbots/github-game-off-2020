@@ -10,7 +10,9 @@
     </rat-tab-group>
   </div>
   <div class="h-full">
-    <rat-shop-panel *ngIf="shouldShowShopPanel">
+    <rat-shop-panel *ngIf="shouldShowShopPanel"
+                     [gameState]="gameState$ | async"
+                     (gameStateChange)="handleGameStateChange($event)">
     </rat-shop-panel>
     <rat-build-panel *ngIf="shouldShowBuildPanel"
                      [gameState]="gameState$ | async"

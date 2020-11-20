@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { Cost, COST_FREE } from './cost';
 
 export enum ItemType {
   DRILL,
@@ -19,6 +19,8 @@ export interface Item {
   readonly rarity: Rarity;
   readonly name: string;
   readonly imageUrl: string;
+  readonly description: string;
+  readonly cost: Cost;
   readonly drills: number;
   readonly boosters: number;
   readonly batteries: number;
@@ -27,7 +29,14 @@ export interface Item {
 export const EMPTY_ITEM = {
   rarity: Rarity.COMMON,
   imageUrl: 'assets/sprites/character.png',
+  description:
+    'Here is the description for an item. Boy, it can be really ' +
+    'long. Who knows what items this game might have? Better ' +
+    'build some more so we can get rid of this sample text!',
+  cost: COST_FREE,
   drills: 0,
   boosters: 0,
   batteries: 0,
 };
+
+export const itemEquals = (a: Item, b: Item): boolean => a.name === b.name;

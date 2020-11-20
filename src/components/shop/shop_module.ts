@@ -9,12 +9,16 @@ import { ItemCardComponent } from './item_card';
 import { ShopComponent } from './shop';
 import { ShopPanelComponent } from './shop_panel';
 import { ShipStatsDiffComponent } from './ship_stats_diff';
+import { ItemSummaryComponent } from './item_summary';
+import { ItemCostComponent } from './item_cost';
 
 @NgModule({
   imports: [ButtonModule, BrowserModule, SelectModule, TabsModule],
   declarations: [
     BuildPanelComponent,
     ItemCardComponent,
+    ItemCostComponent,
+    ItemSummaryComponent,
     ShopComponent,
     ShopPanelComponent,
     ShipStatsDiffComponent,

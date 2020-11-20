@@ -1,0 +1,38 @@
+<div *ngIf="item === undefined"
+     class="my-8 text-gray-400 text-center">
+  Select an item.
+</div>
+
+<div *ngIf="item !== undefined"
+     class="h-full flex flex-col justify-between items-center">
+  <span class="rounded-t-lg w-full p-4 flex justify-center"
+        [ngClass]="imageBannerClasses">
+    <img class="transform scale-200" [attr.src]="item.imageUrl">
+  </span>
+
+  <div class="rounded-lg m-2 p-2 w-5/6 h-5/6 bg-gray-900 text-gray-100">
+    {{item.name}}
+    <div class="text-sm">
+      {{item.description}}
+    </div>
+    <div class="my-2 border-b border-gray-300">
+    </div>
+    <div class="text-sm">
+      {{quantityString}}
+    </div>
+    <rat-item-cost [cost]="item.cost"
+                   [salePrice]="itemSalePrice">
+    </rat-item-cost>
+  </div>
+
+  <div class="flex m-2">
+    <div [ngClass]="sellButtonClasses"
+         (click)="handleSellItem()">
+      Sell
+    </div>
+    <div [ngClass]="buyButtonClasses"
+         (click)="handleBuyItem()">
+      Buy
+    </div>
+  </div>
+</div>
