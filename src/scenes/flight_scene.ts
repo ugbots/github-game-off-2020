@@ -9,11 +9,13 @@ import { Ship } from '../model/flight/ship';
 import { keys } from '../util/keys';
 import { FlightSceneInput } from '../model/flight/flight_scene_input';
 import { Altimiter } from '../model/flight/altimiter';
+import { Asteroid } from '../model/flight/asteroid';
 
 export class FlightScene extends Scene {
   private sceneConfig: FlightSceneConfig;
   private flightSceneInput: FlightSceneInput;
   private stars: readonly Star[];
+  private asteroid: Asteroid;
   private ship: Ship;
   private altimiter: Altimiter;
 
@@ -39,6 +41,7 @@ export class FlightScene extends Scene {
       .map(() => {
         return new Star().create(this.sceneConfig);
       });
+    this.asteroid = new Asteroid().create(this.sceneConfig);
     this.ship = new Ship().create(this.sceneConfig);
 
     this.altimiter = new Altimiter().create(this.sceneConfig);
@@ -52,5 +55,6 @@ export class FlightScene extends Scene {
       star.update(time, dt, this.sceneConfig);
     });
     this.altimiter.update(time, dt, this.sceneConfig);
+    this.asteroid.update(time, dt, this.sceneConfig);
   }
 }

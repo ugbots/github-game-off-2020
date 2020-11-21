@@ -26,7 +26,19 @@ export class Star {
     this.sprite.alpha =
       0.6 + 0.4 * Math.sin(time * 0.003 * this.alphaTime + this.alphaT);
 
-    this.sprite.y += 0.5 * sc.verticalVelocity * (5 - 12 / this.sprite.scale);
+    const velocityMultiplier = 0.5 * (5 - 12 / this.sprite.scale);
+    this.sprite.x += sc.shipVelocity.x * velocityMultiplier;
+    this.sprite.y += sc.shipVelocity.y * velocityMultiplier;
+
+    // Sprite goes left
+    if (this.sprite.x < -this.sprite.scale) {
+      this.sprite.x = SCREEN_DIMENSIONS.x + this.sprite.scale;
+    }
+
+    // Sprite goes right
+    if (this.sprite.x > SCREEN_DIMENSIONS.x + this.sprite.scale) {
+      this.sprite.x = -this.sprite.scale;
+    }
 
     // Sprite goes off the bottom
     if (this.sprite.y > SCREEN_DIMENSIONS.y + this.sprite.scale) {
