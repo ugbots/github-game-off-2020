@@ -23,5 +23,8 @@ export class Ship {
     if (sc.sceneState === FlightSceneState.INTRO) {
       this.sprite.y = SCREEN_DIMENSIONS.y - sc.shipIntroEasing.getValue() * 100;
     }
+    if (sc.sceneState === FlightSceneState.ASTEROID_COLLISION) {
+      this.sprite.scale += 0.001 * dt;
+    }
   }
 }

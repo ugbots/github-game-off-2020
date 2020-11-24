@@ -4,6 +4,7 @@ export const keys = Object.freeze({
     crash: 'CrashScene',
     flight: 'FlightScene',
     mainMenu: 'MainMenuScene',
+    mine: 'MineScene',
     shop: 'ShopScene',
   },
   sprites: {
@@ -12,7 +13,16 @@ export const keys = Object.freeze({
     drillShip: 'DrillShipSprite',
     planetBg: 'PlanetBackgroundSprite',
     white: 'WhiteSprite',
-    planetFg: 'PlanetForegroundSprite'
+    planetFg: 'PlanetForegroundSprite',
+  },
+  atlas: {
+    asteroidTiles: {
+      key: 'AsteroidTilesAtlas',
+      textures: {
+        dirt1: 'dirt1',
+        dirt2: 'dirt2',
+      },
+    },
   },
   sounds: {
     crash: 'Crash',

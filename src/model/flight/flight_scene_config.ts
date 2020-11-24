@@ -101,6 +101,9 @@ export const updateSceneConfig = (
       updateAsteroidPosition(sc);
       break;
     }
+    case FlightSceneState.ASTEROID_COLLISION: {
+      updateShipFliesTowardAsteroid(sc, dt);
+    }
   }
   return sc;
 };
@@ -194,7 +197,23 @@ const updateAsteroidPosition = (sc: FlightSceneConfig): FlightSceneConfig => {
 
   if (asteroidDist < ASTEROID_COLLISION_RADIUS) {
     sc.sceneState = FlightSceneState.ASTEROID_COLLISION;
+    setTimeout(() => {
+      sc.scene.scene.start(keys.scenes.mine, sc.gameState);
+    }, 3_000);
   }
+
+  return sc;
+};
+
+const updateShipFliesTowardAsteroid = (
+  sc: FlightSceneConfig,
+  dt: number,
+): FlightSceneConfig => {
+  sc.shipRotation += 0.01 * dt;
+  sc.shipVelocity.x = 0;
+  sc.shipVelocity.y = 0;
+  sc.asteroidPosition.x = 0.99 * sc.asteroidPosition.x + 0.01 * SHIP_POSITION.x;
+  sc.asteroidPosition.y = 0.99 * sc.asteroidPosition.y + 0.01 * SHIP_POSITION.y;
 
   return sc;
 };
