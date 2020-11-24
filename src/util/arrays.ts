@@ -13,3 +13,11 @@ export const sortBy = <T>(
     }
     return 0;
   });
+
+export const generateArray = <T>(
+  length: number,
+  genF: (i: number) => T,
+): readonly T[] =>
+  Array(length)
+    .fill(0)
+    .map((_, i) => genF(i));

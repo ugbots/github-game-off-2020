@@ -112,11 +112,11 @@ export default class BootScene extends Phaser.Scene {
     this.load.image(keys.sprites.planetFg, 'assets/sprites/frontPlanet.png');
     this.load.image(keys.sprites.white, 'assets/sprites/white.png');
     this.load.image(keys.sprites.planetBg, 'assets/sprites/planet.png');
-    this.load.atlas({
-      key: keys.atlas.asteroidTiles.key,
-      textureURL: 'assets/sprites/asteroid_tiles.png',
-      atlasURL: 'assets/atlas/asteroid_tiles.json',
-    });
+    this.load.atlas(
+      keys.atlas.asteroidTiles.key,
+      'assets/dontcheckin/nature_tileset.png',
+      'assets/atlas/asteroid_tiles.json',
+    );
 
     // Sounds
     this.load.audio(keys.sounds.crash, 'assets/sound/crash.mp3');

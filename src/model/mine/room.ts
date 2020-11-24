@@ -1,4 +1,4 @@
-import { Direction } from './direction';
+import { Direction, directionOffset, DIRECTIONS } from './direction';
 import { ROOM_GENERATORS } from './room_generators';
 import { RoomSpec } from './room_spec';
 import { Tile } from './tile';
@@ -33,4 +33,31 @@ export const generateRoom = (spec: RoomSpec): Room => {
     tiles: gen(spec),
     exits: new Map(),
   };
+};
+
+export const roomAdjacency = (
+  room: Room,
+  x: number,
+  y: number,
+): ReadonlyMap<Direction, Tile> => {
+  return new Map(
+    DIRECTIONS.map((dir) => {
+      const [xo, yo] = directionOffset(dir);
+
+      const [xx, yy] = [xo + x, yo + y];
+
+      if (
+        xx < 0 ||
+        yy < 0 ||
+        xx >= room.tiles.length ||
+        yy >= room.tiles[xx].length
+      ) {
+        return undefined;
+      }
+
+      return [dir, room.tiles[xx][yy]];
+    })
+      .filter((x) => x !== undefined)
+      .map((x) => x as [Direction, Tile]),
+  );
 };

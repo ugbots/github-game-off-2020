@@ -5,9 +5,9 @@ const tilesFromFn = (
   s: RoomSpec,
   tileFn: (x: number, y: number) => Tile,
 ): ReadonlyArray<ReadonlyArray<Tile>> => {
-  const cols = [];
+  const cols: Tile[][] = [];
   for (let x = 0; x < s.width; x++) {
-    const row = [];
+    const row: Tile[] = [];
     for (let y = 0; y < s.height; y++) {
       row.push(tileFn(x, y));
     }
@@ -17,7 +17,12 @@ const tilesFromFn = (
 };
 
 const generateEmptyRoom = (s: RoomSpec): ReadonlyArray<ReadonlyArray<Tile>> =>
-  tilesFromFn(s, () => Tile.EMPTY);
+  tilesFromFn(s, (x, y) => {
+    if (x === 0 || y === 0 || x === s.width - 1 || y === s.height - 1) {
+      return Tile.WALL;
+    }
+    return Tile.GROUND;
+  });
 
 export const ROOM_GENERATORS: ReadonlyArray<(
   s: RoomSpec,

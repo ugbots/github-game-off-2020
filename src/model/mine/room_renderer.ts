@@ -1,24 +1,29 @@
+import { generateArray } from '../../util/arrays';
 import { keys } from '../../util/keys';
+import { Direction } from './direction';
 import { MineSceneConfig } from './mine_scene_config';
-import { Room } from './room';
+import { Room, roomAdjacency } from './room';
+import {
+  getHorizontalTexture,
+  getVerticalTexture,
+  textureForTile,
+} from './tile';
 
 const SPRITE_SIZE = {
-  x: 16,
-  y: 16,
+  x: 32,
+  y: 32,
 };
 
-const SPRITE_SCALE = 2;
-
 export class RoomRenderer {
-  private sprites: ReadonlyArray<ReadonlyArray<Phaser.GameObjects.Sprite>>;
   private room: Room;
+  private sprites: ReadonlyArray<ReadonlyArray<Phaser.GameObjects.Sprite>>;
 
   create(sc: MineSceneConfig): RoomRenderer {
     this.sprites = this.refreshSprites(sc.currentRoom, sc);
     return this;
   }
 
-  update(time: number, dt: number, sc: MineSceneConfig): void {
+  update(sc: MineSceneConfig): void {
     if (this.room !== sc.currentRoom) {
       this.room = sc.currentRoom;
       this.sprites = this.refreshSprites(sc.currentRoom, sc);
@@ -29,20 +34,34 @@ export class RoomRenderer {
     room: Room,
     sc: MineSceneConfig,
   ): ReadonlyArray<ReadonlyArray<Phaser.GameObjects.Sprite>> {
-    return room.tiles.map((xs, x) =>
-      xs.map((_, y) => {
-        const xSize = SPRITE_SIZE.x * SPRITE_SCALE;
-        const ySize = SPRITE_SIZE.y * SPRITE_SCALE;
+    return generateArray(room.tiles.length * 2, (x) =>
+      generateArray(room.tiles[0].length * 2, (y) => {
+        // If both coords are even, we're exactly on a tile.
+        let texture = keys.atlas.asteroidTiles.textures.wall;
+        if (x % 2 === 0 && y % 2 === 0) {
+          texture = textureForTile(room.tiles[x / 2][y / 2]);
+        } else if (x % 2 === 0) {
+          // Get vertically blended texture
+          const adj = roomAdjacency(room, Math.floor(x / 2), Math.floor(y / 2));
+          texture = getVerticalTexture(
+            adj.get(Direction.SOUTH),
+            adj.get(Direction.NORTH),
+          );
+        } else if (y % 2 === 0) {
+          // Get horizontally blended texture
+          const adj = roomAdjacency(room, Math.floor(x / 2), Math.floor(y / 2));
+          texture = getHorizontalTexture(
+            adj.get(Direction.EAST),
+            adj.get(Direction.WEST),
+          );
+        }
 
-        const sprite = sc.scene.add.sprite(
-          x * xSize - xSize / 2,
-          y * ySize - ySize / 2,
-          keys.atlas.asteroidTiles.textures.dirt1,
+        return sc.scene.add.sprite(
+          x * SPRITE_SIZE.x,
+          y * SPRITE_SIZE.y,
+          keys.atlas.asteroidTiles.key,
+          texture,
         );
-
-        // sprite.scale = SPRITE_SCALE;
-
-        return sprite;
       }),
     );
   }
