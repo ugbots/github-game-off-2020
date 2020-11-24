@@ -6,7 +6,7 @@ import { CursorKeys } from '../util/phaser_types';
 export class CrashScene extends Scene {
   private gameState: GameState;
   private cursorkeys: CursorKeys;
-  private timeout: any;
+  private timeout: number;
 
   constructor() {
     super({
@@ -27,7 +27,8 @@ export class CrashScene extends Scene {
   }
 
   update(): void {
-    if (this.cursorkeys.space.isDown) {
+    const spaceDown = this.cursorkeys.space?.isDown ?? false;
+    if (spaceDown) {
       clearTimeout(this.timeout);
       this.scene.start(keys.scenes.shop, this.gameState);
     }

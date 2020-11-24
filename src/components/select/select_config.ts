@@ -6,7 +6,7 @@ export interface SelectOption<T> {
   readonly disabled?: boolean;
   readonly selected?: boolean;
   readonly label: string;
-  readonly value: T;
+  readonly value?: T;
 }
 
 export const buildEmptySelectConfig = <T>(): SelectConfig<T> => ({

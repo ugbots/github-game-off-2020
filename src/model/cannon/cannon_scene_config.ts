@@ -101,7 +101,7 @@ export const updateSceneConfig = (
 };
 
 const updateSceneState = (sc: CannonSceneConfig): CannonSceneConfig => {
-  if (sc.cursorKeys.space.isDown) {
+  if (sc.cursorKeys.space?.isDown ?? false) {
     sc.sceneState = SceneState.LAUNCH_SHIP;
 
     const fuelToUse = sc.loadedFuel;
@@ -136,8 +136,8 @@ const updateRotationEasing = (
   config: CannonSceneConfig,
   dt: number,
 ): CannonSceneConfig => {
-  const left = config.cursorKeys.left.isDown;
-  const right = config.cursorKeys.right.isDown;
+  const left = config.cursorKeys.left?.isDown ?? false;
+  const right = config.cursorKeys.right?.isDown ?? false;
 
   let dir = EasingDirection.NONE;
   if (left && !right) {
@@ -167,8 +167,8 @@ const updateLoadedFuel = (
   sc: CannonSceneConfig,
   dt: number,
 ): CannonSceneConfig => {
-  const up = sc.cursorKeys.up.isDown;
-  const down = sc.cursorKeys.down.isDown;
+  const up = sc.cursorKeys.up?.isDown ?? false;
+  const down = sc.cursorKeys.down?.isDown ?? false;
 
   let dir = EasingDirection.NONE;
   if (up && !down) {

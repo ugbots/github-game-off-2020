@@ -3,7 +3,9 @@ import { GameState } from '../model/game/game_state';
 import { showShop } from '../services/shop/shop_service';
 import { keys } from '../util/keys';
 
-let subFn: (g: GameState) => void = undefined;
+let subFn: (g: GameState) => void = () => {
+  throw new Error('subFn not set!');
+};
 
 export const finishShopping = (g: GameState): void => {
   subFn(g);

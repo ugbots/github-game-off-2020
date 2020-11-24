@@ -5,7 +5,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { Cost, isFree } from '../../model/game/cost';
+import { Cost, COST_FREE, isFree } from '../../model/game/cost';
 import { titleCase } from '../../util/strings';
 
 @Component({
@@ -14,7 +14,7 @@ import { titleCase } from '../../util/strings';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemCostComponent implements OnChanges {
-  @Input() cost?: Cost;
+  @Input() cost: Cost = COST_FREE;
   @Input() salePrice?: Cost;
   @Input() isWallet: boolean;
 
@@ -28,7 +28,7 @@ export class ItemCostComponent implements OnChanges {
     }
   }
 
-  iconSrc(key: string): string|undefined {
+  iconSrc(key: string): string | undefined {
     const saleKey = this.salePrice ?? {}[key];
     if (this.cost[key] > 0 || (saleKey ?? 0) > 0) {
       return `assets/sprites/${key}.png`;

@@ -1,5 +1,3 @@
-import { TabGroupComponent } from './tab_group';
-
 export interface TabGroupConfig<T> {
   readonly tabs: readonly Tab<T>[];
 }
@@ -7,7 +5,7 @@ export interface TabGroupConfig<T> {
 export interface Tab<T> {
   readonly label: string;
   readonly isSelected: boolean;
-  readonly value: T;
+  readonly value?: T;
 }
 
 export const buildEmptyTabGroupConfig = <T>(): TabGroupConfig<T> => ({

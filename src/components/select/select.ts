@@ -24,7 +24,7 @@ const SELECTED_CLASSES: readonly string[] = ['text-gray-100'];
 })
 export class SelectComponent<T> {
   @Input() config: SelectConfig<T> = buildEmptySelectConfig();
-  @Output() selectChange = new EventEmitter<T>();
+  @Output() selectChange = new EventEmitter<SelectOption<T> | undefined>();
 
   getClasses(option: SelectOption<T>): readonly string[] {
     if (option.disabled) {
@@ -43,6 +43,6 @@ export class SelectComponent<T> {
       (o) => o.label === selectedLabel,
     );
 
-    this.selectChange.emit(selectedOption.value);
+    this.selectChange.emit(selectedOption);
   }
 }
