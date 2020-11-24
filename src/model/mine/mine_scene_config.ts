@@ -13,8 +13,8 @@ export interface MineSceneConfig {
 
 const ROOM_COUNT = { min: 3, max: 7 };
 const ROOM_SPEC: RoomSpec = {
-  width: 20,
-  height: 9,
+  width: 40,
+  height: 18,
 };
 
 export const getInitialMineSceneConfig = (

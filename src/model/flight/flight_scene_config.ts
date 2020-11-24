@@ -39,7 +39,7 @@ export interface FlightSceneConfig {
   readonly shipRotationVelocityEasing: EasingButton;
   readonly shipIntroEasing: EasingButton;
   readonly shipAcceleration: number;
-  asteroidPosition?: Vector2;
+  asteroidPosition: Vector2;
   verticalPosition: number;
   shipVelocity: Vector2;
   shipRotationVelocity: number;
@@ -143,8 +143,8 @@ const updateShipRotation = (
   sc: FlightSceneConfig,
   dt: number,
 ): FlightSceneConfig => {
-  const left = sc.cursorKeys.left.isDown;
-  const right = sc.cursorKeys.right.isDown;
+  const left = sc.cursorKeys.left?.isDown ?? false;
+  const right = sc.cursorKeys.right?.isDown ?? false;
 
   let easingDir = EasingDirection.NONE;
   if (left && !right) {
@@ -167,7 +167,7 @@ const updateShipVelocity = (
   dt: number,
 ): FlightSceneConfig => {
   let acc = 0;
-  if (sc.cursorKeys.up.isDown) {
+  if (sc.cursorKeys.up?.isDown ?? false) {
     acc = sc.shipAcceleration;
   }
 

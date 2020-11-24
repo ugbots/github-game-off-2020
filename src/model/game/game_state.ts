@@ -112,7 +112,7 @@ const addItem = (inv: Inventory, item: Item): Inventory => ({
 });
 
 const removeOne = <T>(ts: readonly T[], t: T): readonly T[] => {
-  const newArray = [];
+  const newArray: T[] = [];
 
   let oneRemoved = false;
   for (const element of ts) {

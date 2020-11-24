@@ -2,9 +2,14 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "target": "es5",
-    "sourceMap": true
+    "lib": ["es6", "dom"],
+    "sourceMap": true,
+    "incremental": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictNullChecks": true,
+    "types": [],
   },
-  "include": [
-    "**/*.ts"
-  ],
+  "include": ["src"],
+  "exclude": ["**/node_modules", "**/.*/"],
 }

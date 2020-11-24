@@ -12,9 +12,10 @@ import {
   EMPTY_INVENTORY,
   equipItem,
   GameState,
+  INITIAL_GAME_STATE,
   Inventory,
 } from '../../model/game/game_state';
-import { Item, ItemType } from '../../model/game/item';
+import { EMPTY_ITEM, Item, ItemType } from '../../model/game/item';
 import {
   buildEmptySelectConfig,
   SelectConfig,
@@ -28,7 +29,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BuildPanelComponent implements OnChanges {
-  @Input() gameState?: GameState;
+  @Input() gameState: GameState = INITIAL_GAME_STATE;
   @Output() gameStateChange = new EventEmitter<GameState>();
 
   equipmentSelectConfig: SelectConfig<Item> = buildEmptySelectConfig();
@@ -48,15 +49,18 @@ export class BuildPanelComponent implements OnChanges {
     }
   }
 
-  handleEquipSelectChange(item?: Item): void {
-    this.currentSelectedEquipment = item;
+  handleEquipSelectChange(option?: SelectOption<Item>): void {
+    this.currentSelectedEquipment = option?.value;
     this.currentSelectedEquipped = undefined;
     this.equipmentSelectConfig = this.generateEquipmentSelectConfig();
     this.equippedSelectConfig = this.generateEquippedSelectConfig();
 
     this.nextInventory = undefined;
-    if (item !== undefined) {
-      this.nextInventory = equipItem(this.gameState, item).shipInventory;
+    if (option?.value !== undefined) {
+      this.nextInventory = equipItem(
+        this.gameState,
+        option?.value,
+      ).shipInventory;
     }
   }
 
@@ -73,15 +77,18 @@ export class BuildPanelComponent implements OnChanges {
     this.nextInventory = undefined;
   }
 
-  handleRemoveSelectChange(item?: Item): void {
-    this.currentSelectedEquipped = item;
+  handleRemoveSelectChange(option?: SelectOption<Item>): void {
+    this.currentSelectedEquipped = option?.value;
     this.currentSelectedEquipment = undefined;
     this.equipmentSelectConfig = this.generateEquipmentSelectConfig();
     this.equippedSelectConfig = this.generateEquippedSelectConfig();
 
     this.nextInventory = undefined;
-    if (item !== undefined) {
-      this.nextInventory = dequipItem(this.gameState, item).shipInventory;
+    if (option?.value !== undefined) {
+      this.nextInventory = dequipItem(
+        this.gameState,
+        option?.value,
+      ).shipInventory;
     }
   }
 
@@ -114,7 +121,7 @@ export class BuildPanelComponent implements OnChanges {
 
   private generateInventorySelectConfig(
     inv: Inventory,
-    selectedItem: Item,
+    selectedItem?: Item,
   ): SelectConfig<Item> {
     return {
       options: [
@@ -133,7 +140,7 @@ export class BuildPanelComponent implements OnChanges {
   private buildItemsOption(
     itemType: ItemType,
     items: readonly Item[],
-    selectedItem: Item,
+    selectedItem?: Item,
   ): readonly SelectOption<Item>[] {
     return items
       .filter((x) => x.type === itemType)

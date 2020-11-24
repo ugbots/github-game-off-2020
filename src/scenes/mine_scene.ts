@@ -30,4 +30,8 @@ export class MineScene extends Scene {
     this.sceneConfig = getInitialMineSceneConfig(this, this.mineSceneInput);
     this.roomRenderer = new RoomRenderer().create(this.sceneConfig);
   }
+
+  update(time: number, dt: number): void {
+    this.roomRenderer.update(this.sceneConfig);
+  }
 }

@@ -21,10 +21,12 @@ export class EasingButton {
   private value = 0;
 
   constructor(config: EasingButtonConfig) {
-    if (config.initialValue < -1 || config.initialValue > 1) {
-      throw new Error('Initial value invalid: ' + config.initialValue);
+    if (config.initialValue !== undefined) {
+      if (config.initialValue < -1 || config.initialValue > 1) {
+        throw new Error('Initial value invalid: ' + config.initialValue);
+      }
+      this.value = config.initialValue;
     }
-    this.value = config.initialValue ?? 0;
     this.config = config;
   }
 

@@ -42,8 +42,8 @@ export class DirtParticles {
   }
 
   update(time: number, dt: number, sc: CannonSceneConfig): DirtParticles {
-    const left = sc.cursorKeys.left.isDown;
-    const right = sc.cursorKeys.right.isDown;
+    const left = sc.cursorKeys.left?.isDown ?? false;
+    const right = sc.cursorKeys.right?.isDown ?? false;
 
     if ((!left && !right) || (left && right)) {
       this.emitter.setQuantity(0);

@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --watch",
     "lint": "eslint src",
     "dev": "webpack-dev-server"
   },
