@@ -1,7 +1,7 @@
 import { Inject, Injectable, NgZone } from '@angular/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
-import { GameState } from '../../model/game/game_state';
+import { GameState, INITIAL_GAME_STATE } from '../../model/game/game_state';
 import { finishShopping } from '../../scenes/shop_scene';
 
 export enum ShopState {
@@ -14,7 +14,9 @@ export enum ShopContext {
   CONTEXT_BUILD,
 }
 
-let subFn: (g: GameState) => void = undefined;
+let subFn: (g: GameState) => void = () => {
+  throw new Error('subFn not set!');
+};
 
 export const showShop = (g: GameState): void => {
   subFn(g);
@@ -41,7 +43,7 @@ export class ShopService {
     this.setShopState(ShopState.SHOP_HIDE);
 
     this.zone.runOutsideAngular(() => {
-      finishShopping(this.gameStateSubject.getValue());
+      finishShopping(this.gameStateSubject.getValue() ?? INITIAL_GAME_STATE);
     });
   }
 
