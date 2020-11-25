@@ -52,6 +52,16 @@ export class ShipStatsDiffComponent implements OnChanges {
         currentStats.batteries,
         diff?.batteries,
       ),
+      this.generateStatsRow(
+        'Stabilizers',
+        currentStats.stabilizers,
+        diff?.stabilizers,
+      ),
+      this.generateStatsRow(
+        'Max cannon power',
+        currentStats.maxCannonPower,
+        diff?.maxCannonPower,
+      ),
     ];
   }
 
