@@ -12,7 +12,7 @@ export class Star {
   private angle = 0;
   private alphaT = 0;
   private alphaTime = 0;
-  private sprite: Sprite;
+  private sprite: Phaser.GameObjects.Sprite;
 
   create(scene: Phaser.Scene, sc: CannonSceneConfig): Star {
     this.initialPolar = {
@@ -31,7 +31,7 @@ export class Star {
 
     const scale = 3 + Math.random() * 15;
 
-    this.sprite = scene.physics.add.sprite(
+    this.sprite = scene.add.sprite(
       this.cartesian.x,
       this.cartesian.y,
       keys.sprites.white,

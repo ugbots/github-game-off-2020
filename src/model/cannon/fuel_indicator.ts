@@ -1,6 +1,7 @@
 import { Scene } from 'phaser';
 import { Rectangle } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
+import { shipStatTotal } from '../game/game_state';
 import { CannonSceneConfig } from './cannon_scene_config';
 
 export class FuelIndicator {
@@ -9,6 +10,7 @@ export class FuelIndicator {
   private remainingLabel: Phaser.GameObjects.Text;
   private fuelBarBg: Rectangle;
   private fuelBarFg: Rectangle;
+  private fuelBarTop: Rectangle;
 
   create(scene: Scene, sc: CannonSceneConfig): FuelIndicator {
     const borderWidth = SCREEN_DIMENSIONS.x / 3;
@@ -34,8 +36,10 @@ export class FuelIndicator {
       .setFontSize(12)
       .setColor('#00ff00');
 
+    const loadedFuel = sc.loadedFuelEasing.getValue();
+
     this.label = scene.add
-      .text(borderX - 50, borderY + 30, `Propellant: ${sc.loadedFuel}%`)
+      .text(borderX - 50, borderY + 30, `Propellant: ${loadedFuel}%`)
       .setFontFamily('"Press Start 2P", monospace')
       .setFontSize(12)
       .setColor('#00ff00');
@@ -55,20 +59,51 @@ export class FuelIndicator {
       16,
       0x00ff00,
     );
-    this.updateFuelBar(sc.loadedFuel);
+
+    this.fuelBarTop = scene.add.rectangle(
+      borderX,
+      borderY + 10,
+      borderWidth - 40,
+      16,
+      0x555555,
+    );
+
+    this.setupFuelBarTop(sc);
+    this.updateFuelBar(loadedFuel);
 
     return this;
+  }
+
+  destroy(): void {
+    this.border.destroy();
+    this.label.destroy();
+    this.remainingLabel.destroy();
+    this.fuelBarBg.destroy();
+    this.fuelBarFg.destroy();
+    this.fuelBarTop.destroy();
   }
 
   update(time: number, dt: number, sc: CannonSceneConfig): FuelIndicator {
-    this.label.text = `Propellant: ${Math.floor(sc.loadedFuel)}%`;
-    this.updateFuelBar(sc.loadedFuel);
+    this.updateFuelBar(sc.loadedFuelEasing.getValue());
     return this;
   }
 
-  private updateFuelBar(fuel: number): void {
+  private updateFuelBar(loadedFuel: number): void {
+    const fuel = Math.floor(loadedFuel);
+
+    this.label.text = `Propellant: ${fuel}%`;
     const newWidth = (fuel / 100) * this.fuelBarBg.width;
 
     this.fuelBarFg.width = newWidth;
+  }
+
+  private setupFuelBarTop(sc: CannonSceneConfig): void {
+    const maxFuel = shipStatTotal(sc.gameState, (x) => x.maxCannonPower);
+
+    const percentage = 1 - maxFuel / 100.0;
+
+    this.fuelBarTop.width = this.fuelBarBg.width * percentage;
+    this.fuelBarTop.x =
+      this.fuelBarBg.x + this.fuelBarBg.width - this.fuelBarTop.width;
   }
 }

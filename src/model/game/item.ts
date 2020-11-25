@@ -5,6 +5,7 @@ export enum ItemType {
   BOOSTER,
   BATTERY,
   STABILIZER,
+  CANNON,
 }
 
 export enum Rarity {
@@ -26,6 +27,7 @@ export interface Item {
   readonly boosters: number;
   readonly batteries: number;
   readonly stabilizers: number;
+  readonly maxCannonPower: number;
 }
 
 export const EMPTY_ITEM = {
@@ -40,6 +42,7 @@ export const EMPTY_ITEM = {
   boosters: 0,
   batteries: 0,
   stabilizers: 0,
+  maxCannonPower: 0,
 };
 
 export const itemEquals = (a: Item, b: Item): boolean => a.name === b.name;

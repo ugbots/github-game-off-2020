@@ -7,11 +7,14 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { GameState } from '../../model/game/game_state';
+import { ItemType } from '../../model/game/item';
 import {
   ShopContext,
   ShopService,
   ShopState,
 } from '../../services/shop/shop_service';
+import { failure, isSuccess, Result, success } from '../../types/result';
+import { UNIT, Unit } from '../../types/unit';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
 import { selectTab, Tab, TabGroupConfig } from '../tabs/tab_group_config';
 
@@ -28,7 +31,6 @@ export class ShopComponent implements OnChanges {
   tabGroupConfig = this.generateTabGroupConfig();
   shouldShowShopPanel = true;
   shouldShowBuildPanel = false;
-  closeShopButtonClasses = [];
 
   constructor(@Inject(ShopService) private readonly shopService: ShopService) {}
 
@@ -51,8 +53,31 @@ export class ShopComponent implements OnChanges {
     this.shopService.setGameState(gs);
   }
 
-  closeShop(): void {
-    this.shopService.finishShopping();
+  getCloseShopTooltip(gs: GameState): string {
+    const result = this.checkCanCloseShop(gs);
+    if (isSuccess(result)) {
+      return 'Click to launch another ship.';
+    }
+    return result.error;
+  }
+
+  getCloseShopButtonClasses(gs: GameState): readonly string[] {
+    if (!isSuccess(this.checkCanCloseShop(gs))) {
+      return ['bg-gray-900 text-gray-100 cursor-context-menu'];
+    }
+    return [
+      'bg-orange-800',
+      'text-gray-100',
+      'cursor-pointer',
+      'hover:bg-yellow-300',
+      'hover:text-gray-900',
+    ];
+  }
+
+  closeShop(gs: GameState): void {
+    if (isSuccess(this.checkCanCloseShop(gs))) {
+      this.shopService.finishShopping();
+    }
   }
 
   private generateTabGroupConfig(): TabGroupConfig<ShopContext> {
@@ -71,4 +96,20 @@ export class ShopComponent implements OnChanges {
       ],
     };
   }
+
+  private checkCanCloseShop(gs: GameState): Result<string, Unit> {
+    return checkHasExactlyOneCannon(gs);
+  }
 }
+
+const checkHasExactlyOneCannon = (gs: GameState): Result<string, Unit> => {
+  const equippedCannons = gs.shipInventory.items.filter(
+    (x) => x.type === ItemType.CANNON,
+  );
+
+  if (equippedCannons.length === 1) {
+    return success(UNIT);
+  }
+
+  return failure('You must have exactly one cannon equipped.');
+};

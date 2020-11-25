@@ -113,6 +113,11 @@ export class ShopPanelComponent implements OnChanges {
           isSelected: false,
           value: ItemType.STABILIZER,
         },
+        {
+          label: 'Cannons',
+          isSelected: false,
+          value: ItemType.CANNON,
+        },
       ],
     };
   }

@@ -21,10 +21,11 @@
   </div>
   <div class="rounded-lg w-full h-1/6 bg-gray-800 p-8
               flex justify-end items-center">
-    <div class="rounded-lg cursor-pointer shadow-lg p-4
-               transition-colors bg-orange-800 text-gray-100
-               hover:bg-yellow-300 hover:text-gray-900"
-         (click)="closeShop()">
+    <div *ngIf="(gameState$ | async) as gameState"
+         class="rounded-lg transition-colors shadow-lg p-4"
+         [attr.title]="getCloseShopTooltip(gameState)"
+         [ngClass]="getCloseShopButtonClasses(gameState)"
+         (click)="closeShop(gameState)">
          Finish shopping
     </div>
   </div>
