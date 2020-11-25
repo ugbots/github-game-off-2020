@@ -1,8 +1,8 @@
 import { failure, map, Result, success } from '../../types/result';
 import { sortBy } from '../../util/arrays';
-import { CRAPPY_BATTERY } from './batteries';
+import { COBALT_FUEL_ROD } from './batteries';
 import { CRAPPY_BOOSTER } from './boosters';
-import { addFunds, Cost, COST_FREE, purchase, salePrice } from './cost';
+import { addFunds, Cost, COST_FREE, MutableCost, purchase, salePrice } from './cost';
 import { IRON_DRILL, COPPER_DRILL } from './drills';
 import { Item, itemEquals } from './item';
 
@@ -18,18 +18,19 @@ export const EMPTY_INVENTORY: Inventory = {
 
 const INITIAL_EARTH_INVENTORY: Inventory = {
   fuel: 1_000,
-  items: [COPPER_DRILL, IRON_DRILL, CRAPPY_BOOSTER, CRAPPY_BATTERY],
+  items: [COPPER_DRILL, IRON_DRILL, CRAPPY_BOOSTER],
 };
 
 const INITIAL_SHIP_INVENTORY: Inventory = {
   fuel: 0,
-  items: [COPPER_DRILL, CRAPPY_BOOSTER, CRAPPY_BATTERY],
+  items: [COPPER_DRILL, CRAPPY_BOOSTER, COBALT_FUEL_ROD],
 };
 
 export interface GameState {
   readonly earthInventory: Inventory;
   readonly shipInventory: Inventory;
   readonly wallet: Cost;
+  readonly shipWallet: MutableCost;
 }
 
 export const INITIAL_GAME_STATE: GameState = {
@@ -38,6 +39,9 @@ export const INITIAL_GAME_STATE: GameState = {
   wallet: {
     ...COST_FREE,
     gold: 100,
+  },
+  shipWallet: {
+    ...COST_FREE,
   },
 };
 

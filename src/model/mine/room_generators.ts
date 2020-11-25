@@ -1,13 +1,13 @@
 import { RoomSpec } from './room_spec';
-import { Tile } from './tile';
+import { TileType } from './tile';
 
 const tilesFromFn = (
   s: RoomSpec,
-  tileFn: (x: number, y: number) => Tile,
-): ReadonlyArray<ReadonlyArray<Tile>> => {
-  const cols: Tile[][] = [];
+  tileFn: (x: number, y: number) => TileType,
+): ReadonlyArray<ReadonlyArray<TileType>> => {
+  const cols: TileType[][] = [];
   for (let x = 0; x < s.width; x++) {
-    const row: Tile[] = [];
+    const row: TileType[] = [];
     for (let y = 0; y < s.height; y++) {
       row.push(tileFn(x, y));
     }
@@ -16,14 +16,19 @@ const tilesFromFn = (
   return cols;
 };
 
-const generateEmptyRoom = (s: RoomSpec): ReadonlyArray<ReadonlyArray<Tile>> =>
+const generateScatteredGold = (
+  s: RoomSpec,
+): ReadonlyArray<ReadonlyArray<TileType>> =>
   tilesFromFn(s, (x, y) => {
     if (x === 0 || y === 0 || x === s.width - 1 || y === s.height - 1) {
-      return Tile.WALL;
+      return TileType.WALL;
     }
-    return Tile.GROUND;
+    if (Math.random() < 0.1) {
+      return TileType.GOLD;
+    }
+    return TileType.GROUND;
   });
 
 export const ROOM_GENERATORS: ReadonlyArray<(
   s: RoomSpec,
-) => ReadonlyArray<ReadonlyArray<Tile>>> = [generateEmptyRoom];
+) => ReadonlyArray<ReadonlyArray<TileType>>> = [generateScatteredGold];

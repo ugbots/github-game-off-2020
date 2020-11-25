@@ -6,6 +6,12 @@ export interface Cost {
   readonly ruby: number;
 }
 
+export interface MutableCost {
+  gold: number;
+  emerald: number;
+  ruby: number;
+}
+
 export const COST_FREE: Cost = {
   gold: 0,
   emerald: 0,

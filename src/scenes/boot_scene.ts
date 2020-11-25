@@ -3,6 +3,7 @@ import * as Phaser from 'phaser';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { FlightSceneInput } from '../model/flight/flight_scene_input';
 import { INITIAL_GAME_STATE } from '../model/game/game_state';
+import { MineSceneInput } from '../model/mine/mine_scene_input';
 import { keys } from '../util/keys';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -69,7 +70,7 @@ export default class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
-      this.startScene(keys.scenes.shop);
+      this.startScene(keys.scenes.mine);
     });
 
     this.loadAssets();
@@ -82,6 +83,13 @@ export default class BootScene extends Phaser.Scene {
           gameState: INITIAL_GAME_STATE,
           shipRotationVelocity: 1,
           cannonVelocityPercent: 20,
+        };
+        this.scene.start(sceneKey, input);
+        break;
+      }
+      case keys.scenes.mine: {
+        const input: MineSceneInput = {
+          gameState: INITIAL_GAME_STATE,
         };
         this.scene.start(sceneKey, input);
         break;

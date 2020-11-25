@@ -10,6 +10,7 @@ import {
 import { FlightSceneInput } from './flight_scene_input';
 import { keys } from '../../util/keys';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
+import { MineSceneInput } from '../mine/mine_scene_input';
 
 export enum FlightSceneState {
   INTRO,
@@ -198,7 +199,10 @@ const updateAsteroidPosition = (sc: FlightSceneConfig): FlightSceneConfig => {
   if (asteroidDist < ASTEROID_COLLISION_RADIUS) {
     sc.sceneState = FlightSceneState.ASTEROID_COLLISION;
     setTimeout(() => {
-      sc.scene.scene.start(keys.scenes.mine, sc.gameState);
+      const input: MineSceneInput = {
+        gameState: sc.gameState,
+      };
+      sc.scene.scene.start(keys.scenes.mine, input);
     }, 3_000);
   }
 
