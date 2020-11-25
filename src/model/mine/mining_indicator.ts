@@ -25,6 +25,10 @@ export class MiningIndicator {
     return this;
   }
 
+  destroy(): void {
+    this.miningText.destroy();
+  }
+
   update(sc: MineSceneConfig): void {
     this.miningText.text = this.generateMiningText(sc);
   }

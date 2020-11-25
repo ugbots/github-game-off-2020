@@ -55,6 +55,7 @@ export class MineScene extends Scene {
     this.ship.destroy();
     this.roomRenderer.destroy();
     this.batteryIndicator.destroy();
+    this.miningIndicator.destroy();
   }
 
   /* override */

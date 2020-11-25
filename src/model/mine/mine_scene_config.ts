@@ -2,7 +2,9 @@ import { Scene } from 'phaser';
 import { EasingButton, EasingDirection, linear } from '../../math/easing';
 import { keys } from '../../util/keys';
 import { CursorKeys, Vector2 } from '../../util/phaser_types';
+import { truncateCost } from '../game/cost';
 import { GameState, shipStatTotal } from '../game/game_state';
+import { LootSceneInput } from '../loot/loot_scene_input';
 import { Direction, directionOffset } from './direction';
 import { MineSceneInput } from './mine_scene_input';
 import { generateRooms, Room, TILE_SIZE } from './room';
@@ -116,9 +118,17 @@ const updateBattery = (dt: number, sc: MineSceneConfig): void => {
   battery.update(dt, EasingDirection.DECREASE);
 
   if (battery.getValue() <= 0) {
-    sc.onDestroy();
-    sc.scene.input.destroy();
-    sc.scene.scene.start(keys.scenes.crash, sc.gameState);
+    const input: LootSceneInput = {
+      gameState: {
+        ...sc.gameState,
+        shipWallet: truncateCost(sc.gameState.shipWallet),
+      },
+    };
+    sc.scene.scene.start(keys.scenes.loot, input);
+
+    setTimeout(() => {
+      sc.onDestroy();
+    }, 0);
   }
 };
 

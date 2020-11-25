@@ -2,7 +2,14 @@ import { failure, map, Result, success } from '../../types/result';
 import { sortBy } from '../../util/arrays';
 import { COBALT_FUEL_ROD } from './batteries';
 import { CRAPPY_BOOSTER } from './boosters';
-import { addFunds, Cost, COST_FREE, MutableCost, purchase, salePrice } from './cost';
+import {
+  addFunds,
+  Cost,
+  COST_FREE,
+  MutableCost,
+  purchase,
+  salePrice,
+} from './cost';
 import { IRON_DRILL, COPPER_DRILL } from './drills';
 import { Item, itemEquals } from './item';
 
@@ -23,7 +30,7 @@ const INITIAL_EARTH_INVENTORY: Inventory = {
 
 const INITIAL_SHIP_INVENTORY: Inventory = {
   fuel: 0,
-  items: [COPPER_DRILL, CRAPPY_BOOSTER, COBALT_FUEL_ROD],
+  items: [COPPER_DRILL, CRAPPY_BOOSTER],
 };
 
 export interface GameState {
@@ -47,6 +54,14 @@ export const INITIAL_GAME_STATE: GameState = {
 
 export const shipStatTotal = (gs: GameState, f: (i: Item) => number): number =>
   gs.shipInventory.items.map(f).reduce((a, b) => a + b, 0);
+
+export const moveShipWalletToWallet = (gs: GameState): GameState => ({
+  ...gs,
+  wallet: addFunds(gs.wallet, gs.shipWallet),
+  shipWallet: {
+    ...COST_FREE,
+  },
+});
 
 export const equipItem = (gs: GameState, item: Item): GameState => {
   const source = gs.earthInventory;

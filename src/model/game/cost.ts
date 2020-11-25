@@ -31,6 +31,15 @@ const scale = (cost: Cost, scale: number): Cost =>
     {} as Partial<Cost>,
   ) as Cost;
 
+export const truncateCost = (cost: Cost | MutableCost): MutableCost =>
+  Object.keys(cost).reduce(
+    (acc, k) => ({
+      ...acc,
+      [k]: Math.floor(cost[k]),
+    }),
+    {} as Partial<Cost>,
+  ) as MutableCost;
+
 export const canAfford = (wallet: Cost, price: Cost): boolean =>
   Object.keys(wallet).every((k) => wallet[k] >= price[k]);
 
@@ -50,7 +59,7 @@ export const purchase = (wallet: Cost, price: Cost): Result<string, Cost> => {
   return success(newWallet as Cost);
 };
 
-export const addFunds = (source: Cost, funds: Cost): Cost =>
+export const addFunds = (source: Cost, funds: Cost | MutableCost): Cost =>
   Object.keys(source).reduce(
     (acc, k) => ({
       ...acc,
