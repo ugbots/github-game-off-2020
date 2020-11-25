@@ -1,17 +1,16 @@
 import { keys } from '../../util/keys';
-import { Sprite } from '../../util/phaser_types';
 import { CannonSceneConfig } from './cannon_scene_config';
 
 export class Planet {
-  private background: Sprite;
-  private foreground: Sprite;
+  private background: Phaser.GameObjects.Sprite;
+  private foreground: Phaser.GameObjects.Sprite;
 
   create(
     scene: Phaser.Scene,
     sc: CannonSceneConfig,
     createBetweenPlanets: () => void,
   ): Planet {
-    this.background = scene.physics.add.sprite(
+    this.background = scene.add.sprite(
       sc.planetPivot.x,
       sc.planetPivot.y,
       keys.sprites.planetBg,
@@ -22,7 +21,7 @@ export class Planet {
 
     createBetweenPlanets();
 
-    this.foreground = scene.physics.add.sprite(
+    this.foreground = scene.add.sprite(
       sc.planetPivot.x,
       sc.planetPivot.y,
       keys.sprites.planetFg,

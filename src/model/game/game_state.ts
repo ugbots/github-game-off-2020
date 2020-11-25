@@ -2,6 +2,7 @@ import { failure, map, Result, success } from '../../types/result';
 import { sortBy } from '../../util/arrays';
 import { COBALT_FUEL_ROD } from './batteries';
 import { CRAPPY_BOOSTER } from './boosters';
+import { COPPER_CANNON } from './cannons';
 import {
   addFunds,
   Cost,
@@ -30,7 +31,7 @@ const INITIAL_EARTH_INVENTORY: Inventory = {
 
 const INITIAL_SHIP_INVENTORY: Inventory = {
   fuel: 0,
-  items: [COPPER_DRILL, CRAPPY_BOOSTER],
+  items: [COPPER_DRILL, CRAPPY_BOOSTER, COPPER_CANNON],
 };
 
 export interface GameState {

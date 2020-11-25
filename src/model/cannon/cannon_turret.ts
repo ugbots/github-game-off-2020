@@ -1,15 +1,14 @@
 import { keys } from '../../util/keys';
-import { Sprite } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
 import { CannonSceneConfig, SceneState } from './cannon_scene_config';
 
 export class CannonTurret {
-  private sprite: Sprite;
+  private sprite: Phaser.GameObjects.Sprite;
 
   private alreadyFired = false;
 
   create(scene: Phaser.Scene, sc: CannonSceneConfig): CannonTurret {
-    this.sprite = scene.physics.add.sprite(
+    this.sprite = scene.add.sprite(
       sc.cannonPivot.x,
       sc.cannonPivot.y,
       keys.sprites.cannonTurret,
@@ -32,8 +31,9 @@ export class CannonTurret {
 
     // Shake based on loaded fuel
     if (sc.sceneState === SceneState.ROTATE_CANNON) {
-      this.sprite.scale = 1 + 0.001 * Math.random() * sc.loadedFuel;
-      this.sprite.rotation += (0.5 - Math.random()) * 0.001 * sc.loadedFuel;
+      const loadedFuel = sc.loadedFuelEasing.getValue();
+      this.sprite.scale = 1 + 0.001 * Math.random() * loadedFuel;
+      this.sprite.rotation += (0.5 - Math.random()) * 0.001 * loadedFuel;
     }
     return this;
   }
