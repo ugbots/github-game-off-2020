@@ -63,7 +63,7 @@ export const getInitialSceneConfig = (
       0,
       1 - 0.1 * shipStatTotal(input.gameState, (x) => x.stabilizers),
     ),
-    initialValue: input.shipRotationVelocity,
+    initialValue: 1,
     canGoNegative: true,
   }),
   shipAcceleration: 0.01,

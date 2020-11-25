@@ -29,7 +29,7 @@ export class Ship {
     }
 
     if (sc.sceneState === SceneState.LAUNCH_SHIP) {
-      this.sprite.setRotation((this.rotation += dt * sc.shipRotationVelocity));
+      this.sprite.setRotation((this.rotation += dt * 0.03));
     }
 
     return this;

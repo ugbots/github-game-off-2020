@@ -44,7 +44,9 @@ export class CannonScene extends Phaser.Scene {
 
   /* override */
   create(): void {
-    this.sceneConfig = getInitialSceneConfig(this, this.gameState);
+    this.sceneConfig = getInitialSceneConfig(this, this.gameState, () => {
+      this.destroy();
+    });
 
     this.stars = Array(this.sceneConfig.starCount)
       .fill(0)
@@ -61,6 +63,11 @@ export class CannonScene extends Phaser.Scene {
     });
 
     this.fuelIndicator = new FuelIndicator().create(this, this.sceneConfig);
+  }
+
+  destroy(): void {
+    // TODO(sixstring982): Destroy the rest of the scene objects.
+    this.fuelIndicator.destroy();
   }
 
   /* override */
