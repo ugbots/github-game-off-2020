@@ -1,6 +1,6 @@
 import { cartesianFromPolar, Polar2 } from '../../math/polar';
 import { keys } from '../../util/keys';
-import { Sprite, Vector2 } from '../../util/phaser_types';
+import { Vector2 } from '../../util/phaser_types';
 import { CannonSceneConfig } from './cannon_scene_config';
 
 export class Star {
@@ -9,7 +9,6 @@ export class Star {
   private polar: Polar2;
   private cartesian: Vector2 = new Vector2();
 
-  private angle = 0;
   private alphaT = 0;
   private alphaTime = 0;
   private sprite: Phaser.GameObjects.Sprite;
@@ -23,8 +22,6 @@ export class Star {
 
     this.alphaTime = 1 + Math.random() * 2;
     this.alphaT = Math.random() * Phaser.Math.PI2;
-
-    this.angle = this.initialPolar.θ;
 
     cartesianFromPolar(this.cartesian, this.initialPolar);
     this.cartesian.add(sc.planetPivot);
@@ -42,6 +39,10 @@ export class Star {
     this.sprite.rotation = Math.random() * Phaser.Math.PI2;
 
     return this;
+  }
+
+  destroy(): void {
+    this.sprite.destroy();
   }
 
   update(time: number, dt: number, sc: CannonSceneConfig): Star {

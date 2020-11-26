@@ -5,7 +5,7 @@ import {
   easeInOut,
   recoil,
 } from '../../math/easing';
-import { clamp } from '../../math/math';
+import { clamp, mod } from '../../math/math';
 import { keys } from '../../util/keys';
 import { CursorKeys, Vector2 } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
@@ -25,6 +25,9 @@ export interface CannonSceneConfig {
   readonly cannonFireEasing: EasingButton;
   readonly loadedFuelEasing: EasingButton;
   readonly starCount: number;
+  /** The location of the moon, in radians. This is uniformly distributed at
+   * first, and is passed to the FlightScene. */
+  readonly moonAngleRadians: number;
   gameState: GameState;
   sceneState: SceneState;
   planetPivot: Vector2;
@@ -53,6 +56,7 @@ export const getInitialSceneConfig = (
     planetPivot: DEFAULT_PLANET_PIVOT.clone(),
     cannonPivot: DEFAULT_CANNON_PIVOT.clone(),
     starCount: 100,
+    moonAngleRadians: Math.random() * Math.PI * 2,
     sceneState: SceneState.ROTATE_CANNON,
     rotationEasing: new EasingButton({
       fn: easeInOut,
@@ -78,6 +82,11 @@ export const getInitialSceneConfig = (
     }),
     rotation: 0,
   };
+};
+
+export const isAimedAtMoon = (sc: CannonSceneConfig): boolean => {
+  const angleDiff = mod(sc.rotation - sc.moonAngleRadians, Math.PI * 2);
+  return angleDiff < 0.1 || angleDiff > Math.PI * 2 - 0.1;
 };
 
 export const updateSceneConfig = (
@@ -125,6 +134,7 @@ const updateSceneState = (sc: CannonSceneConfig): CannonSceneConfig => {
       const input: FlightSceneInput = {
         gameState: sc.gameState,
         cannonVelocityPercent: fuelToUse,
+        aimedAtMoon: isAimedAtMoon(sc),
       };
       sc.scene.scene.start(keys.scenes.flight, input);
       sc.onDestroy();

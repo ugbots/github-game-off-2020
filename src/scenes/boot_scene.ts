@@ -70,7 +70,7 @@ export default class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
-      this.startScene(keys.scenes.flight);
+      this.startScene(keys.scenes.cannon);
     });
 
     this.loadAssets();
@@ -82,6 +82,7 @@ export default class BootScene extends Phaser.Scene {
         const input: FlightSceneInput = {
           gameState: INITIAL_GAME_STATE,
           cannonVelocityPercent: 20,
+          aimedAtMoon: true,
         };
         this.scene.start(sceneKey, input);
         break;

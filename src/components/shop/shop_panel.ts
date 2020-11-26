@@ -118,6 +118,11 @@ export class ShopPanelComponent implements OnChanges {
           isSelected: false,
           value: ItemType.CANNON,
         },
+        {
+          label: 'Radar',
+          isSelected: false,
+          value: ItemType.RADAR,
+        },
       ],
     };
   }
