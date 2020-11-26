@@ -3,12 +3,16 @@ import { Sprite } from '../../util/phaser_types';
 import { FlightSceneConfig, FlightSceneState } from './flight_scene_config';
 
 export class Asteroid {
-  private sprite: Sprite;
+  private sprite: Phaser.GameObjects.Sprite;
 
   create(sc: FlightSceneConfig): Asteroid {
-    this.sprite = sc.scene.physics.add.sprite(0, 0, keys.sprites.planetBg);
+    this.sprite = sc.scene.add.sprite(0, 0, keys.sprites.planetBg);
 
     return this;
+  }
+
+  destroy(): void {
+    this.sprite.destroy();
   }
 
   update(time: number, dt: number, sc: FlightSceneConfig): void {

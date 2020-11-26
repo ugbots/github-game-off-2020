@@ -70,7 +70,7 @@ export default class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
-      this.startScene(keys.scenes.shop);
+      this.startScene(keys.scenes.flight);
     });
 
     this.loadAssets();

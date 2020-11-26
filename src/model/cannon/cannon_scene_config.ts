@@ -11,7 +11,6 @@ import { CursorKeys, Vector2 } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
 import { FlightSceneInput } from '../flight/flight_scene_input';
 import { GameState, shipStatTotal } from '../game/game_state';
-import { getShipStats } from '../game/ship_stats';
 
 export enum SceneState {
   ROTATE_CANNON,

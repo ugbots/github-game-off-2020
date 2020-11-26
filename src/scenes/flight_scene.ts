@@ -14,6 +14,7 @@ import { Asteroid } from '../model/flight/asteroid';
 export class FlightScene extends Scene {
   private sceneConfig: FlightSceneConfig;
   private flightSceneInput: FlightSceneInput;
+
   private stars: readonly Star[];
   private asteroid: Asteroid;
   private ship: Ship;
@@ -34,7 +35,13 @@ export class FlightScene extends Scene {
 
   /* override */
   create(): void {
-    this.sceneConfig = getInitialSceneConfig(this, this.flightSceneInput);
+    this.sceneConfig = getInitialSceneConfig(
+      this,
+      this.flightSceneInput,
+      () => {
+        this.destroy();
+      },
+    );
 
     this.stars = Array(50)
       .fill(0)
@@ -45,6 +52,15 @@ export class FlightScene extends Scene {
     this.ship = new Ship().create(this.sceneConfig);
 
     this.altimiter = new Altimiter().create(this.sceneConfig);
+  }
+
+  destroy(): void {
+    this.ship.destroy();
+    this.altimiter.destroy();
+    this.asteroid.destroy();
+    this.stars.forEach((s) => {
+      s.destroy();
+    });
   }
 
   /* override */

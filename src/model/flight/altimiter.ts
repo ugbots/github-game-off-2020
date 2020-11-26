@@ -9,6 +9,10 @@ export class Altimiter {
     return this;
   }
 
+  destroy(): void {
+    this.text.destroy();
+  }
+
   update(time: number, dt: number, sc: FlightSceneConfig): Altimiter {
     this.text.text = 'Altitude: ' + Math.round(sc.verticalPosition) + 'ft';
     return this;
