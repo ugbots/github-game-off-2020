@@ -2,6 +2,7 @@ import { Scene } from 'phaser';
 import { EasingButton, EasingDirection, linear } from '../../math/easing';
 import { keys } from '../../util/keys';
 import { CursorKeys, Vector2 } from '../../util/phaser_types';
+import { choose } from '../../util/random';
 import { truncateCost } from '../game/cost';
 import { GameState, shipStatTotal } from '../game/game_state';
 import { LootSceneInput } from '../loot/loot_scene_input';
@@ -34,7 +35,6 @@ export interface MineSceneConfig {
   readonly cursorKeys: CursorKeys;
   readonly sceneState: MineSceneState;
   readonly shipConfig: MineShipConfig;
-  readonly rooms: readonly Room[];
   readonly onDestroy: () => void;
   currentRoom: Room;
 }
@@ -64,7 +64,7 @@ export const getInitialMineShipConfig = (gs: GameState): MineShipConfig => ({
   }),
   drillPower: shipStatTotal(gs, (x) => x.drills),
   shipState: ShipState.MOVING,
-  speed: 0.2,
+  speed: 0.7,
   direction: Direction.EAST,
 });
 
@@ -82,15 +82,15 @@ export const getInitialMineSceneConfig = (
       normalizedMoonDistance: input.normalizedMoonDistance,
     },
   );
+
   return {
     gameState: input.gameState,
     scene,
     cursorKeys: scene.input.keyboard.createCursorKeys(),
     sceneState: MineSceneState.ROAMING,
     shipConfig: getInitialMineShipConfig(input.gameState),
-    rooms,
     onDestroy,
-    currentRoom: rooms[0],
+    currentRoom: choose(rooms),
   };
 };
 
@@ -171,11 +171,31 @@ const updateShipMovement = (dt: number, sc: MineSceneConfig): void => {
   sc.shipConfig.position.y += dt * vy * sc.shipConfig.speed;
 
   // See if ship collides with any walls
-  const tile = shipTile(sc);
+  const coords = shipCoords(sc);
+  const tile = sc.currentRoom.tiles[coords.x][coords.y];
 
   if (!isWalkable(tile)) {
     sc.shipConfig.position.x -= dt * vx * sc.shipConfig.speed;
     sc.shipConfig.position.y -= dt * vy * sc.shipConfig.speed;
+    return;
+  }
+
+  // See if the ship needs to move to a new room
+  if (coords.x === 0) {
+    sc.currentRoom = sc.currentRoom.exits.get(Direction.WEST) as Room;
+    sc.shipConfig.position.x = (BASE_ROOM_SPEC.width - 1) * TILE_SIZE.x;
+  }
+  if (coords.x === BASE_ROOM_SPEC.width - 1) {
+    sc.currentRoom = sc.currentRoom.exits.get(Direction.EAST) as Room;
+    sc.shipConfig.position.x = TILE_SIZE.x;
+  }
+  if (coords.y === 0) {
+    sc.currentRoom = sc.currentRoom.exits.get(Direction.NORTH) as Room;
+    sc.shipConfig.position.y = (BASE_ROOM_SPEC.height - 1) * TILE_SIZE.y;
+  }
+  if (coords.y === BASE_ROOM_SPEC.height - 1) {
+    sc.currentRoom = sc.currentRoom.exits.get(Direction.SOUTH) as Room;
+    sc.shipConfig.position.y = TILE_SIZE.y;
   }
 };
 

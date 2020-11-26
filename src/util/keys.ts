@@ -21,6 +21,7 @@ export const keys = Object.freeze({
       key: 'AsteroidTilesAtlas',
       textures: {
         unknown: 'unknown',
+        transparent: 'transparent',
         ground: 'dirt1',
         wall: 'wall',
         gold: 'gold',

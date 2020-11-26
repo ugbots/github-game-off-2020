@@ -15,7 +15,7 @@ export class RoomRenderer {
 
   create(sc: MineSceneConfig): RoomRenderer {
     this.room = sc.currentRoom;
-    this.sprites = this.refreshSprites(sc.currentRoom, sc);
+    this.sprites = this.generateSprites(sc.currentRoom, sc);
     return this;
   }
 
@@ -25,7 +25,7 @@ export class RoomRenderer {
 
   update(sc: MineSceneConfig): void {
     if (this.room !== sc.currentRoom) {
-      this.sprites = this.refreshSprites(sc.currentRoom, sc);
+      this.refreshSprites(sc.currentRoom);
       this.room = sc.currentRoom;
     }
 
@@ -50,24 +50,20 @@ export class RoomRenderer {
     });
   }
 
-  private refreshSprites(
+  private generateSprites(
     room: Room,
     sc: MineSceneConfig,
-  ): readonly Sprite[][][] {
+  ): readonly Phaser.GameObjects.Sprite[][][] {
     this.destroySprites();
 
     return room.tiles.map((xs, x) =>
       xs.map((tile, y) => {
-        const underneath = tileUnderneath(tile.type);
-        let underSprite: Phaser.GameObjects.Sprite | undefined = undefined;
-        if (underneath !== undefined) {
-          underSprite = sc.scene.add.sprite(
-            (x + 0.5) * TILE_SIZE.x,
-            (y + 0.5) * TILE_SIZE.y,
-            keys.atlas.asteroidTiles.key,
-            textureForTile(underneath),
-          );
-        }
+        const underSprite = sc.scene.add.sprite(
+          (x + 0.5) * TILE_SIZE.x,
+          (y + 0.5) * TILE_SIZE.y,
+          keys.atlas.asteroidTiles.key,
+          textureForTile(tileUnderneath(tile.type)),
+        );
 
         const sprite = sc.scene.add.sprite(
           (x + 0.5) * TILE_SIZE.x,
@@ -76,9 +72,7 @@ export class RoomRenderer {
           textureForTile(tile.type),
         );
 
-        const sprites = [underSprite, sprite]
-          .filter((x) => x !== undefined)
-          .map((x) => x as Sprite);
+        const sprites = [underSprite, sprite];
 
         sprites.forEach((sprite) => {
           sprite.setOrigin(0.5);
@@ -86,6 +80,22 @@ export class RoomRenderer {
         });
 
         return sprites;
+      }),
+    );
+  }
+
+  private refreshSprites(room: Room): void {
+    room.tiles.forEach((xs, x) =>
+      xs.forEach((tile, y) => {
+        const underTexture = textureForTile(tileUnderneath(tile.type));
+        const spriteTexture = textureForTile(tile.type);
+
+        this.sprites[x][y][0].setFrame(underTexture);
+        this.sprites[x][y][1].setFrame(spriteTexture);
+
+        this.sprites[x][y].forEach((sprite) => {
+          sprite.setOrigin(0.5);
+        });
       }),
     );
   }

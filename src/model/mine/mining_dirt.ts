@@ -1,6 +1,4 @@
-import { ThrowStmt } from '@angular/compiler';
 import { keys } from '../../util/keys';
-import { CannonSceneConfig } from '../cannon/cannon_scene_config';
 import { MineSceneConfig, ShipState } from './mine_scene_config';
 
 export class MiningDirt {

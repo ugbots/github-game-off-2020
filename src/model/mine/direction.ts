@@ -24,3 +24,16 @@ export const directionOffset = (d: Direction): [number, number] => {
       return [-1, 0];
   }
 };
+
+export const oppositeDirection = (d: Direction): Direction => {
+  switch (d) {
+    case Direction.NORTH:
+      return Direction.SOUTH;
+    case Direction.SOUTH:
+      return Direction.NORTH;
+    case Direction.EAST:
+      return Direction.WEST;
+    case Direction.WEST:
+      return Direction.EAST;
+  }
+};
