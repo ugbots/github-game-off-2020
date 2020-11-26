@@ -106,7 +106,8 @@ export const getInitialSceneConfig = (
     asteroidPosition: new Vector2(Math.random() * SCREEN_DIMENSIONS.x, 0),
     verticalPosition: 0,
     // If you want to change the ship velocity, also make sure to change the
-    // moon's position.
+    // moon's position. Do this by starting the flight scene at 100 fuel, and
+    // picking a number just below how high the ship will go.
     shipVelocity: new Vector2(0, Math.pow(input.cannonVelocityPercent, 0.75)),
     shipRotationVelocity: 0,
     shipRotation: 0,
@@ -273,9 +274,11 @@ const updateAsteroidPosition = (sc: FlightSceneConfig): FlightSceneConfig => {
 
   if (asteroidDist < ASTEROID_COLLISION_RADIUS) {
     sc.sceneState = FlightSceneState.ASTEROID_COLLISION;
+    const normalizedMoonDistance = sc.verticalPosition / MOON_HEIGHT;
     setTimeout(() => {
       const input: MineSceneInput = {
         gameState: sc.gameState,
+        normalizedMoonDistance,
       };
       sc.scene.scene.start(keys.scenes.mine, input);
 

@@ -13,7 +13,6 @@ import {
 } from './cost';
 import { IRON_DRILL, COPPER_DRILL } from './drills';
 import { Item, itemEquals } from './item';
-import { TELESCOPE } from './radars';
 
 export interface Inventory {
   readonly fuel: number;
@@ -32,7 +31,7 @@ const INITIAL_EARTH_INVENTORY: Inventory = {
 
 const INITIAL_SHIP_INVENTORY: Inventory = {
   fuel: 0,
-  items: [COPPER_DRILL, CRAPPY_BOOSTER, COPPER_CANNON, TELESCOPE],
+  items: [CRAPPY_BOOSTER, COPPER_CANNON, COBALT_FUEL_ROD],
 };
 
 export interface GameState {

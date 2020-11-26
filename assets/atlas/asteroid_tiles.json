@@ -32,6 +32,22 @@
       "sourceSize": { "w": 32, "h": 32 },
       "pivot": { "x": 0, "y": 0 }
     },
+    "ruby": {
+      "frame": { "x": 160, "y": 32, "w": 32, "h": 32 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+      "sourceSize": { "w": 32, "h": 32 },
+      "pivot": { "x": 0, "y": 0 }
+    },
+    "emerald": {
+      "frame": { "x": 192, "y": 32, "w": 32, "h": 32 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+      "sourceSize": { "w": 32, "h": 32 },
+      "pivot": { "x": 0, "y": 0 }
+    },
     "wall_ul_ground": {
       "frame": { "x": 480, "y": 192, "w": 32, "h": 32 },
       "rotated": false,

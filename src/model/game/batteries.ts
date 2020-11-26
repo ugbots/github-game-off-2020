@@ -14,7 +14,7 @@ export const CRAPPY_BATTERY: Battery = {
 export const LITHIUM_ION_BATTERY: Battery = {
   ...EMPTY_ITEM,
   type: ItemType.BATTERY,
-  description: "It's rechargeable!",
+  description: 'Look at that capacity!',
   name: 'Lithium ion battery',
   batteries: 3,
 };

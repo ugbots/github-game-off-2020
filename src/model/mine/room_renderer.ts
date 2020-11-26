@@ -7,12 +7,7 @@ import {
   shipTile,
 } from './mine_scene_config';
 import { Room, TILE_SIZE } from './room';
-import {
-  isMineable,
-  MineableTile,
-  textureForTile,
-  tileUnderneath,
-} from './tile';
+import { MineableTile, textureForTile, tileUnderneath } from './tile';
 
 export class RoomRenderer {
   private room: Room;
@@ -37,9 +32,10 @@ export class RoomRenderer {
     if (sc.shipConfig.shipState === ShipState.MINING) {
       const { x, y } = shipCoords(sc);
       const upperSprite = this.sprites[x][y][1];
-      const tile = shipTile(sc);
+      const tile = shipTile(sc) as MineableTile;
 
-      const scale = (tile as MineableTile).resourceLeft / 100;
+      const leftRatio = tile.resourceLeft / tile.resourceMax;
+      const scale = Math.pow(leftRatio, 0.25) * (TILE_SIZE.x / 32);
       upperSprite.scale = scale;
     }
   }
@@ -66,23 +62,30 @@ export class RoomRenderer {
         let underSprite: Phaser.GameObjects.Sprite | undefined = undefined;
         if (underneath !== undefined) {
           underSprite = sc.scene.add.sprite(
-            x * TILE_SIZE.x,
-            y * TILE_SIZE.y,
+            (x + 0.5) * TILE_SIZE.x,
+            (y + 0.5) * TILE_SIZE.y,
             keys.atlas.asteroidTiles.key,
             textureForTile(underneath),
           );
         }
 
         const sprite = sc.scene.add.sprite(
-          x * TILE_SIZE.x,
-          y * TILE_SIZE.y,
+          (x + 0.5) * TILE_SIZE.x,
+          (y + 0.5) * TILE_SIZE.y,
           keys.atlas.asteroidTiles.key,
           textureForTile(tile.type),
         );
 
-        return [underSprite, sprite]
+        const sprites = [underSprite, sprite]
           .filter((x) => x !== undefined)
           .map((x) => x as Sprite);
+
+        sprites.forEach((sprite) => {
+          sprite.setOrigin(0.5);
+          sprite.setScale(TILE_SIZE.x / 32);
+        });
+
+        return sprites;
       }),
     );
   }

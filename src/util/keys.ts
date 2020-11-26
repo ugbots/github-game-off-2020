@@ -24,6 +24,8 @@ export const keys = Object.freeze({
         ground: 'dirt1',
         wall: 'wall',
         gold: 'gold',
+        ruby: 'ruby',
+        emerald: 'emerald',
       },
     },
   },

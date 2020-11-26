@@ -26,6 +26,7 @@ export class MineShip {
 
   update(sc: MineSceneConfig): void {
     this.sprite.rotation = this.generateRotation(sc.shipConfig);
+    this.sprite.scale = 2;
 
     const shakeMul = sc.shipConfig.shipState === ShipState.MINING ? 2.5 : 0;
 

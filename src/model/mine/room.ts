@@ -4,8 +4,8 @@ import { RoomSpec } from './room_spec';
 import { buildTile, Tile, TileType } from './tile';
 
 export const TILE_SIZE = {
-  x: 32,
-  y: 32,
+  x: 64,
+  y: 64,
 };
 
 export interface Room {

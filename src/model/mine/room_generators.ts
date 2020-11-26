@@ -1,3 +1,4 @@
+import { choose } from '../../util/random';
 import { RoomSpec } from './room_spec';
 import { TileType } from './tile';
 
@@ -24,7 +25,7 @@ const generateScatteredGold = (
       return TileType.WALL;
     }
     if (Math.random() < 0.1) {
-      return TileType.GOLD;
+      return choose([TileType.GOLD, TileType.EMERALD, TileType.RUBY]);
     }
     return TileType.GROUND;
   });

@@ -43,7 +43,10 @@ export class MiningIndicator {
       return '';
     }
 
+    const resource = titleCase(TileResource[tile.resource]);
+    const drills = sc.shipConfig.drillPower;
     const left = Math.floor(tile.resourceLeft);
-    return `Mining ${titleCase(TileResource[tile.resource])}: ${left}`;
+
+    return `Mining ${resource} (+${drills}): ${left}`;
   }
 }

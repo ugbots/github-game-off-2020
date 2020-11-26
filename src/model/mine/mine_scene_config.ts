@@ -8,8 +8,7 @@ import { LootSceneInput } from '../loot/loot_scene_input';
 import { Direction, directionOffset } from './direction';
 import { MineSceneInput } from './mine_scene_input';
 import { generateRooms, Room, TILE_SIZE } from './room';
-import { RoomSpec } from './room_spec';
-import { isMineable, isWalkable, Tile, TileResource, TileType } from './tile';
+import { isMineable, isWalkable, Tile, TileResource } from './tile';
 
 export enum ShipState {
   MOVING,
@@ -19,6 +18,7 @@ export enum ShipState {
 export interface MineShipConfig {
   readonly position: Vector2;
   readonly batteryEasing: EasingButton;
+  readonly drillPower: number;
   readonly speed: number;
   shipState: ShipState;
   direction: Direction;
@@ -40,10 +40,12 @@ export interface MineSceneConfig {
 }
 
 const ROOM_COUNT = { min: 3, max: 7 };
-const ROOM_SPEC: RoomSpec = {
-  width: 40,
-  height: 18,
+const BASE_ROOM_SPEC = {
+  width: 20,
+  height: 9,
 };
+
+const BASE_DRILL_RATE = 0.025;
 
 export const getInitialMineShipConfig = (gs: GameState): MineShipConfig => ({
   position: new Vector2(100, 100),
@@ -60,8 +62,9 @@ export const getInitialMineShipConfig = (gs: GameState): MineShipConfig => ({
     initialValue: 1,
     canGoNegative: false,
   }),
+  drillPower: shipStatTotal(gs, (x) => x.drills),
   shipState: ShipState.MOVING,
-  speed: 0.1,
+  speed: 0.2,
   direction: Direction.EAST,
 });
 
@@ -74,7 +77,10 @@ export const getInitialMineSceneConfig = (
     Math.floor(
       Math.random() * (ROOM_COUNT.max - ROOM_COUNT.min) + ROOM_COUNT.min,
     ),
-    ROOM_SPEC,
+    {
+      ...BASE_ROOM_SPEC,
+      normalizedMoonDistance: input.normalizedMoonDistance,
+    },
   );
   return {
     gameState: input.gameState,
@@ -188,7 +194,7 @@ const updateShipMining = (dt: number, sc: MineSceneConfig): void => {
   }
 
   sc.shipConfig.shipState = ShipState.MINING;
-  const resourceTaken = dt * 0.05;
+  const resourceTaken = dt * (1 + sc.shipConfig.drillPower) * BASE_DRILL_RATE;
   tile.resourceLeft = Math.max(0, tile.resourceLeft - resourceTaken);
 
   switch (tile.resource) {
