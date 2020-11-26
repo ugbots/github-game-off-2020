@@ -35,9 +35,11 @@ export const keys = Object.freeze({
   particles: {
     dirt: {
       atlas: 'DirtParticlesAtlas',
+      frames: ['dirt'],
     },
     fire: {
       atlas: 'FireParticlesAtlas',
+      frames: ['fire_1', 'fire_2', 'fire_3', 'fire_4', 'fire_5'],
     },
   },
 });

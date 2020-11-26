@@ -81,7 +81,10 @@ export const textureForTile = (tile: TileType): string => {
   }
 };
 
-/** If a tile should have another tile rendered underneath it, returns that tile. */
+/**
+ * If a tile should have another tile rendered underneath it, returns that
+ * tile.
+ */
 export const tileUnderneath = (tile: TileType): TileType | undefined => {
   switch (tile) {
     case TileType.GOLD: // fall through

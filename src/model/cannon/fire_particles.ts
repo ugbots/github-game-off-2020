@@ -19,7 +19,7 @@ export class FireParticles {
     this.position.y -= SCREEN_DIMENSIONS.y / 20;
 
     this.emitter = this.manager.createEmitter({
-      frame: ['fire_1', 'fire_2', 'fire_3', 'fire_4', 'fire_5'],
+      frame: keys.particles.fire.frames,
       x: this.position.x,
       y: this.position.y,
       lifespan: 1500,
