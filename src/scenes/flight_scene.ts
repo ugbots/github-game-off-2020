@@ -11,6 +11,7 @@ import { FlightSceneInput } from '../model/flight/flight_scene_input';
 import { Altimiter } from '../model/flight/altimiter';
 import { Asteroid } from '../model/flight/asteroid';
 import { Moon } from '../model/flight/moon';
+import { generateArray } from '../util/arrays';
 
 export class FlightScene extends Scene {
   private sceneConfig: FlightSceneConfig;
@@ -41,15 +42,13 @@ export class FlightScene extends Scene {
       this,
       this.flightSceneInput,
       () => {
-        this.destroy();
+        setTimeout(() => {
+          this.destroy();
+        }, 1);
       },
     );
 
-    this.stars = Array(50)
-      .fill(0)
-      .map(() => {
-        return new Star().create(this.sceneConfig);
-      });
+    this.stars = generateArray(50, () => new Star().create(this.sceneConfig));
     this.asteroid = new Asteroid().create(this.sceneConfig);
     this.moon = new Moon().create(this.sceneConfig);
     this.ship = new Ship().create(this.sceneConfig);
@@ -58,13 +57,13 @@ export class FlightScene extends Scene {
   }
 
   destroy(): void {
-    this.ship.destroy();
-    this.altimiter.destroy();
-    this.asteroid.destroy();
-    this.moon.destroy();
     this.stars.forEach((s) => {
       s.destroy();
     });
+    this.asteroid.destroy();
+    this.moon.destroy();
+    this.ship.destroy();
+    this.altimiter.destroy();
   }
 
   /* override */

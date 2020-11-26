@@ -132,9 +132,7 @@ const updateBattery = (dt: number, sc: MineSceneConfig): void => {
     };
     sc.scene.scene.start(keys.scenes.loot, input);
 
-    setTimeout(() => {
-      sc.onDestroy();
-    }, 0);
+    sc.onDestroy();
   }
 };
 

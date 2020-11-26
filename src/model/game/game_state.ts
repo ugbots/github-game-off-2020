@@ -31,7 +31,7 @@ const INITIAL_EARTH_INVENTORY: Inventory = {
 
 const INITIAL_SHIP_INVENTORY: Inventory = {
   fuel: 0,
-  items: [CRAPPY_BOOSTER, COPPER_CANNON, COBALT_FUEL_ROD],
+  items: [CRAPPY_BOOSTER, COPPER_CANNON],
 };
 
 export interface GameState {

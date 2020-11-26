@@ -21,6 +21,10 @@ export class Ship {
     return this;
   }
 
+  destroy(): void {
+    this.sprite.destroy();
+  }
+
   update(time: number, dt: number, sc: CannonSceneConfig): Ship {
     if (sc.sceneState === SceneState.LAUNCH_SHIP && !this.alreadyFired) {
       this.alreadyFired = true;

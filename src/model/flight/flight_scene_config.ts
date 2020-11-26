@@ -179,10 +179,7 @@ const updateVertically = (
     sc.shipVelocity.y = 0;
     sc.verticalPosition = 0;
     sc.scene.scene.start(keys.scenes.crash, sc.gameState);
-
-    setTimeout(() => {
-      sc.onDestroy();
-    }, 1);
+    sc.onDestroy();
   }
 
   if (sc.verticalPosition >= MOON_HEIGHT && sc.aimedAtMoon) {
@@ -190,9 +187,7 @@ const updateVertically = (
 
     setTimeout(() => {
       sc.scene.scene.start(keys.scenes.mainMenu);
-      setTimeout(() => {
-        sc.onDestroy();
-      }, 1);
+      sc.onDestroy();
     }, 2_000);
   }
 
@@ -281,10 +276,7 @@ const updateAsteroidPosition = (sc: FlightSceneConfig): FlightSceneConfig => {
         normalizedMoonDistance,
       };
       sc.scene.scene.start(keys.scenes.mine, input);
-
-      setTimeout(() => {
-        sc.onDestroy();
-      }, 1);
+      sc.onDestroy();
     }, 3_000);
   }
 
