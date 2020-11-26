@@ -5,7 +5,7 @@ import {
   easeInOut,
   recoil,
 } from '../../math/easing';
-import { clamp, mod } from '../../math/math';
+import { mod } from '../../math/math';
 import { keys } from '../../util/keys';
 import { CursorKeys, Vector2 } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';

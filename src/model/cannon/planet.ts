@@ -33,6 +33,11 @@ export class Planet {
     return this;
   }
 
+  destroy(): void {
+    this.background.destroy();
+    this.foreground.destroy();
+  }
+
   update(time: number, dt: number, sc: CannonSceneConfig): Planet {
     this.background.rotation = sc.rotation;
     this.foreground.rotation = sc.rotation;

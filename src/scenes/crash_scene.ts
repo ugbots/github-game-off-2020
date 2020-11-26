@@ -8,6 +8,8 @@ export class CrashScene extends Scene {
   private cursorkeys: CursorKeys;
   private timeout: number;
 
+  private crashSound: Phaser.Sound.BaseSound;
+
   constructor() {
     super({
       active: false,
@@ -21,9 +23,17 @@ export class CrashScene extends Scene {
     this.cursorkeys = this.scene.scene.input.keyboard.createCursorKeys();
     this.timeout = setTimeout(() => {
       this.scene.start(keys.scenes.shop, gameState);
-    }, 5000);
+      setTimeout(() => {
+        this.destroy();
+      }, 1);
+    }, 5_000);
 
-    this.sound.add(keys.sounds.crash).play();
+    this.crashSound = this.sound.add(keys.sounds.crash);
+    this.crashSound.play();
+  }
+
+  destroy(): void {
+    this.crashSound.destroy();
   }
 
   update(): void {

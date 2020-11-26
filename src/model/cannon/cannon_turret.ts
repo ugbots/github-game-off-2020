@@ -16,6 +16,10 @@ export class CannonTurret {
     return this;
   }
 
+  destroy(): void {
+    this.sprite.destroy();
+  }
+
   update(time: number, dt: number, sc: CannonSceneConfig): CannonTurret {
     const r = sc.rotationEasing.getValue();
     const t = r * (1 + 0.3 * Math.sin(0.01 * time));

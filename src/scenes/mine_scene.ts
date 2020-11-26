@@ -42,7 +42,9 @@ export class MineScene extends Scene {
       this,
       this.mineSceneInput,
       () => {
-        this.destroy();
+        setTimeout(() => {
+          this.destroy();
+        }, 1);
       },
     );
     this.roomRenderer = new RoomRenderer().create(this.sceneConfig);

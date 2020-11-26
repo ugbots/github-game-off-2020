@@ -13,6 +13,10 @@ export class CannonBase {
     return this;
   }
 
+  destroy(): void {
+    this.sprite.destroy();
+  }
+
   update(time: number, dt: number, sc: CannonSceneConfig): CannonBase {
     this.sprite.setPosition(sc.cannonPivot.x, sc.cannonPivot.y);
 

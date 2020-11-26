@@ -47,6 +47,10 @@ export class FireParticles {
     return this;
   }
 
+  destroy(): void {
+    this.manager.destroy();
+  }
+
   update(time: number, dt: number, sc: CannonSceneConfig): FireParticles {
     if (sc.sceneState === SceneState.LAUNCH_SHIP && !this.alreadyFired) {
       this.emitter.setQuantity(100);

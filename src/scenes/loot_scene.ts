@@ -30,13 +30,13 @@ export class LootScene extends Scene {
     });
 
     setTimeout(() => {
-      this.destroy();
-
       const newGameState = moveShipWalletToWallet(
         this.lootSceneInput.gameState,
       );
 
       this.scene.start(keys.scenes.shop, newGameState);
+
+      this.destroy();
     }, 5000);
   }
 

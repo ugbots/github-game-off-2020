@@ -15,8 +15,10 @@ import { Star } from '../model/cannon/star';
 import { GameState } from '../model/game/game_state';
 import { keys } from '../util/keys';
 import { CannonMoonIndicator } from '../model/cannon/cannon_moon_indicator';
+import { generateArray } from '../util/arrays';
 
 export class CannonScene extends Phaser.Scene {
+  private sceneConfig: CannonSceneConfig;
   private gameState: GameState;
 
   private planet: Planet;
@@ -28,8 +30,6 @@ export class CannonScene extends Phaser.Scene {
   private ship: Ship;
   private fuelIndicator: FuelIndicator;
   private moonIndicator: CannonMoonIndicator;
-
-  private sceneConfig: CannonSceneConfig;
 
   constructor() {
     super({
@@ -47,12 +47,14 @@ export class CannonScene extends Phaser.Scene {
   /* override */
   create(): void {
     this.sceneConfig = getInitialSceneConfig(this, this.gameState, () => {
-      this.destroy();
+      setTimeout(() => {
+        this.destroy();
+      }, 1);
     });
 
-    this.stars = Array(this.sceneConfig.starCount)
-      .fill(0)
-      .map(() => new Star().create(this, this.sceneConfig));
+    this.stars = generateArray(this.sceneConfig.starCount, () =>
+      new Star().create(this, this.sceneConfig),
+    );
 
     // Change the renedering order here.
     this.planet = new Planet().create(this, this.sceneConfig, () => {
@@ -69,10 +71,15 @@ export class CannonScene extends Phaser.Scene {
   }
 
   destroy(): void {
-    // TODO(sixstring982): Destroy the rest of the scene objects.
+    this.planet.destroy();
+    this.cannonBase.destroy();
+    this.cannonTurret.destroy();
     this.stars.forEach((s) => {
       s.destroy();
     });
+    this.dirtParticles.destroy();
+    this.fireParticles.destroy();
+    this.ship.destroy();
     this.fuelIndicator.destroy();
     this.moonIndicator.destroy();
   }

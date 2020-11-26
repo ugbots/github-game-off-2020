@@ -41,6 +41,10 @@ export class DirtParticles {
     return this;
   }
 
+  destroy(): void {
+    this.manager.destroy();
+  }
+
   update(time: number, dt: number, sc: CannonSceneConfig): DirtParticles {
     const left = sc.cursorKeys.left?.isDown ?? false;
     const right = sc.cursorKeys.right?.isDown ?? false;
