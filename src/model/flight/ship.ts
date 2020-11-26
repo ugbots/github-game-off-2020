@@ -48,9 +48,15 @@ export class Ship {
     this.updateThrusters(sc);
 
     if (sc.sceneState === FlightSceneState.INTRO) {
-      this.sprite.y = SCREEN_DIMENSIONS.y - sc.shipIntroEasing.getValue() * 100;
+      const x = sc.shipIntroEasing.getValue();
+      this.sprite.y =
+        FLIGHT_SCENE_SHIP_POSITION.y * x + SCREEN_DIMENSIONS.y * (1 - x);
     }
-    if (sc.sceneState === FlightSceneState.ASTEROID_COLLISION) {
+
+    if (
+      sc.sceneState === FlightSceneState.ASTEROID_COLLISION ||
+      sc.sceneState === FlightSceneState.MOON_COLLISION
+    ) {
       this.sprite.scale += 0.001 * dt;
     }
   }

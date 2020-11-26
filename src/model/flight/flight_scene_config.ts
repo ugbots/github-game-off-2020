@@ -2,6 +2,7 @@ import { Scene } from 'phaser';
 import { GameState, shipStatTotal } from '../game/game_state';
 import { CursorKeys, Vector2 } from '../../util/phaser_types';
 import {
+  easeInOut,
   easeOutElastic,
   EasingButton,
   EasingDirection,
@@ -17,6 +18,7 @@ export enum FlightSceneState {
   INTRO,
   FLIGHT,
   ASTEROID_COLLISION,
+  MOON_COLLISION,
 }
 
 /** How fast the earth pulls on the ship */
@@ -28,10 +30,21 @@ const MAX_ASTEROID_DISTANCE = SCREEN_DIMENSIONS.y * 1.5;
 /** How close we need to be to the asteroid for it to suck us in */
 const ASTEROID_COLLISION_RADIUS = SCREEN_DIMENSIONS.x / 12;
 
+export const MOON_SIZE = SCREEN_DIMENSIONS.x / 2;
+/**
+ * When aimed at the moon, it shows up here. If the ship velocity changes, this
+ * will need to change too.
+ */
+const MOON_HEIGHT = 12000;
+export const INITIAL_MOON_POSITION = new Vector2(
+  SCREEN_DIMENSIONS.x / 2,
+  -MOON_HEIGHT,
+);
+
 /** Where the ship is after the intro state */
 export const FLIGHT_SCENE_SHIP_POSITION = new Vector2(
   SCREEN_DIMENSIONS.x / 2,
-  SCREEN_DIMENSIONS.y - 100,
+  SCREEN_DIMENSIONS.y / 2,
 );
 export const FLIGHT_SCENE_SHIP_SIZE = 10;
 
@@ -50,6 +63,8 @@ export interface FlightSceneConfig {
   readonly shipIntroEasing: EasingButton;
   readonly shipAcceleration: number;
   readonly maxShipXVelocity: number;
+  readonly aimedAtMoon: boolean;
+  readonly moonPosition: Vector2;
   shipThrusters: ShipThrusters;
   asteroidPosition: Vector2;
   verticalPosition: number;
@@ -81,6 +96,8 @@ export const getInitialSceneConfig = (
     }),
     shipAcceleration: 0.001 * (1 + boosters),
     maxShipXVelocity: 5 * (1 + boosters),
+    aimedAtMoon: input.aimedAtMoon,
+    moonPosition: INITIAL_MOON_POSITION.clone(),
     shipThrusters: {
       forward: false,
       rotateLeft: false,
@@ -88,7 +105,9 @@ export const getInitialSceneConfig = (
     },
     asteroidPosition: new Vector2(Math.random() * SCREEN_DIMENSIONS.x, 0),
     verticalPosition: 0,
-    shipVelocity: new Vector2(0, input.cannonVelocityPercent),
+    // If you want to change the ship velocity, also make sure to change the
+    // moon's position.
+    shipVelocity: new Vector2(0, Math.pow(input.cannonVelocityPercent, 0.75)),
     shipRotationVelocity: 0,
     shipRotation: 0,
     sceneState: FlightSceneState.INTRO,
@@ -125,6 +144,9 @@ export const updateSceneConfig = (
     case FlightSceneState.ASTEROID_COLLISION: {
       updateShipFliesTowardAsteroid(sc, dt);
     }
+    case FlightSceneState.MOON_COLLISION: {
+      updateShipFliesTowardMoon(sc, dt);
+    }
   }
   return sc;
 };
@@ -149,6 +171,7 @@ const updateVertically = (
 ): FlightSceneConfig => {
   sc.shipVelocity.y -= GRAVITY * dt;
   sc.verticalPosition += sc.shipVelocity.y;
+  sc.moonPosition.y += sc.shipVelocity.y;
 
   if (sc.shipVelocity.y < 0 && sc.verticalPosition < 0) {
     sc.shipVelocity.x = 0;
@@ -159,6 +182,17 @@ const updateVertically = (
     setTimeout(() => {
       sc.onDestroy();
     }, 1);
+  }
+
+  if (sc.verticalPosition >= MOON_HEIGHT && sc.aimedAtMoon) {
+    sc.sceneState = FlightSceneState.MOON_COLLISION;
+
+    setTimeout(() => {
+      sc.scene.scene.start(keys.scenes.mainMenu);
+      setTimeout(() => {
+        sc.onDestroy();
+      }, 1);
+    }, 2_000);
   }
 
   return sc;
@@ -244,6 +278,10 @@ const updateAsteroidPosition = (sc: FlightSceneConfig): FlightSceneConfig => {
         gameState: sc.gameState,
       };
       sc.scene.scene.start(keys.scenes.mine, input);
+
+      setTimeout(() => {
+        sc.onDestroy();
+      }, 1);
     }, 3_000);
   }
 
@@ -261,6 +299,21 @@ const updateShipFliesTowardAsteroid = (
     0.99 * sc.asteroidPosition.x + 0.01 * FLIGHT_SCENE_SHIP_POSITION.x;
   sc.asteroidPosition.y =
     0.99 * sc.asteroidPosition.y + 0.01 * FLIGHT_SCENE_SHIP_POSITION.y;
+
+  return sc;
+};
+
+const updateShipFliesTowardMoon = (
+  sc: FlightSceneConfig,
+  dt: number,
+): FlightSceneConfig => {
+  sc.shipRotation += 0.01 * dt;
+  sc.shipVelocity.x = 0;
+  sc.shipVelocity.y = 0;
+  sc.moonPosition.x =
+    0.99 * sc.moonPosition.x + 0.01 * FLIGHT_SCENE_SHIP_POSITION.x;
+  sc.moonPosition.y =
+    0.99 * sc.moonPosition.y + 0.01 * FLIGHT_SCENE_SHIP_POSITION.y;
 
   return sc;
 };
