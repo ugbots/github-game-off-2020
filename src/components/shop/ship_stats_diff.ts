@@ -45,27 +45,36 @@ export class ShipStatsDiffComponent implements OnChanges {
     const diff = this.next ? getDiff(this.prev, this.next) : undefined;
 
     return [
-      this.generateStatsRow('Drill', currentStats.drills, diff?.drills),
-      this.generateStatsRow('Boosters', currentStats.boosters, diff?.boosters),
-      this.generateStatsRow(
+      this.generateNumberStatsRow('Drill', currentStats.drills, diff?.drills),
+      this.generateNumberStatsRow(
+        'Boosters',
+        currentStats.boosters,
+        diff?.boosters,
+      ),
+      this.generateNumberStatsRow(
         'Batteries',
         currentStats.batteries,
         diff?.batteries,
       ),
-      this.generateStatsRow(
+      this.generateNumberStatsRow(
         'Stabilizers',
         currentStats.stabilizers,
         diff?.stabilizers,
       ),
-      this.generateStatsRow(
+      this.generateNumberStatsRow(
         'Max cannon power',
         currentStats.maxCannonPower,
         diff?.maxCannonPower,
       ),
+      this.generateBoolStatsRow(
+        'Moon radar',
+        currentStats.moonRadar,
+        diff?.moonRadar,
+      ),
     ];
   }
 
-  private generateStatsRow(
+  private generateNumberStatsRow(
     text: string,
     power: number,
     diffPower?: number,
@@ -81,6 +90,28 @@ export class ShipStatsDiffComponent implements OnChanges {
       classes: up
         ? POSITIVE_CLASSES
         : down
+        ? NEGATIVE_CLASSES
+        : NEUTRAL_CLASSES,
+    };
+  }
+
+  private generateBoolStatsRow(
+    text: string,
+    current: boolean,
+    diff?: boolean,
+  ): StatsRow {
+    const equipping = current === false && diff === true;
+    const dequipping = current === true && diff === false;
+
+    const result = diff ?? current;
+
+    const deltaText = equipping ? '(+true)' : dequipping ? '(-false)' : '';
+
+    return {
+      text: `${text}: ${result} ${deltaText}`,
+      classes: equipping
+        ? POSITIVE_CLASSES
+        : dequipping
         ? NEGATIVE_CLASSES
         : NEUTRAL_CLASSES,
     };

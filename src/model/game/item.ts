@@ -6,6 +6,7 @@ export enum ItemType {
   BATTERY,
   STABILIZER,
   CANNON,
+  RADAR,
 }
 
 export enum Rarity {
@@ -28,6 +29,8 @@ export interface Item {
   readonly batteries: number;
   readonly stabilizers: number;
   readonly maxCannonPower: number;
+  /** If true, this item shows you what direction the moon is in. */
+  readonly moonRadar: boolean;
 }
 
 export const EMPTY_ITEM = {
@@ -43,6 +46,7 @@ export const EMPTY_ITEM = {
   batteries: 0,
   stabilizers: 0,
   maxCannonPower: 0,
+  moonRadar: false,
 };
 
 export const itemEquals = (a: Item, b: Item): boolean => a.name === b.name;

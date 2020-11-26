@@ -13,6 +13,7 @@ import {
 } from './cost';
 import { IRON_DRILL, COPPER_DRILL } from './drills';
 import { Item, itemEquals } from './item';
+import { TELESCOPE } from './radars';
 
 export interface Inventory {
   readonly fuel: number;
@@ -31,7 +32,7 @@ const INITIAL_EARTH_INVENTORY: Inventory = {
 
 const INITIAL_SHIP_INVENTORY: Inventory = {
   fuel: 0,
-  items: [COPPER_DRILL, CRAPPY_BOOSTER, COPPER_CANNON],
+  items: [COPPER_DRILL, CRAPPY_BOOSTER, COPPER_CANNON, TELESCOPE],
 };
 
 export interface GameState {
@@ -55,6 +56,9 @@ export const INITIAL_GAME_STATE: GameState = {
 
 export const shipStatTotal = (gs: GameState, f: (i: Item) => number): number =>
   gs.shipInventory.items.map(f).reduce((a, b) => a + b, 0);
+
+export const shipHasItem = (gs: GameState, f: (i: Item) => boolean): boolean =>
+  gs.shipInventory.items.some(f);
 
 export const moveShipWalletToWallet = (gs: GameState): GameState => ({
   ...gs,

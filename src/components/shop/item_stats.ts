@@ -9,7 +9,7 @@ import { Item } from '../../model/game/item';
 
 interface ItemStat {
   readonly name: string;
-  readonly value: number;
+  readonly value: number | boolean;
 }
 
 @Component({
@@ -39,6 +39,7 @@ export class ItemStatsComponent implements OnChanges {
       { name: 'Booster', value: this.item.boosters },
       { name: 'Stabilizers', value: this.item.stabilizers },
       { name: 'Max cannon power', value: this.item.maxCannonPower },
+      { name: 'Moon radar', value: this.item.moonRadar },
     ].filter((x) => x.value !== 0);
   }
 }

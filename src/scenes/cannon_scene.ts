@@ -14,6 +14,7 @@ import { Ship } from '../model/cannon/ship';
 import { Star } from '../model/cannon/star';
 import { GameState } from '../model/game/game_state';
 import { keys } from '../util/keys';
+import { CannonMoonIndicator } from '../model/cannon/cannon_moon_indicator';
 
 export class CannonScene extends Phaser.Scene {
   private gameState: GameState;
@@ -26,6 +27,7 @@ export class CannonScene extends Phaser.Scene {
   private fireParticles: FireParticles;
   private ship: Ship;
   private fuelIndicator: FuelIndicator;
+  private moonIndicator: CannonMoonIndicator;
 
   private sceneConfig: CannonSceneConfig;
 
@@ -63,11 +65,16 @@ export class CannonScene extends Phaser.Scene {
     });
 
     this.fuelIndicator = new FuelIndicator().create(this, this.sceneConfig);
+    this.moonIndicator = new CannonMoonIndicator().create(this.sceneConfig);
   }
 
   destroy(): void {
     // TODO(sixstring982): Destroy the rest of the scene objects.
+    this.stars.forEach((s) => {
+      s.destroy();
+    });
     this.fuelIndicator.destroy();
+    this.moonIndicator.destroy();
   }
 
   /* override */
@@ -83,5 +90,6 @@ export class CannonScene extends Phaser.Scene {
     this.stars.forEach((s) => {
       s.update(time, dt, this.sceneConfig);
     });
+    this.moonIndicator.update(time, this.sceneConfig);
   }
 }
