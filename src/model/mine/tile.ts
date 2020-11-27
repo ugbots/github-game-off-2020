@@ -8,12 +8,12 @@ export enum TileType {
   RUBY,
 }
 
+/** The types of resources available on asteroids. */
 export enum TileResource {
   /** Most common resource, available on all asteroids to some degree. */
   GOLD,
-  /** More rare than gold. */
   EMERALD,
-  /** More rare than emerald. */
+  SAPPHIRE,
   RUBY,
 }
 

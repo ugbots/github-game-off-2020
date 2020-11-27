@@ -3,18 +3,21 @@ import { failure, Result, success } from '../../types/result';
 export interface Cost {
   readonly gold: number;
   readonly emerald: number;
+  readonly sapphire: number;
   readonly ruby: number;
 }
 
 export interface MutableCost {
   gold: number;
   emerald: number;
+  sapphire: number;
   ruby: number;
 }
 
 export const COST_FREE: Cost = {
   gold: 0,
   emerald: 0,
+  sapphire: 0,
   ruby: 0,
 };
 

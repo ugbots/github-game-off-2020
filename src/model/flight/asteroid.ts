@@ -1,5 +1,4 @@
 import { keys } from '../../util/keys';
-import { Sprite } from '../../util/phaser_types';
 import { FlightSceneConfig, FlightSceneState } from './flight_scene_config';
 
 export class Asteroid {
