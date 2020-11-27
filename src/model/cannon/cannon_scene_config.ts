@@ -13,6 +13,7 @@ import { FlightSceneInput } from '../flight/flight_scene_input';
 import { GameState, shipStatTotal } from '../game/game_state';
 
 export enum SceneState {
+  TUTORIAL,
   ROTATE_CANNON,
   LAUNCH_SHIP,
 }
@@ -57,7 +58,7 @@ export const getInitialSceneConfig = (
     cannonPivot: DEFAULT_CANNON_PIVOT.clone(),
     starCount: 100,
     moonAngleRadians: Math.random() * Math.PI * 2,
-    sceneState: SceneState.ROTATE_CANNON,
+    sceneState: SceneState.TUTORIAL,
     rotationEasing: new EasingButton({
       fn: easeInOut,
       speed: 0.002,

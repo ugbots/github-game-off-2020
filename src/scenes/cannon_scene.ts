@@ -9,6 +9,7 @@ import {
   getInitialSceneConfig,
   CannonSceneConfig,
   updateSceneConfig,
+  SceneState,
 } from '../model/cannon/cannon_scene_config';
 import { Ship } from '../model/cannon/ship';
 import { Star } from '../model/cannon/star';
@@ -16,6 +17,7 @@ import { GameState } from '../model/game/game_state';
 import { keys } from '../util/keys';
 import { CannonMoonIndicator } from '../model/cannon/cannon_moon_indicator';
 import { generateArray } from '../util/arrays';
+import { TutorialOverlay } from '../ui/tutorial_overlay';
 
 export class CannonScene extends Phaser.Scene {
   private sceneConfig: CannonSceneConfig;
@@ -30,6 +32,7 @@ export class CannonScene extends Phaser.Scene {
   private ship: Ship;
   private fuelIndicator: FuelIndicator;
   private moonIndicator: CannonMoonIndicator;
+  private tutorialOverlay: TutorialOverlay;
 
   constructor() {
     super({
@@ -68,6 +71,14 @@ export class CannonScene extends Phaser.Scene {
 
     this.fuelIndicator = new FuelIndicator().create(this, this.sceneConfig);
     this.moonIndicator = new CannonMoonIndicator().create(this.sceneConfig);
+    this.tutorialOverlay = new TutorialOverlay().create(
+      this,
+      CANNON_SCENE_TUTORIAL,
+      () => {
+        this.sceneConfig.sceneState = SceneState.ROTATE_CANNON;
+      },
+    );
+    this.tutorialOverlay.show();
   }
 
   destroy(): void {
@@ -82,6 +93,7 @@ export class CannonScene extends Phaser.Scene {
     this.ship.destroy();
     this.fuelIndicator.destroy();
     this.moonIndicator.destroy();
+    this.tutorialOverlay.destroy();
   }
 
   /* override */
@@ -100,3 +112,15 @@ export class CannonScene extends Phaser.Scene {
     this.moonIndicator.update(time, this.sceneConfig);
   }
 }
+
+const CANNON_SCENE_TUTORIAL: string = [
+  "You'll need to launch your ship out of the cannon to",
+  "reach the moon. You can only reach the moon if you're",
+  "aiming for it, but it's hard to see without the proper",
+  'equipment.',
+  '',
+  'Controls:',
+  '  Up / Down: Add / Remove propellant',
+  '  Left / Right: Aim cannon',
+  '  Space: Launch cannon',
+].join('\n');
