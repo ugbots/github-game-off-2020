@@ -9,6 +9,7 @@ export const keys = Object.freeze({
     shop: 'ShopScene',
   },
   sprites: {
+    blownUpDrillship: 'BlownUpDrillshipSprite',
     cannonBase: 'CannonBaseSprite',
     cannonTurret: 'CannonTurretSprite',
     drillShip: 'DrillShipSprite',
@@ -42,6 +43,10 @@ export const keys = Object.freeze({
     fire: {
       atlas: 'FireParticlesAtlas',
       frames: ['fire_1', 'fire_2', 'fire_3', 'fire_4', 'fire_5'],
+    },
+    smoke: {
+      atlas: 'SmokeParticlesAtlas',
+      frames: ['smoke_1', 'smoke_2', 'smoke_3', 'smoke_4', 'smoke_5'],
     },
   },
 });

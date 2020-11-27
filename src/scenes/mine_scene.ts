@@ -3,7 +3,6 @@ import { MineSceneBatteryIndicator } from '../model/mine/mine_scene_battery_indi
 import {
   getInitialMineSceneConfig,
   MineSceneConfig,
-  MineShipConfig,
   updateMineSceneConfig,
 } from '../model/mine/mine_scene_config';
 import { MineSceneInput } from '../model/mine/mine_scene_input';
@@ -44,7 +43,7 @@ export class MineScene extends Scene {
       () => {
         setTimeout(() => {
           this.destroy();
-        }, 1);
+        }, 10);
       },
     );
     this.roomRenderer = new RoomRenderer().create(this.sceneConfig);

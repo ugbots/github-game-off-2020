@@ -1,6 +1,3 @@
-import { normalizeGenFileSuffix } from '@angular/compiler/src/aot/util';
-import { choose } from '../../util/random';
-import { Cost } from '../game/cost';
 import { RoomSpec } from './room_spec';
 import { TileType } from './tile';
 
@@ -38,6 +35,13 @@ export const ROOM_GENERATORS: ReadonlyArray<(
 
 const resourceForNormalizedMoonDistance = (x: number): TileType => {
   if (Math.random() > 0.2 || x < 1 / 4) {
+    // Fool's gold spawns instead of gold in the second half, increasing up to
+    // 20% of the time.
+    const foolsGoldSpawnPercentage = Math.max(0, x * 0.4 - 0.2);
+    if (Math.random() < foolsGoldSpawnPercentage) {
+      return TileType.FOOLS_GOLD;
+    }
+
     return TileType.GOLD;
   }
 

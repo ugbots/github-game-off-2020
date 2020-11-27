@@ -1,15 +1,17 @@
 import { Scene } from 'phaser';
 import { EasingButton, EasingDirection, linear } from '../../math/easing';
+import { LootScene } from '../../scenes/loot_scene';
 import { keys } from '../../util/keys';
 import { CursorKeys, Vector2 } from '../../util/phaser_types';
 import { choose } from '../../util/random';
-import { truncateCost } from '../game/cost';
+import { SceneState } from '../cannon/cannon_scene_config';
+import { COST_FREE, truncateCost } from '../game/cost';
 import { GameState, shipStatTotal } from '../game/game_state';
 import { LootSceneInput } from '../loot/loot_scene_input';
 import { Direction, directionOffset } from './direction';
 import { MineSceneInput } from './mine_scene_input';
 import { generateRooms, Room, TILE_SIZE } from './room';
-import { isMineable, isWalkable, Tile, TileResource } from './tile';
+import { isMineable, isWalkable, Tile, TileResource, TileType } from './tile';
 
 export enum ShipState {
   MOVING,
@@ -27,15 +29,16 @@ export interface MineShipConfig {
 
 export enum MineSceneState {
   ROAMING,
+  SHIP_BLEW_UP,
 }
 
 export interface MineSceneConfig {
   readonly gameState: GameState;
   readonly scene: Scene;
   readonly cursorKeys: CursorKeys;
-  readonly sceneState: MineSceneState;
   readonly shipConfig: MineShipConfig;
   readonly onDestroy: () => void;
+  sceneState: MineSceneState;
   currentRoom: Room;
 }
 
@@ -99,7 +102,14 @@ export const updateMineSceneConfig = (
   dt: number,
   sc: MineSceneConfig,
 ): void => {
-  updateShip(dt, sc);
+  switch (sc.sceneState) {
+    case MineSceneState.ROAMING:
+      updateShip(dt, sc);
+      break;
+    case MineSceneState.SHIP_BLEW_UP:
+      // Do nothing so far.
+      break;
+  }
 };
 
 export const shipCoords = (sc: MineSceneConfig): { x: number; y: number } => ({
@@ -129,6 +139,7 @@ const updateBattery = (dt: number, sc: MineSceneConfig): void => {
         ...sc.gameState,
         shipWallet: truncateCost(sc.gameState.shipWallet),
       },
+      wasShipDestroyed: false,
     };
     sc.scene.scene.start(keys.scenes.loot, input);
 
@@ -207,6 +218,28 @@ const updateShipMining = (dt: number, sc: MineSceneConfig): void => {
   }
 
   const tile = shipTile(sc);
+
+  // Fool's Gold will blow up the ship!
+  if (tile.type === TileType.FOOLS_GOLD) {
+    sc.sceneState = MineSceneState.SHIP_BLEW_UP;
+    setTimeout(() => {
+      const input: LootSceneInput = {
+        // Blowing up the ship means we can't take resources back :(
+        gameState: {
+          ...sc.gameState,
+          shipWallet: { ...COST_FREE },
+        },
+        wasShipDestroyed: true,
+      };
+
+      setTimeout(() => {
+        sc.scene.scene.start(keys.scenes.loot, input);
+        sc.onDestroy();
+      }, 3_000);
+    });
+    return;
+  }
+
   if (!isMineable(tile)) {
     return;
   }

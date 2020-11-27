@@ -2,10 +2,13 @@ import { Scene } from 'phaser';
 import { moveShipWalletToWallet } from '../model/game/game_state';
 import { LootSceneInput } from '../model/loot/loot_scene_input';
 import { keys } from '../util/keys';
+import { CursorKeys } from '../util/phaser_types';
 import { titleCase } from '../util/strings';
 
 export class LootScene extends Scene {
   private lootSceneInput: LootSceneInput;
+  private timeout: number;
+  private cursorKeys: CursorKeys;
 
   private lootText: Phaser.GameObjects.Text;
 
@@ -29,22 +32,41 @@ export class LootScene extends Scene {
       color: 'white',
     });
 
-    setTimeout(() => {
-      const newGameState = moveShipWalletToWallet(
-        this.lootSceneInput.gameState,
-      );
+    this.cursorKeys = this.input.keyboard.createCursorKeys();
 
-      this.scene.start(keys.scenes.shop, newGameState);
-
-      this.destroy();
+    this.timeout = setTimeout(() => {
+      this.advanceScene();
     }, 5000);
   }
 
   destroy(): void {
+    this.input.destroy();
     this.lootText.destroy();
   }
 
+  update(): void {
+    const space = this.cursorKeys.space?.isDown ?? false;
+    if (space) {
+      clearTimeout(this.timeout);
+      this.advanceScene();
+    }
+  }
+
+  private advanceScene(): void {
+    const newGameState = moveShipWalletToWallet(this.lootSceneInput.gameState);
+
+    this.scene.start(keys.scenes.shop, newGameState);
+
+    setTimeout(() => {
+      this.destroy();
+    });
+  }
+
   private generateText(): string {
+    if (this.lootSceneInput.wasShipDestroyed) {
+      return 'Your ship was destroyed, so you didn\'t earn any resources.';
+    }
+
     const wallet = this.lootSceneInput.gameState.shipWallet;
     const loot = Object.keys(wallet)
       .map((k) => `    ${titleCase(k)}: ${wallet[k]}`)

@@ -69,7 +69,7 @@ export default class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
-      this.startScene(keys.scenes.shop);
+      this.startScene(keys.scenes.mainMenu);
     });
 
     this.loadAssets();
@@ -108,8 +108,6 @@ export default class BootScene extends Phaser.Scene {
    * is currently active, so they can be accessed anywhere.
    */
   private loadAssets(): void {
-    // Load sample assets
-
     // Images
     this.load.image(keys.sprites.cannonBase, 'assets/sprites/cannon_base.png');
     this.load.image(
@@ -117,6 +115,10 @@ export default class BootScene extends Phaser.Scene {
       'assets/sprites/cannon_turret.png',
     );
     this.load.image(keys.sprites.drillShip, 'assets/sprites/drillship.png');
+    this.load.image(
+      keys.sprites.blownUpDrillship,
+      'assets/sprites/blown_up_drillship.png',
+    );
     this.load.image(keys.sprites.planetFg, 'assets/sprites/frontPlanet.png');
     this.load.image(keys.sprites.white, 'assets/sprites/white.png');
     this.load.image(keys.sprites.planetBg, 'assets/sprites/planet.png');
@@ -139,6 +141,11 @@ export default class BootScene extends Phaser.Scene {
       keys.particles.fire.atlas,
       'assets/sprites/fire_particles.png',
       'assets/particles/fire_particles.json',
+    );
+    this.load.atlas(
+      keys.particles.smoke.atlas,
+      'assets/sprites/smoke.png',
+      'assets/particles/smoke.json',
     );
   }
 }

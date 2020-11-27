@@ -7,6 +7,7 @@ export enum TileType {
   EMERALD,
   SAPPHIRE,
   RUBY,
+  FOOLS_GOLD,
 }
 
 /** The types of resources available on asteroids. */
@@ -36,7 +37,8 @@ export interface MineableTile extends Tile {
 export const buildTile = (type: TileType): Tile => {
   switch (type) {
     case TileType.GROUND: // fall through
-    case TileType.WALL:
+    case TileType.WALL: // fall through
+    case TileType.FOOLS_GOLD:
       return { type };
     case TileType.GOLD: // fall through
     case TileType.RUBY: // fall through
@@ -63,7 +65,8 @@ const resourceForTileType = (type: TileType): TileResource => {
     case TileType.RUBY:
       return TileResource.RUBY;
     case TileType.GROUND: // fall through
-    case TileType.WALL:
+    case TileType.WALL: // fall through
+    case TileType.FOOLS_GOLD:
       throw new Error('TileType not a resource!');
   }
 };
@@ -80,7 +83,8 @@ export const textureForTile = (tile?: TileType): string => {
       return textures.ground;
     case TileType.WALL:
       return textures.wall;
-    case TileType.GOLD:
+    case TileType.GOLD: // fall through
+    case TileType.FOOLS_GOLD:
       return textures.gold;
     case TileType.RUBY:
       return textures.ruby;
@@ -101,6 +105,7 @@ export const tileUnderneath = (tile?: TileType): TileType | undefined => {
     case TileType.RUBY: // fall through
     case TileType.GROUND: // fall through
     case TileType.SAPPHIRE: // fall through
+    case TileType.FOOLS_GOLD: // fall through
     case TileType.EMERALD:
       return TileType.GROUND;
     case TileType.WALL:
@@ -116,6 +121,7 @@ export const isWalkable = (tile: Tile): boolean => {
     case TileType.RUBY: // fall through
     case TileType.EMERALD: // fall through
     case TileType.SAPPHIRE: // fall through
+    case TileType.FOOLS_GOLD: // fall through
       return true;
     case TileType.WALL:
       return false;
@@ -126,6 +132,8 @@ export const isMineable = (tile: Tile): tile is MineableTile => {
   switch (tile.type) {
     case TileType.GROUND: // fall through
     case TileType.WALL: // fall through
+    // Technically not mineable, since it doesn't implement MineableTile.
+    case TileType.FOOLS_GOLD:
       return false;
     case TileType.GOLD:
     case TileType.RUBY: // fall through
