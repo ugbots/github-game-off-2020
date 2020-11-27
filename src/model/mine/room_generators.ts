@@ -1,4 +1,6 @@
+import { normalizeGenFileSuffix } from '@angular/compiler/src/aot/util';
 import { choose } from '../../util/random';
+import { Cost } from '../game/cost';
 import { RoomSpec } from './room_spec';
 import { TileType } from './tile';
 
@@ -25,7 +27,7 @@ const generateScatteredGold = (
       return TileType.WALL;
     }
     if (Math.random() < 0.1) {
-      return choose([TileType.GOLD, TileType.EMERALD, TileType.RUBY]);
+      return resourceForNormalizedMoonDistance(s.normalizedMoonDistance);
     }
     return TileType.GROUND;
   });
@@ -33,3 +35,17 @@ const generateScatteredGold = (
 export const ROOM_GENERATORS: ReadonlyArray<(
   s: RoomSpec,
 ) => ReadonlyArray<ReadonlyArray<TileType>>> = [generateScatteredGold];
+
+const resourceForNormalizedMoonDistance = (x: number): TileType => {
+  const emeraldsAround = x > 1 / 3 && x < 2 / 3;
+  if (emeraldsAround && Math.random() < 0.2) {
+    return TileType.EMERALD;
+  }
+
+  const rubiesAround = x > 2 / 3;
+  if (rubiesAround && Math.random() < 0.2) {
+    return TileType.RUBY;
+  }
+
+  return TileType.GOLD;
+};
