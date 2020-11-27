@@ -89,9 +89,9 @@ export const tileUnderneath = (tile?: TileType): TileType | undefined => {
   switch (tile) {
     case TileType.GOLD: // fall through
     case TileType.RUBY: // fall through
+    case TileType.GROUND: // fall through
     case TileType.EMERALD:
       return TileType.GROUND;
-    case TileType.GROUND:
     case TileType.WALL:
     case undefined:
       return undefined;
