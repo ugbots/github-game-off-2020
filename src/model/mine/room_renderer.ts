@@ -7,11 +7,13 @@ import {
   shipTile,
 } from './mine_scene_config';
 import { Room, TILE_SIZE } from './room';
-import { MineableTile, textureForTile, tileUnderneath } from './tile';
+import { MineableTile, textureForTile, TileType, tileUnderneath } from './tile';
 
 export class RoomRenderer {
   private room: Room;
   private sprites: readonly Phaser.GameObjects.Sprite[][][] = [];
+
+  private showingFoolsGold = false;
 
   create(sc: MineSceneConfig): RoomRenderer {
     this.room = sc.currentRoom;
@@ -27,6 +29,21 @@ export class RoomRenderer {
     if (this.room !== sc.currentRoom) {
       this.refreshSprites(sc.currentRoom);
       this.room = sc.currentRoom;
+    }
+
+    if (
+      !this.showingFoolsGold &&
+      sc.shipConfig.foolsGoldRadarEasing.getValue() === 1
+    ) {
+      this.showingFoolsGold = true;
+      this.setFoolsGoldVisible(sc.currentRoom, true);
+    }
+    if (
+      this.showingFoolsGold &&
+      sc.shipConfig.foolsGoldRadarEasing.getValue() !== 1
+    ) {
+      this.showingFoolsGold = false;
+      this.setFoolsGoldVisible(sc.currentRoom, false);
     }
 
     if (sc.shipConfig.shipState === ShipState.MINING) {
@@ -96,6 +113,20 @@ export class RoomRenderer {
         this.sprites[x][y].forEach((sprite) => {
           sprite.setOrigin(0.5);
         });
+      }),
+    );
+  }
+
+  private setFoolsGoldVisible(room: Room, visible: boolean): void {
+    room.tiles.forEach((xs, x) =>
+      xs.forEach((tile, y) => {
+        if (tile.type === TileType.FOOLS_GOLD) {
+          const texture = visible
+            ? keys.atlas.asteroidTiles.textures.foolsGold
+            : keys.atlas.asteroidTiles.textures.gold;
+          this.sprites[x][y][1].setFrame(texture);
+          this.sprites[x][y][1].setOrigin(0.5);
+        }
       }),
     );
   }

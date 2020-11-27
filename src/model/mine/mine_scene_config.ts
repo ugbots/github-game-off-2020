@@ -1,5 +1,10 @@
 import { Scene } from 'phaser';
-import { EasingButton, EasingDirection, linear } from '../../math/easing';
+import {
+  easeInQuint,
+  EasingButton,
+  EasingDirection,
+  linear,
+} from '../../math/easing';
 import { LootScene } from '../../scenes/loot_scene';
 import { keys } from '../../util/keys';
 import { CursorKeys, Vector2 } from '../../util/phaser_types';
@@ -21,6 +26,7 @@ export enum ShipState {
 export interface MineShipConfig {
   readonly position: Vector2;
   readonly batteryEasing: EasingButton;
+  readonly foolsGoldRadarEasing: EasingButton;
   readonly drillPower: number;
   readonly speed: number;
   shipState: ShipState;
@@ -36,6 +42,7 @@ export interface MineSceneConfig {
   readonly gameState: GameState;
   readonly scene: Scene;
   readonly cursorKeys: CursorKeys;
+  readonly zKey: Phaser.Input.Keyboard.Key;
   readonly shipConfig: MineShipConfig;
   readonly onDestroy: () => void;
   sceneState: MineSceneState;
@@ -50,19 +57,30 @@ const BASE_ROOM_SPEC = {
 
 const BASE_DRILL_RATE = 0.025;
 
+const getBatteryDrainSpeed = (gs: GameState, scalar: number) =>
+  0.00005 *
+  scalar *
+  Math.pow(
+    0.75,
+    shipStatTotal(gs, (x) => x.batteries),
+  );
+
 export const getInitialMineShipConfig = (gs: GameState): MineShipConfig => ({
   position: new Vector2(100, 100),
   batteryEasing: new EasingButton({
-    speed:
-      0.00005 *
-      Math.pow(
-        0.75,
-        shipStatTotal(gs, (x) => x.batteries),
-      ),
+    speed: getBatteryDrainSpeed(gs, 1),
     scale: 100,
     friction: 1,
     fn: linear,
     initialValue: 1,
+    canGoNegative: false,
+  }),
+  foolsGoldRadarEasing: new EasingButton({
+    speed: 0.001,
+    scale: 1,
+    friction: 1,
+    fn: easeInQuint,
+    initialValue: 0,
     canGoNegative: false,
   }),
   drillPower: shipStatTotal(gs, (x) => x.drills),
@@ -90,6 +108,7 @@ export const getInitialMineSceneConfig = (
     gameState: input.gameState,
     scene,
     cursorKeys: scene.input.keyboard.createCursorKeys(),
+    zKey: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
     sceneState: MineSceneState.ROAMING,
     shipConfig: getInitialMineShipConfig(input.gameState),
     onDestroy,
@@ -124,9 +143,27 @@ export const shipTile = (sc: MineSceneConfig): Tile => {
 };
 
 const updateShip = (dt: number, sc: MineSceneConfig): void => {
+  updateFoolsGoldRadar(dt, sc);
   updateBattery(dt, sc);
   updateShipMovement(dt, sc);
   updateShipMining(dt, sc);
+};
+
+const updateFoolsGoldRadar = (dt: number, sc: MineSceneConfig): void => {
+  const radarStrength = shipStatTotal(sc.gameState, (x) => x.foolsGoldRadar);
+  if (radarStrength === 0) {
+    return;
+  }
+
+  if (sc.zKey.isDown) {
+    sc.shipConfig.foolsGoldRadarEasing.update(dt, EasingDirection.INCREASE);
+    sc.shipConfig.batteryEasing.setSpeed(
+      getBatteryDrainSpeed(sc.gameState, 3 / radarStrength),
+    );
+  } else {
+    sc.shipConfig.foolsGoldRadarEasing.update(dt, EasingDirection.DECREASE);
+    sc.shipConfig.batteryEasing.resetSpeed();
+  }
 };
 
 const updateBattery = (dt: number, sc: MineSceneConfig): void => {

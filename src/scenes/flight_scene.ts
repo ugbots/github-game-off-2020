@@ -44,7 +44,7 @@ export class FlightScene extends Scene {
       () => {
         setTimeout(() => {
           this.destroy();
-        }, 1);
+        }, 10);
       },
     );
 

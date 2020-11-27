@@ -8,6 +8,7 @@ export interface ShipStats {
   readonly stabilizers: number;
   readonly maxCannonPower: number;
   readonly moonRadar: boolean;
+  readonly foolsGoldRadar: number;
 }
 
 export const getShipStats = (inv: Inventory): ShipStats => ({
@@ -17,6 +18,7 @@ export const getShipStats = (inv: Inventory): ShipStats => ({
   stabilizers: sumItemsByGetter(inv, (x) => x.stabilizers),
   maxCannonPower: sumItemsByGetter(inv, (x) => x.maxCannonPower),
   moonRadar: orItemsByGetter(inv, (x) => x.moonRadar),
+  foolsGoldRadar: sumItemsByGetter(inv, (x) => x.foolsGoldRadar),
 });
 
 const sumItemsByGetter = (
@@ -40,5 +42,6 @@ export const getDiff = (prev: Inventory, next: Inventory): ShipStats => {
     stabilizers: nextStats.stabilizers - prevStats.stabilizers,
     maxCannonPower: nextStats.maxCannonPower - prevStats.maxCannonPower,
     moonRadar: nextStats.moonRadar,
+    foolsGoldRadar: nextStats.foolsGoldRadar - prevStats.foolsGoldRadar,
   };
 };

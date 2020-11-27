@@ -31,6 +31,8 @@ export interface Item {
   readonly maxCannonPower: number;
   /** If true, this item shows you what direction the moon is in. */
   readonly moonRadar: boolean;
+  /** The higher this is, the less battery used when detection Fool's Gold. */
+  readonly foolsGoldRadar: number;
 }
 
 export const EMPTY_ITEM = {
@@ -47,6 +49,7 @@ export const EMPTY_ITEM = {
   stabilizers: 0,
   maxCannonPower: 0,
   moonRadar: false,
+  foolsGoldRadar: 0,
 };
 
 export const itemEquals = (a: Item, b: Item): boolean => a.name === b.name;

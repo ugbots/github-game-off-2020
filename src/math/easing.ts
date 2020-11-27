@@ -17,6 +17,7 @@ export enum EasingDirection {
 
 export class EasingButton {
   private config: EasingButtonConfig;
+  private speed = 0;
 
   private value = 0;
 
@@ -28,16 +29,17 @@ export class EasingButton {
       this.value = config.initialValue;
     }
     this.config = config;
+    this.speed = this.config.speed;
   }
 
   update(dt: number, direction: EasingDirection): void {
     if (direction == EasingDirection.INCREASE) {
-      this.value = Math.min(1, this.value + this.config.speed * dt);
+      this.value = Math.min(1, this.value + this.speed * dt);
     }
     if (direction == EasingDirection.DECREASE) {
       this.value = Math.max(
         this.config.canGoNegative ? -1 : 0,
-        this.value - this.config.speed * dt,
+        this.value - this.speed * dt,
       );
     }
     if (direction == EasingDirection.NONE) {
@@ -53,6 +55,14 @@ export class EasingButton {
     this.value = value;
   }
 
+  setSpeed(speed: number): void {
+    this.speed = speed;
+  }
+
+  resetSpeed(): void {
+    this.speed = this.config.speed;
+  }
+
   getValue(): number {
     const multiplier = this.value < 0 ? -1 : 1;
     return (
@@ -65,6 +75,8 @@ export const linear = (x: number): number => x;
 
 export const easeInOut = (x: number): number =>
   x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+
+export const easeInQuint = (x: number): number => x * x * x * x * x;
 
 export const recoil = (x: number): number =>
   x < 0.0001 ? 0 : -Math.pow(x - 1, 3);

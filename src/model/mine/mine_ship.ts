@@ -101,6 +101,15 @@ export class MineShip {
     this.sprite.rotation = this.generateRotation(sc.shipConfig);
     this.sprite.scale = 2;
 
+    const wobbly = sc.shipConfig.foolsGoldRadarEasing.getValue();
+    const wobblyChannel = Math.floor((1 - wobbly) * 0xff);
+    this.sprite.setTint(0x00ff00 | (wobblyChannel << 16) | wobblyChannel);
+
+    const rotateMul =
+      sc.shipConfig.foolsGoldRadarEasing.getValue() *
+      (Math.random() * 0.2 - 0.1);
+    this.sprite.rotation += rotateMul;
+
     const shakeMul = sc.shipConfig.shipState === ShipState.MINING ? 2.5 : 0;
 
     this.sprite.x =

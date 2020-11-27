@@ -9,6 +9,14 @@
       "pivot": { "x": 0, "y": 0 }
     },
     "transparent": {
+      "frame": { "x": 192, "y": 0, "w": 32, "h": 32 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+      "sourceSize": { "w": 32, "h": 32 },
+      "pivot": { "x": 0, "y": 0 }
+    },
+    "fools_gold": {
       "frame": { "x": 160, "y": 0, "w": 32, "h": 32 },
       "rotated": false,
       "trimmed": false,

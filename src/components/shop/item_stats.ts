@@ -40,6 +40,7 @@ export class ItemStatsComponent implements OnChanges {
       { name: 'Stabilizers', value: this.item.stabilizers },
       { name: 'Max cannon power', value: this.item.maxCannonPower },
       { name: 'Moon radar', value: this.item.moonRadar },
+      { name: "Fool's Gold radar", value: this.item.foolsGoldRadar },
     ].filter((x) => x.value !== 0 && x.value !== false);
   }
 }

@@ -19,4 +19,18 @@ export const TELESCOPE: Radar = {
   },
 };
 
-export const ALL_RADARS: readonly Radar[] = [TELESCOPE];
+export const QUANTUM_WIBBLY: Radar = {
+  ...EMPTY_ITEM,
+  type: ItemType.RADAR,
+  name: 'Quantum Wibbly',
+  description:
+    "Look through this goofy device to see Fool's Gold. I'm no fool!",
+  foolsGoldRadar: 1,
+  cost: {
+    ...COST_FREE,
+    emerald: 1_000,
+    sapphire: 1_000,
+  },
+};
+
+export const ALL_RADARS: readonly Radar[] = [TELESCOPE, QUANTUM_WIBBLY];

@@ -56,6 +56,7 @@ export class MineScene extends Scene {
   }
 
   destroy(): void {
+    this.input.destroy();
     this.ship.destroy();
     this.roomRenderer.destroy();
     this.miningDirt.destroy();
