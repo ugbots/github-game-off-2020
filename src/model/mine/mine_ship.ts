@@ -8,10 +8,10 @@ import {
 } from './mine_scene_config';
 
 export class MineShip {
-  private sprite: Sprite;
+  private sprite: Phaser.GameObjects.Sprite;
 
   create(sc: MineSceneConfig): MineShip {
-    this.sprite = sc.scene.physics.add.sprite(
+    this.sprite = sc.scene.add.sprite(
       sc.shipConfig.position.x,
       sc.shipConfig.position.y,
       keys.sprites.drillShip,

@@ -61,6 +61,14 @@ export class ShopComponent implements OnChanges {
     return result.error;
   }
 
+  handleCheatCodeSubmit(e: KeyboardEvent): void {
+    const inputBox = e.target as HTMLInputElement;
+    const cheatCode = inputBox.value;
+
+    this.shopService.applyCheatCode(cheatCode);
+    inputBox.value = '';
+  }
+
   getCloseShopButtonClasses(gs: GameState): readonly string[] {
     if (!isSuccess(this.checkCanCloseShop(gs))) {
       return ['bg-gray-900 text-gray-100 cursor-context-menu'];

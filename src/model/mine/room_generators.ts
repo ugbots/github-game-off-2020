@@ -37,15 +37,16 @@ export const ROOM_GENERATORS: ReadonlyArray<(
 ) => ReadonlyArray<ReadonlyArray<TileType>>> = [generateScatteredGold];
 
 const resourceForNormalizedMoonDistance = (x: number): TileType => {
-  const emeraldsAround = x > 1 / 3 && x < 2 / 3;
-  if (emeraldsAround && Math.random() < 0.2) {
+  if (Math.random() > 0.2 || x < 1 / 4) {
+    return TileType.GOLD;
+  }
+
+  if (x > 1 / 4 && x < 2 / 4) {
     return TileType.EMERALD;
   }
-
-  const rubiesAround = x > 2 / 3;
-  if (rubiesAround && Math.random() < 0.2) {
-    return TileType.RUBY;
+  if (x >= 2 / 4 && x < 3 / 4) {
+    return TileType.SAPPHIRE;
   }
 
-  return TileType.GOLD;
+  return TileType.RUBY;
 };

@@ -5,6 +5,7 @@ export enum TileType {
   WALL,
   GOLD,
   EMERALD,
+  SAPPHIRE,
   RUBY,
 }
 
@@ -22,7 +23,11 @@ export interface Tile {
 }
 
 export interface MineableTile extends Tile {
-  readonly type: TileType.GOLD | TileType.RUBY | TileType.EMERALD;
+  readonly type:
+    | TileType.GOLD
+    | TileType.RUBY
+    | TileType.SAPPHIRE
+    | TileType.EMERALD;
   readonly resource: TileResource;
   readonly resourceMax: number;
   resourceLeft: number;
@@ -35,6 +40,7 @@ export const buildTile = (type: TileType): Tile => {
       return { type };
     case TileType.GOLD: // fall through
     case TileType.RUBY: // fall through
+    case TileType.SAPPHIRE: // fall through
     case TileType.EMERALD:
       const mineableTile: MineableTile = {
         type,
@@ -50,10 +56,12 @@ const resourceForTileType = (type: TileType): TileResource => {
   switch (type) {
     case TileType.GOLD:
       return TileResource.GOLD;
-    case TileType.RUBY:
-      return TileResource.RUBY;
     case TileType.EMERALD:
       return TileResource.EMERALD;
+    case TileType.SAPPHIRE:
+      return TileResource.SAPPHIRE;
+    case TileType.RUBY:
+      return TileResource.RUBY;
     case TileType.GROUND: // fall through
     case TileType.WALL:
       throw new Error('TileType not a resource!');
@@ -78,6 +86,8 @@ export const textureForTile = (tile?: TileType): string => {
       return textures.ruby;
     case TileType.EMERALD:
       return textures.emerald;
+    case TileType.SAPPHIRE:
+      return textures.sapphire;
   }
 };
 
@@ -90,6 +100,7 @@ export const tileUnderneath = (tile?: TileType): TileType | undefined => {
     case TileType.GOLD: // fall through
     case TileType.RUBY: // fall through
     case TileType.GROUND: // fall through
+    case TileType.SAPPHIRE: // fall through
     case TileType.EMERALD:
       return TileType.GROUND;
     case TileType.WALL:
@@ -104,6 +115,7 @@ export const isWalkable = (tile: Tile): boolean => {
     case TileType.GOLD: // fall through
     case TileType.RUBY: // fall through
     case TileType.EMERALD: // fall through
+    case TileType.SAPPHIRE: // fall through
       return true;
     case TileType.WALL:
       return false;
@@ -118,6 +130,7 @@ export const isMineable = (tile: Tile): tile is MineableTile => {
     case TileType.GOLD:
     case TileType.RUBY: // fall through
     case TileType.EMERALD: // fall through
+    case TileType.SAPPHIRE: // fall through
       return (tile as MineableTile).resourceLeft > 0;
   }
 };

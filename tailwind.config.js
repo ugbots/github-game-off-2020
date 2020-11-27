@@ -14,6 +14,7 @@ module.exports = {
       yellow: colors.yellow,
     },
     cursor: {
+      default: 'default',
       'context-menu': 'context-menu',
       pointer: 'pointer',
       'not-allowed': 'not-allowed',

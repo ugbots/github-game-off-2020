@@ -20,7 +20,11 @@
     </rat-build-panel>
   </div>
   <div class="rounded-lg w-full h-1/6 bg-gray-800 p-8
-              flex justify-end items-center">
+              flex justify-between items-center">
+    <input type="text"
+           size="3"
+           class="text-gray-100 bg-gray-800 cursor-default"
+           (keyup.enter)="handleCheatCodeSubmit($event)">
     <div *ngIf="(gameState$ | async) as gameState"
          class="rounded-lg transition-colors shadow-lg p-4"
          [attr.title]="getCloseShopTooltip(gameState)"

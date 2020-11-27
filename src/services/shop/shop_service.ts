@@ -1,7 +1,12 @@
 import { Inject, Injectable, NgZone } from '@angular/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
-import { GameState, INITIAL_GAME_STATE } from '../../model/game/game_state';
+import { addFunds } from '../../model/game/cost';
+import {
+  GameState,
+  INITIAL_GAME_STATE,
+  moveShipWalletToWallet,
+} from '../../model/game/game_state';
 import { finishShopping } from '../../scenes/shop_scene';
 
 export enum ShopState {
@@ -61,5 +66,22 @@ export class ShopService {
 
   setGameState(gameState: GameState): void {
     this.gameStateSubject.next(gameState);
+  }
+
+  applyCheatCode(cheatCode: string): void {
+    const gs = this.gameStateSubject.value ?? INITIAL_GAME_STATE;
+
+    switch (cheatCode) {
+      case 'rosebud':
+        this.setGameState({
+          ...gs,
+          wallet: addFunds(gs.wallet, {
+            gold: 10_000,
+            emerald: 10_000,
+            ruby: 10_000,
+            sapphire: 10_000,
+          }),
+        });
+    }
   }
 }

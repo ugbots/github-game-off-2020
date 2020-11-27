@@ -215,8 +215,6 @@ const updateShipMining = (dt: number, sc: MineSceneConfig): void => {
   const resourceTaken = dt * (1 + sc.shipConfig.drillPower) * BASE_DRILL_RATE;
   tile.resourceLeft = Math.max(0, tile.resourceLeft - resourceTaken);
 
-  switch (tile.resource) {
-    case TileResource.GOLD:
-      sc.gameState.shipWallet.gold += resourceTaken;
-  }
+  const resourceKey = TileResource[tile.resource].toLowerCase();
+  sc.gameState.shipWallet[resourceKey] += resourceTaken;
 };
