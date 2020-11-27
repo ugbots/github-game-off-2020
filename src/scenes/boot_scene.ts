@@ -1,4 +1,3 @@
-import { BinaryOperatorExpr } from '@angular/compiler';
 import * as Phaser from 'phaser';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { FlightSceneInput } from '../model/flight/flight_scene_input';
@@ -70,7 +69,7 @@ export default class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
-      this.startScene(keys.scenes.mine);
+      this.startScene(keys.scenes.shop);
     });
 
     this.loadAssets();
