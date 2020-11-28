@@ -71,6 +71,11 @@ export class ShipStatsDiffComponent implements OnChanges {
         currentStats.moonRadar,
         diff?.moonRadar,
       ),
+      this.generateBoolStatsRow(
+        'Asteroid radar',
+        currentStats.asteroidRadar,
+        diff?.asteroidRadar,
+      ),
       this.generateNumberStatsRow(
         "Fool's Gold radar",
         currentStats.foolsGoldRadar,

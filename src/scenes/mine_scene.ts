@@ -24,7 +24,7 @@ export class MineScene extends Scene {
   private batteryIndicator: MineSceneBatteryIndicator;
   private miningIndicator: MiningIndicator;
   private miningDirt: MiningDirt;
-  private tutorialOverlay: TutorialOverlay;
+  private tutorialOverlay?: TutorialOverlay;
 
   constructor() {
     super({
@@ -36,15 +36,7 @@ export class MineScene extends Scene {
 
   /* override */
   init(input: MineSceneInput): void {
-    this.mineSceneInput = {
-      ...input,
-      gameState: {
-        ...input.gameState,
-        currentScene: keys.scenes.flight,
-      },
-    };
-
-    localStorage.setGameState(this.mineSceneInput.gameState);
+    this.mineSceneInput = input;
   }
 
   /* override */
@@ -65,18 +57,19 @@ export class MineScene extends Scene {
       this.sceneConfig,
     );
     this.miningIndicator = new MiningIndicator().create(this.sceneConfig);
-    this.tutorialOverlay = new TutorialOverlay().create(
-      this,
-      MINE_SCENE_TUTORIAL,
-      () => {
-        this.sceneConfig.sceneState = MineSceneState.ROAMING;
-        this.sceneConfig.shipConfig.batteryEasing.resetSpeed();
-        localStorage.markTutorialRead(keys.scenes.mine);
-      },
-    );
+
     if (!localStorage.wasTutorialRead(keys.scenes.mine)) {
+      this.tutorialOverlay = new TutorialOverlay().create(
+        this,
+        MINE_SCENE_TUTORIAL,
+        () => {
+          this.sceneConfig.sceneState = MineSceneState.ROAMING;
+          this.sceneConfig.shipConfig.batteryEasing.resetSpeed();
+          localStorage.markTutorialRead(keys.scenes.mine);
+        },
+      );
       this.sceneConfig.sceneState = MineSceneState.TUTORIAL;
-      this.tutorialOverlay.show();
+      this.tutorialOverlay.show(this);
     }
   }
 
@@ -86,7 +79,7 @@ export class MineScene extends Scene {
     this.miningDirt.destroy();
     this.batteryIndicator.destroy();
     this.miningIndicator.destroy();
-    this.tutorialOverlay.destroy();
+    this.tutorialOverlay?.destroy();
   }
 
   /* override */

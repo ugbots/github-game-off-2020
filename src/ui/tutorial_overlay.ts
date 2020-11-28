@@ -51,15 +51,6 @@ export class TutorialOverlay {
 
     this.onOkClick = onOkClick;
 
-    this.spaceListener = scene.input.keyboard.addListener(
-      'keyup',
-      (e: KeyboardEvent) => {
-        if (e.key === ' ' || e.key === 'Escape' || e.key === 'Enter') {
-          this.hide();
-        }
-      },
-    );
-
     this.setVisible(false);
 
     return this;
@@ -69,11 +60,21 @@ export class TutorialOverlay {
     this.backdrop.destroy();
     this.text.destroy();
     this.okButton.destroy();
-    this.spaceListener.off('keyup');
+    if (this.spaceListener !== undefined) {
+      this.spaceListener.off('keyup');
+    }
   }
 
-  show(): void {
+  show(scene: Scene): void {
     this.setVisible(true);
+    this.spaceListener = scene.input.keyboard.addListener(
+      'keyup',
+      (e: KeyboardEvent) => {
+        if (e.key === ' ' || e.key === 'Escape' || e.key === 'Enter') {
+          this.hide();
+        }
+      },
+    );
   }
 
   private hide(): void {

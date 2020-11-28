@@ -19,6 +19,21 @@ export const TELESCOPE: Radar = {
   },
 };
 
+export const VOID_SONAR: Radar = {
+  ...EMPTY_ITEM,
+  type: ItemType.RADAR,
+  name: 'Void sonar',
+  description:
+    'This device sends sound waves through space to find the closest ' +
+    'asteroid.',
+  asteroidRadar: true,
+  cost: {
+    ...COST_FREE,
+    gold: 2_000,
+    emerald: 1_000,
+  },
+};
+
 export const QUANTUM_WIBBLY: Radar = {
   ...EMPTY_ITEM,
   type: ItemType.RADAR,
@@ -33,4 +48,8 @@ export const QUANTUM_WIBBLY: Radar = {
   },
 };
 
-export const ALL_RADARS: readonly Radar[] = [TELESCOPE, QUANTUM_WIBBLY];
+export const ALL_RADARS: readonly Radar[] = [
+  TELESCOPE,
+  VOID_SONAR,
+  QUANTUM_WIBBLY,
+];

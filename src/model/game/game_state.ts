@@ -11,9 +11,7 @@ import {
   purchase,
   salePrice,
 } from './cost';
-import { IRON_DRILL, COPPER_DRILL } from './drills';
 import { Item, itemEquals } from './item';
-import { QUANTUM_WIBBLY } from './radars';
 
 export interface Inventory {
   readonly fuel: number;

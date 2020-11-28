@@ -69,7 +69,7 @@ export const getInitialSceneConfig = (
     cannonFireEasing: new EasingButton({
       fn: recoil,
       speed: 0.001,
-      friction: 0.93,
+      friction: 1,
       scale: 1,
       canGoNegative: false,
     }),

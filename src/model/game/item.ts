@@ -31,6 +31,8 @@ export interface Item {
   readonly maxCannonPower: number;
   /** If true, this item shows you what direction the moon is in. */
   readonly moonRadar: boolean;
+  /** If true, shows asteroid indicators on the flight scene. */
+  readonly asteroidRadar: boolean;
   /** The higher this is, the less battery used when detection Fool's Gold. */
   readonly foolsGoldRadar: number;
 }
@@ -49,6 +51,7 @@ export const EMPTY_ITEM = {
   stabilizers: 0,
   maxCannonPower: 0,
   moonRadar: false,
+  asteroidRadar: false,
   foolsGoldRadar: 0,
 };
 

@@ -5,8 +5,6 @@ import { CannonSceneConfig, SceneState } from './cannon_scene_config';
 export class CannonTurret {
   private sprite: Phaser.GameObjects.Sprite;
 
-  private alreadyFired = false;
-
   create(scene: Phaser.Scene, sc: CannonSceneConfig): CannonTurret {
     this.sprite = scene.add.sprite(
       sc.cannonPivot.x,

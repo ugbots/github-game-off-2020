@@ -32,8 +32,8 @@ export class CannonScene extends Phaser.Scene {
   private fireParticles: FireParticles;
   private ship: Ship;
   private fuelIndicator: FuelIndicator;
-  private moonIndicator: CannonMoonIndicator;
-  private tutorialOverlay: TutorialOverlay;
+  private moonIndicator?: CannonMoonIndicator;
+  private tutorialOverlay?: TutorialOverlay;
 
   constructor() {
     super({
@@ -77,17 +77,18 @@ export class CannonScene extends Phaser.Scene {
 
     this.fuelIndicator = new FuelIndicator().create(this, this.sceneConfig);
     this.moonIndicator = new CannonMoonIndicator().create(this.sceneConfig);
-    this.tutorialOverlay = new TutorialOverlay().create(
-      this,
-      CANNON_SCENE_TUTORIAL,
-      () => {
-        this.sceneConfig.sceneState = SceneState.ROTATE_CANNON;
-        localStorage.markTutorialRead(keys.scenes.cannon);
-      },
-    );
+
     if (!localStorage.wasTutorialRead(keys.scenes.cannon)) {
+      this.tutorialOverlay = new TutorialOverlay().create(
+        this,
+        CANNON_SCENE_TUTORIAL,
+        () => {
+          this.sceneConfig.sceneState = SceneState.ROTATE_CANNON;
+          localStorage.markTutorialRead(keys.scenes.cannon);
+        },
+      );
       this.sceneConfig.sceneState = SceneState.TUTORIAL;
-      this.tutorialOverlay.show();
+      this.tutorialOverlay.show(this);
     }
   }
 
@@ -102,8 +103,8 @@ export class CannonScene extends Phaser.Scene {
     this.fireParticles.destroy();
     this.ship.destroy();
     this.fuelIndicator.destroy();
-    this.moonIndicator.destroy();
-    this.tutorialOverlay.destroy();
+    this.moonIndicator?.destroy();
+    this.tutorialOverlay?.destroy();
   }
 
   /* override */
@@ -119,7 +120,7 @@ export class CannonScene extends Phaser.Scene {
     this.stars.forEach((s) => {
       s.update(time, dt, this.sceneConfig);
     });
-    this.moonIndicator.update(time, this.sceneConfig);
+    this.moonIndicator?.update(time, this.sceneConfig);
   }
 }
 

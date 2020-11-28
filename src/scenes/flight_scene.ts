@@ -16,6 +16,8 @@ import { Moon } from '../model/flight/moon';
 import { generateArray } from '../util/arrays';
 import { TutorialOverlay } from '../ui/tutorial_overlay';
 import { localStorage } from '../util/local_storage';
+import { AsteroidIndicator } from '../model/flight/asteroid_indicator';
+import { shipHasItem } from '../model/game/game_state';
 
 export class FlightScene extends Scene {
   private sceneConfig: FlightSceneConfig;
@@ -25,8 +27,9 @@ export class FlightScene extends Scene {
   private asteroid: Asteroid;
   private moon: Moon;
   private ship: Ship;
+  private asteroidIndicator?: AsteroidIndicator;
   private altimiter: Altimiter;
-  private tutorialOverlay: TutorialOverlay;
+  private tutorialOverlay?: TutorialOverlay;
 
   constructor() {
     super({
@@ -38,15 +41,7 @@ export class FlightScene extends Scene {
 
   /* override */
   init(input: FlightSceneInput): void {
-    this.flightSceneInput = {
-      ...input,
-      gameState: {
-        ...input.gameState,
-        currentScene: keys.scenes.flight,
-      },
-    };
-
-    localStorage.setGameState(this.flightSceneInput.gameState);
+    this.flightSceneInput = input;
   }
 
   /* override */
@@ -65,18 +60,24 @@ export class FlightScene extends Scene {
     this.asteroid = new Asteroid().create(this.sceneConfig);
     this.moon = new Moon().create(this.sceneConfig);
     this.ship = new Ship().create(this.sceneConfig);
+
+    if (shipHasItem(this.sceneConfig.gameState, (x) => x.asteroidRadar)) {
+      this.asteroidIndicator = new AsteroidIndicator().create(this.sceneConfig);
+    }
+
     this.altimiter = new Altimiter().create(this.sceneConfig);
-    this.tutorialOverlay = new TutorialOverlay().create(
-      this,
-      FLIGHT_SCENE_TUTORIAL,
-      () => {
-        this.sceneConfig.sceneState = FlightSceneState.INTRO;
-        localStorage.markTutorialRead(keys.scenes.flight);
-      },
-    );
+
     if (!localStorage.wasTutorialRead(keys.scenes.flight)) {
+      this.tutorialOverlay = new TutorialOverlay().create(
+        this,
+        FLIGHT_SCENE_TUTORIAL,
+        () => {
+          this.sceneConfig.sceneState = FlightSceneState.INTRO;
+          localStorage.markTutorialRead(keys.scenes.flight);
+        },
+      );
       this.sceneConfig.sceneState = FlightSceneState.TUTORIAL;
-      this.tutorialOverlay.show();
+      this.tutorialOverlay.show(this);
     }
   }
 
@@ -87,14 +88,16 @@ export class FlightScene extends Scene {
     this.asteroid.destroy();
     this.moon.destroy();
     this.ship.destroy();
+    this.asteroidIndicator?.destroy();
     this.altimiter.destroy();
-    this.tutorialOverlay.destroy();
+    this.tutorialOverlay?.destroy();
   }
 
   /* override */
   update(time: number, dt: number): void {
     updateSceneConfig(time, dt, this.sceneConfig);
     this.ship.update(time, dt, this.sceneConfig);
+    this.asteroidIndicator?.update(time, this.sceneConfig);
     this.stars.forEach((star) => {
       star.update(time, dt, this.sceneConfig);
     });

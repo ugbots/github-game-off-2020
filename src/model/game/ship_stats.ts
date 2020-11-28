@@ -8,6 +8,7 @@ export interface ShipStats {
   readonly stabilizers: number;
   readonly maxCannonPower: number;
   readonly moonRadar: boolean;
+  readonly asteroidRadar: boolean;
   readonly foolsGoldRadar: number;
 }
 
@@ -18,6 +19,7 @@ export const getShipStats = (inv: Inventory): ShipStats => ({
   stabilizers: sumItemsByGetter(inv, (x) => x.stabilizers),
   maxCannonPower: sumItemsByGetter(inv, (x) => x.maxCannonPower),
   moonRadar: orItemsByGetter(inv, (x) => x.moonRadar),
+  asteroidRadar: orItemsByGetter(inv, (x) => x.asteroidRadar),
   foolsGoldRadar: sumItemsByGetter(inv, (x) => x.foolsGoldRadar),
 });
 
@@ -42,6 +44,7 @@ export const getDiff = (prev: Inventory, next: Inventory): ShipStats => {
     stabilizers: nextStats.stabilizers - prevStats.stabilizers,
     maxCannonPower: nextStats.maxCannonPower - prevStats.maxCannonPower,
     moonRadar: nextStats.moonRadar,
+    asteroidRadar: nextStats.asteroidRadar,
     foolsGoldRadar: nextStats.foolsGoldRadar - prevStats.foolsGoldRadar,
   };
 };
