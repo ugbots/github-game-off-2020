@@ -5,7 +5,7 @@ export class Asteroid {
   private sprite: Phaser.GameObjects.Sprite;
 
   create(sc: FlightSceneConfig): Asteroid {
-    this.sprite = sc.scene.add.sprite(0, 0, keys.sprites.planetBg);
+    this.sprite = sc.scene.add.sprite(0, 0, keys.sprites.asteroid);
 
     return this;
   }
