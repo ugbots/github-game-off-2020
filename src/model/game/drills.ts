@@ -25,7 +25,11 @@ export const IRON_DRILL: Drill = {
   type: ItemType.DRILL,
   rarity: Rarity.UNCOMMON,
   name: 'Iron drill',
-  drills: 3,
+  drills: 2,
+  cost: {
+    ...COST_FREE,
+    gold: 5_000,
+  },
 };
 
 export const BRONZE_DRILL: Drill = {
@@ -33,7 +37,12 @@ export const BRONZE_DRILL: Drill = {
   type: ItemType.DRILL,
   rarity: Rarity.RARE,
   name: 'Bronze drill',
-  drills: 5,
+  drills: 3,
+  cost: {
+    ...COST_FREE,
+    gold: 5_000,
+    emerald: 1_000,
+  },
 };
 
 export const TITANIUM_DRILL: Drill = {
@@ -42,6 +51,11 @@ export const TITANIUM_DRILL: Drill = {
   rarity: Rarity.EPIC,
   name: 'Titanium drill',
   drills: 5,
+  cost: {
+    ...COST_FREE,
+    gold: 7_000,
+    sapphire: 500,
+  },
 };
 
 export const DIAMOND_DRILL: Drill = {
@@ -49,11 +63,11 @@ export const DIAMOND_DRILL: Drill = {
   type: ItemType.DRILL,
   rarity: Rarity.LEGENDARY,
   name: 'Diamond drill',
-  drills: 5,
+  drills: 10,
   cost: {
     ...COST_FREE,
-    emerald: 3,
-    ruby: 10,
+    gold: 10_000,
+    ruby: 500,
   },
 };
 

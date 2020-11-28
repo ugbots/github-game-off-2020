@@ -1,5 +1,5 @@
 import { COST_FREE } from './cost';
-import { EMPTY_ITEM, Item, ItemType } from './item';
+import { EMPTY_ITEM, Item, ItemType, Rarity } from './item';
 
 export interface Radar extends Item {
   readonly type: ItemType.RADAR;
@@ -7,6 +7,7 @@ export interface Radar extends Item {
 
 export const TELESCOPE: Radar = {
   ...EMPTY_ITEM,
+  rarity: Rarity.LEGENDARY,
   type: ItemType.RADAR,
   name: 'Telescope',
   description:
@@ -15,12 +16,13 @@ export const TELESCOPE: Radar = {
   moonRadar: true,
   cost: {
     ...COST_FREE,
-    emerald: 500,
+    ruby: 500,
   },
 };
 
 export const VOID_SONAR: Radar = {
   ...EMPTY_ITEM,
+  rarity: Rarity.RARE,
   type: ItemType.RADAR,
   name: 'Void sonar',
   description:
@@ -36,6 +38,7 @@ export const VOID_SONAR: Radar = {
 
 export const QUANTUM_WIBBLY: Radar = {
   ...EMPTY_ITEM,
+  rarity: Rarity.EPIC,
   type: ItemType.RADAR,
   name: 'Quantum Wibbly',
   description:

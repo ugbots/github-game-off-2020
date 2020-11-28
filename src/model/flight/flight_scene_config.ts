@@ -2,6 +2,7 @@ import { Scene } from 'phaser';
 import { GameState, shipStatTotal } from '../game/game_state';
 import { CursorKeys, Vector2 } from '../../util/phaser_types';
 import {
+  easeInOut,
   easeOutElastic,
   EasingButton,
   EasingDirection,
@@ -25,7 +26,7 @@ export enum FlightSceneState {
 const GRAVITY = 0.0025;
 
 /** Used to respawn the asteroid when it gets too far away */
-const MAX_ASTEROID_DISTANCE = SCREEN_DIMENSIONS.y * 1.5;
+const MAX_ASTEROID_DISTANCE = SCREEN_DIMENSIONS.y * 1.75;
 
 /** How close we need to be to the asteroid for it to suck us in */
 const ASTEROID_COLLISION_RADIUS = SCREEN_DIMENSIONS.x / 12;
@@ -43,9 +44,9 @@ export const INITIAL_MOON_POSITION = new Vector2(
 );
 
 /** Where the ship is after the intro state */
-export const FLIGHT_SCENE_SHIP_POSITION = new Vector2(
+export const INITIAL_SHIP_POSITION = new Vector2(
   SCREEN_DIMENSIONS.x / 2,
-  SCREEN_DIMENSIONS.y / 2,
+  SCREEN_DIMENSIONS.y * (5 / 6),
 );
 export const FLIGHT_SCENE_SHIP_SIZE = 10;
 
@@ -66,6 +67,7 @@ export interface FlightSceneConfig {
   readonly maxShipXVelocity: number;
   readonly aimedAtMoon: boolean;
   readonly moonPosition: Vector2;
+  readonly shipPosition: Vector2;
   shipThrusters: ShipThrusters;
   asteroidPosition: Vector2;
   verticalPosition: number;
@@ -99,6 +101,7 @@ export const getInitialSceneConfig = (
     maxShipXVelocity: 5 * (1 + boosters),
     aimedAtMoon: input.aimedAtMoon,
     moonPosition: INITIAL_MOON_POSITION.clone(),
+    shipPosition: INITIAL_SHIP_POSITION.clone(),
     shipThrusters: {
       forward: false,
       rotateLeft: false,
@@ -235,6 +238,8 @@ const updateShipVelocity = (
   }
 
   sc.shipVelocity.x += dt * acc * -Math.sin(sc.shipRotation);
+  sc.shipPosition.y += dt * acc * 100 * -Math.cos(sc.shipRotation);
+  sc.shipPosition.y = clamp(40, sc.shipPosition.y, SCREEN_DIMENSIONS.y - 40);
 
   sc.shipVelocity.x = clamp(
     -sc.maxShipXVelocity,
@@ -250,8 +255,8 @@ const updateAsteroidPosition = (sc: FlightSceneConfig): FlightSceneConfig => {
   sc.asteroidPosition.y += sc.shipVelocity.y;
 
   const asteroidDist = Phaser.Math.Distance.Between(
-    FLIGHT_SCENE_SHIP_POSITION.x,
-    FLIGHT_SCENE_SHIP_POSITION.y,
+    sc.shipPosition.x,
+    sc.shipPosition.y,
     sc.asteroidPosition.x,
     sc.asteroidPosition.y,
   );
@@ -261,10 +266,12 @@ const updateAsteroidPosition = (sc: FlightSceneConfig): FlightSceneConfig => {
 
     if (sc.shipVelocity.y > 0) {
       // Spawn the asteroid above us
-      sc.asteroidPosition.y = -(MAX_ASTEROID_DISTANCE / 20);
+      sc.asteroidPosition.y =
+        -(MAX_ASTEROID_DISTANCE / 20) - Math.random() * 200;
     } else {
       // Spawn the asteroid underneath us
-      sc.asteroidPosition.y = SCREEN_DIMENSIONS.y + MAX_ASTEROID_DISTANCE / 2;
+      sc.asteroidPosition.y =
+        SCREEN_DIMENSIONS.y + MAX_ASTEROID_DISTANCE / 2 + Math.random() * 200;
     }
   }
 
@@ -292,9 +299,9 @@ const updateShipFliesTowardAsteroid = (
   sc.shipVelocity.x = 0;
   sc.shipVelocity.y = 0;
   sc.asteroidPosition.x =
-    0.99 * sc.asteroidPosition.x + 0.01 * FLIGHT_SCENE_SHIP_POSITION.x;
+    0.99 * sc.asteroidPosition.x + 0.01 * sc.shipPosition.x;
   sc.asteroidPosition.y =
-    0.99 * sc.asteroidPosition.y + 0.01 * FLIGHT_SCENE_SHIP_POSITION.y;
+    0.99 * sc.asteroidPosition.y + 0.01 * sc.shipPosition.y;
 
   return sc;
 };
@@ -306,10 +313,8 @@ const updateShipFliesTowardMoon = (
   sc.shipRotation += 0.01 * dt;
   sc.shipVelocity.x = 0;
   sc.shipVelocity.y = 0;
-  sc.moonPosition.x =
-    0.99 * sc.moonPosition.x + 0.01 * FLIGHT_SCENE_SHIP_POSITION.x;
-  sc.moonPosition.y =
-    0.99 * sc.moonPosition.y + 0.01 * FLIGHT_SCENE_SHIP_POSITION.y;
+  sc.moonPosition.x = 0.99 * sc.moonPosition.x + 0.01 * sc.shipPosition.x;
+  sc.moonPosition.y = 0.99 * sc.moonPosition.y + 0.01 * sc.shipPosition.y;
 
   return sc;
 };

@@ -30,7 +30,7 @@ export class FuelIndicator {
       .text(
         borderX - 70,
         borderY - 20,
-        `Remaining fuel: ${sc.gameState.earthInventory.fuel}`,
+        `Remaining fuel: ${Math.floor(sc.gameState.earthInventory.fuel)}`,
       )
       .setFontFamily('"Press Start 2P", monospace')
       .setFontSize(12)

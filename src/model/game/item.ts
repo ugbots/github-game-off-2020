@@ -38,7 +38,6 @@ export interface Item {
 }
 
 export const EMPTY_ITEM = {
-  rarity: Rarity.COMMON,
   imageUrl: 'assets/sprites/character.png',
   description:
     'Here is the description for an item. Boy, it can be really ' +

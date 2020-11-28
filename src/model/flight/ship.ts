@@ -1,10 +1,8 @@
 import { keys } from '../../util/keys';
-import { Sprite } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
 import {
   FlightSceneConfig,
   FlightSceneState,
-  FLIGHT_SCENE_SHIP_POSITION,
   FLIGHT_SCENE_SHIP_SIZE,
 } from './flight_scene_config';
 import { FlightShipThruster } from './flight_ship_thruster';
@@ -27,11 +25,7 @@ export class Ship {
       forward: new FlightShipThruster().create(sc, this.particleManager),
     };
 
-    this.sprite = sc.scene.add.sprite(
-      SCREEN_DIMENSIONS.x / 2,
-      SCREEN_DIMENSIONS.y / 2,
-      keys.sprites.drillShip,
-    );
+    this.sprite = sc.scene.add.sprite(0, 0, keys.sprites.drillShip);
     this.sprite.scale = 2;
 
     return this;
@@ -44,13 +38,14 @@ export class Ship {
 
   update(time: number, dt: number, sc: FlightSceneConfig): void {
     this.sprite.rotation = sc.shipRotation;
+    this.sprite.x = sc.shipPosition.x;
+    this.sprite.y = sc.shipPosition.y;
 
     this.updateThrusters(sc);
 
     if (sc.sceneState === FlightSceneState.INTRO) {
       const x = sc.shipIntroEasing.getValue();
-      this.sprite.y =
-        FLIGHT_SCENE_SHIP_POSITION.y * x + SCREEN_DIMENSIONS.y * (1 - x);
+      this.sprite.y = sc.shipPosition.y * x + SCREEN_DIMENSIONS.y * (1 - x);
     }
 
     if (
@@ -62,8 +57,8 @@ export class Ship {
   }
 
   private updateThrusters(sc: FlightSceneConfig): void {
-    const shipX = FLIGHT_SCENE_SHIP_POSITION.x;
-    const shipY = FLIGHT_SCENE_SHIP_POSITION.y - FLIGHT_SCENE_SHIP_SIZE / 2;
+    const shipX = sc.shipPosition.x;
+    const shipY = sc.shipPosition.y - FLIGHT_SCENE_SHIP_SIZE / 2;
 
     this.thrusters.forward.setEnabled(sc.shipThrusters.forward);
     this.thrusters.rotateLeft.setEnabled(sc.shipThrusters.rotateLeft);

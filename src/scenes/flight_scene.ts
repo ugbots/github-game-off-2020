@@ -18,6 +18,7 @@ import { TutorialOverlay } from '../ui/tutorial_overlay';
 import { localStorage } from '../util/local_storage';
 import { AsteroidIndicator } from '../model/flight/asteroid_indicator';
 import { shipHasItem } from '../model/game/game_state';
+import { FlightGround } from '../model/flight/flight_ground';
 
 export class FlightScene extends Scene {
   private sceneConfig: FlightSceneConfig;
@@ -27,6 +28,7 @@ export class FlightScene extends Scene {
   private asteroid: Asteroid;
   private moon: Moon;
   private ship: Ship;
+  private flightGround: FlightGround;
   private asteroidIndicator?: AsteroidIndicator;
   private altimiter: Altimiter;
   private tutorialOverlay?: TutorialOverlay;
@@ -60,6 +62,7 @@ export class FlightScene extends Scene {
     this.asteroid = new Asteroid().create(this.sceneConfig);
     this.moon = new Moon().create(this.sceneConfig);
     this.ship = new Ship().create(this.sceneConfig);
+    this.flightGround = new FlightGround().create(this.sceneConfig);
 
     if (shipHasItem(this.sceneConfig.gameState, (x) => x.asteroidRadar)) {
       this.asteroidIndicator = new AsteroidIndicator().create(this.sceneConfig);
@@ -88,6 +91,7 @@ export class FlightScene extends Scene {
     this.asteroid.destroy();
     this.moon.destroy();
     this.ship.destroy();
+    this.flightGround.destroy();
     this.asteroidIndicator?.destroy();
     this.altimiter.destroy();
     this.tutorialOverlay?.destroy();
@@ -97,6 +101,7 @@ export class FlightScene extends Scene {
   update(time: number, dt: number): void {
     updateSceneConfig(time, dt, this.sceneConfig);
     this.ship.update(time, dt, this.sceneConfig);
+    this.flightGround.update(this.sceneConfig);
     this.asteroidIndicator?.update(time, this.sceneConfig);
     this.stars.forEach((star) => {
       star.update(time, dt, this.sceneConfig);

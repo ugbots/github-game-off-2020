@@ -1,7 +1,4 @@
-import {
-  FlightSceneConfig,
-  FLIGHT_SCENE_SHIP_POSITION,
-} from './flight_scene_config';
+import { FlightSceneConfig } from './flight_scene_config';
 
 export const ROTATION_SPREAD_DEGREES = 30;
 
@@ -14,8 +11,8 @@ export class FlightShipThruster {
   ): FlightShipThruster {
     this.emitter = manager.createEmitter({
       frame: ['fire_1', 'fire_2', 'fire_3', 'fire_4', 'fire_5'],
-      x: FLIGHT_SCENE_SHIP_POSITION.x,
-      y: FLIGHT_SCENE_SHIP_POSITION.y,
+      x: sc.shipPosition.x,
+      y: sc.shipPosition.y,
       lifespan: 200,
       speed: {
         min: 300,

@@ -1,7 +1,6 @@
 import { failure, map, Result, success } from '../../types/result';
 import { sortBy } from '../../util/arrays';
 import { keys } from '../../util/keys';
-import { CRAPPY_BOOSTER } from './boosters';
 import { PEA_SHOOTER } from './cannons';
 import {
   addFunds,
@@ -49,7 +48,10 @@ export const INITIAL_GAME_STATE: GameState = {
   shipInventory: INITIAL_SHIP_INVENTORY,
   currentScene: keys.scenes.cannon,
   maxShipItems: 5,
-  wallet: COST_FREE,
+  wallet: {
+    ...COST_FREE,
+    gold: 500,
+  },
   shipWallet: {
     ...COST_FREE,
   },

@@ -80,6 +80,9 @@ export class TutorialOverlay {
   private hide(): void {
     this.onOkClick();
     this.setVisible(false);
+    if (this.spaceListener !== undefined) {
+      this.spaceListener.off('keyup');
+    }
   }
 
   private setVisible(visible: boolean): void {

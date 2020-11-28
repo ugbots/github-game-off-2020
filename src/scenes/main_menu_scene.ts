@@ -30,6 +30,7 @@ export class MainMenuScene extends Phaser.Scene {
       .setFontSize(24);
 
     new MenuButton(this, 100, 150, 'New game', () => {
+      localStorage.reset();
       this.scene.start(keys.scenes.cannon, INITIAL_GAME_STATE);
     });
 

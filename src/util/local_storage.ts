@@ -1,4 +1,5 @@
 import { GameState } from '../model/game/game_state';
+import { keys } from './keys';
 
 export const localStorage = {
   wasTutorialRead: (sceneKey: string): boolean => {

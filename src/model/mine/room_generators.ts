@@ -34,7 +34,7 @@ export const ROOM_GENERATORS: ReadonlyArray<(
 ) => ReadonlyArray<ReadonlyArray<TileType>>> = [generateScatteredGold];
 
 const resourceForNormalizedMoonDistance = (x: number): TileType => {
-  if (Math.random() > 0.2 || x < 1 / 4) {
+  if (Math.random() > 0.2 || x < 1 / 6) {
     // Fool's gold spawns instead of gold in the second half, increasing up to
     // 20% of the time.
     const foolsGoldSpawnPercentage = Math.max(0, x * 0.4 - 0.2);
@@ -45,10 +45,10 @@ const resourceForNormalizedMoonDistance = (x: number): TileType => {
     return TileType.GOLD;
   }
 
-  if (x > 1 / 4 && x < 2 / 4) {
+  if (x < 2 / 4) {
     return TileType.EMERALD;
   }
-  if (x >= 2 / 4 && x < 3 / 4) {
+  if (x < 3 / 4) {
     return TileType.SAPPHIRE;
   }
 
