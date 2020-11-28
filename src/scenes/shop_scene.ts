@@ -22,7 +22,11 @@ export class ShopScene extends Scene {
   }
 
   /* override */
-  init(gameState: GameState): void {
+  init(gs: GameState): void {
+    const gameState = {
+      ...gs,
+      currentScene: keys.scenes.shop,
+    };
     localStorage.setGameState(gameState);
 
     showShop(gameState);

@@ -44,7 +44,11 @@ export class CannonScene extends Phaser.Scene {
   }
 
   /* override */
-  init(gameState: GameState): void {
+  init(gs: GameState): void {
+    const gameState = {
+      ...gs,
+      currentScene: keys.scenes.shop,
+    };
     localStorage.setGameState(gameState);
     this.gameState = gameState;
   }

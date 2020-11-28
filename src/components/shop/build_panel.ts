@@ -7,15 +7,18 @@ import {
   EventEmitter,
   SimpleChanges,
 } from '@angular/core';
+import { canAfford, Cost, COST_FREE, purchase } from '../../model/game/cost';
 import {
   dequipItem,
   EMPTY_INVENTORY,
   equipItem,
   GameState,
+  goldForAnotherEquipmentSlot,
   INITIAL_GAME_STATE,
   Inventory,
 } from '../../model/game/game_state';
-import { EMPTY_ITEM, Item, ItemType } from '../../model/game/item';
+import { Item, ItemType } from '../../model/game/item';
+import { isSuccess } from '../../types/result';
 import {
   buildEmptySelectConfig,
   SelectConfig,
@@ -41,11 +44,20 @@ export class BuildPanelComponent implements OnChanges {
   currentInventory: Inventory = EMPTY_INVENTORY;
   nextInventory?: Inventory;
 
+  buyEquipmentSlotButtonClasses: readonly string[] = [];
+  shipEquipmentCount = this.generateShipEquipmentCount();
+  maxShipEquipment = this.generateMaxShipEquipment();
+  goldForAnotherEquipmentSlot = this.generateGoldForAnotherEquipmentSlot();
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['gameState'] && this.gameState !== undefined) {
       this.equipmentSelectConfig = this.generateEquipmentSelectConfig();
       this.equippedSelectConfig = this.generateEquippedSelectConfig();
       this.currentInventory = this.gameState.shipInventory;
+      this.shipEquipmentCount = this.generateShipEquipmentCount();
+      this.maxShipEquipment = this.generateMaxShipEquipment();
+      this.goldForAnotherEquipmentSlot = this.generateGoldForAnotherEquipmentSlot();
+      this.buyEquipmentSlotButtonClasses = this.generateBuyEquipmentSlotButtonClasses();
     }
   }
 
@@ -61,6 +73,34 @@ export class BuildPanelComponent implements OnChanges {
         this.gameState,
         option?.value,
       ).shipInventory;
+    }
+  }
+
+  canBuyEquipmentSlot(): boolean {
+    if (this.goldForAnotherEquipmentSlot === undefined) {
+      return false;
+    }
+    return this.gameState.wallet.gold >= this.goldForAnotherEquipmentSlot;
+  }
+
+  buyEquipmentSlot(): void {
+    const goldCost = this.goldForAnotherEquipmentSlot;
+    if (goldCost === undefined) {
+      return;
+    }
+
+    const cost: Cost = {
+      ...COST_FREE,
+      gold: goldCost,
+    };
+
+    const purchaseTry = purchase(this.gameState.wallet, cost);
+    if (isSuccess(purchaseTry)) {
+      this.gameStateChange.emit({
+        ...this.gameState,
+        maxShipItems: this.gameState.maxShipItems + 1,
+        wallet: purchaseTry.value,
+      });
     }
   }
 
@@ -163,5 +203,32 @@ export class BuildPanelComponent implements OnChanges {
       label,
       value: undefined,
     };
+  }
+
+  private generateShipEquipmentCount(): number {
+    return this.gameState.shipInventory.items.length;
+  }
+
+  private generateMaxShipEquipment(): number {
+    return this.gameState.maxShipItems;
+  }
+
+  private generateGoldForAnotherEquipmentSlot(): number | undefined {
+    return goldForAnotherEquipmentSlot(this.gameState);
+  }
+
+  private generateBuyEquipmentSlotButtonClasses(): readonly string[] {
+    if (this.canBuyEquipmentSlot()) {
+      return [
+        'bg-green-700',
+        'text-gray-100',
+        'cursor-pointer',
+        'transition-all',
+        'transform-y-0',
+        'hover:bg-green-600',
+        'hover:-transform-y-1',
+      ];
+    }
+    return ['bg-gray-800', 'text-gray-100', 'cursor-not-allowed'];
   }
 }

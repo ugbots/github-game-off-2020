@@ -40,7 +40,6 @@ export class LootScene extends Scene {
   }
 
   destroy(): void {
-    this.input.destroy();
     this.lootText.destroy();
   }
 

@@ -36,7 +36,7 @@ export class MainMenuScene extends Phaser.Scene {
     const loadedGameState = localStorage.getGameState();
     if (loadedGameState !== undefined) {
       new MenuButton(this, 100, 250, 'Load game', () => {
-        this.scene.start(keys.scenes.cannon, loadedGameState);
+        this.scene.start(loadedGameState.currentScene, loadedGameState);
       });
     }
   }

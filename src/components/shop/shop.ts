@@ -13,7 +13,13 @@ import {
   ShopService,
   ShopState,
 } from '../../services/shop/shop_service';
-import { failure, isSuccess, Result, success } from '../../types/result';
+import {
+  failure,
+  flatMap,
+  isSuccess,
+  Result,
+  success,
+} from '../../types/result';
 import { UNIT, Unit } from '../../types/unit';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
 import { selectTab, Tab, TabGroupConfig } from '../tabs/tab_group_config';
@@ -106,7 +112,9 @@ export class ShopComponent implements OnChanges {
   }
 
   private checkCanCloseShop(gs: GameState): Result<string, Unit> {
-    return checkHasExactlyOneCannon(gs);
+    return flatMap(checkShipDoesNotHaveTooManyItems(gs), () =>
+      checkHasExactlyOneCannon(gs),
+    );
   }
 }
 
@@ -120,4 +128,17 @@ const checkHasExactlyOneCannon = (gs: GameState): Result<string, Unit> => {
   }
 
   return failure('You must have exactly one cannon equipped.');
+};
+
+const checkShipDoesNotHaveTooManyItems = (
+  gs: GameState,
+): Result<string, Unit> => {
+  const equipped = gs.shipInventory.items.length;
+  const max = gs.maxShipItems;
+
+  if (equipped > max) {
+    return failure(`You have too many items equipped: ${equipped}/${max}`);
+  }
+
+  return success(UNIT);
 };

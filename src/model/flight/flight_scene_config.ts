@@ -89,9 +89,9 @@ export const getInitialSceneConfig = (
     cursorKeys: scene.input.keyboard.createCursorKeys(),
     shipRotationVelocityEasing: new EasingButton({
       fn: linear,
-      speed: 0.0005 * (1 + stabilizers),
+      speed: 0.0005 + 0.0002 * (1 + stabilizers),
       scale: 1,
-      friction: Math.max(0, 1 - 0.1 * stabilizers),
+      friction: Math.max(0, 1 - 0.01 * stabilizers),
       initialValue: 1,
       canGoNegative: true,
     }),

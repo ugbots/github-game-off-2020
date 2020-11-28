@@ -37,9 +37,16 @@ export class FlightScene extends Scene {
   }
 
   /* override */
-  init(flightSceneInput: FlightSceneInput): void {
-    localStorage.setGameState(flightSceneInput.gameState);
-    this.flightSceneInput = flightSceneInput;
+  init(input: FlightSceneInput): void {
+    this.flightSceneInput = {
+      ...input,
+      gameState: {
+        ...input.gameState,
+        currentScene: keys.scenes.flight,
+      },
+    };
+
+    localStorage.setGameState(this.flightSceneInput.gameState);
   }
 
   /* override */

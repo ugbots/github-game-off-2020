@@ -36,8 +36,15 @@ export class MineScene extends Scene {
 
   /* override */
   init(input: MineSceneInput): void {
-    localStorage.setGameState(input.gameState);
-    this.mineSceneInput = input;
+    this.mineSceneInput = {
+      ...input,
+      gameState: {
+        ...input.gameState,
+        currentScene: keys.scenes.flight,
+      },
+    };
+
+    localStorage.setGameState(this.mineSceneInput.gameState);
   }
 
   /* override */

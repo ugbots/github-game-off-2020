@@ -72,6 +72,7 @@ export class ShopService {
     const gs = this.gameStateSubject.value ?? INITIAL_GAME_STATE;
 
     switch (cheatCode) {
+      // rosebud: Gain 10,000 of each currency
       case 'rosebud':
         this.setGameState({
           ...gs,
@@ -82,6 +83,18 @@ export class ShopService {
             sapphire: 10_000,
           }),
         });
+        break;
+      // mechanical: Remove ship equipment limit
+      case 'mechanical':
+        this.setGameState({
+          ...gs,
+          maxShipItems: Infinity,
+        });
+        break;
+      // freshenup: Reset game state
+      case 'freshenup':
+        this.setGameState(INITIAL_GAME_STATE);
+        break;
     }
   }
 }
