@@ -34,6 +34,7 @@ export interface MineShipConfig {
 }
 
 export enum MineSceneState {
+  TUTORIAL,
   ROAMING,
   SHIP_BLEW_UP,
 }
@@ -122,6 +123,9 @@ export const updateMineSceneConfig = (
   sc: MineSceneConfig,
 ): void => {
   switch (sc.sceneState) {
+    case MineSceneState.TUTORIAL:
+      sc.shipConfig.batteryEasing.setSpeed(0);
+      break;
     case MineSceneState.ROAMING:
       updateShip(dt, sc);
       break;

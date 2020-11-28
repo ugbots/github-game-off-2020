@@ -2,6 +2,7 @@ import { Scene } from 'phaser';
 import { GameState } from '../model/game/game_state';
 import { showShop } from '../services/shop/shop_service';
 import { keys } from '../util/keys';
+import { localStorage } from '../util/local_storage';
 
 let subFn: (g: GameState) => void = () => {
   throw new Error('subFn not set!');
@@ -22,6 +23,8 @@ export class ShopScene extends Scene {
 
   /* override */
   init(gameState: GameState): void {
+    localStorage.setGameState(gameState);
+
     showShop(gameState);
 
     subFn = (doneGameState: GameState) => {

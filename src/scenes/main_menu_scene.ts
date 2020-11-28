@@ -1,6 +1,7 @@
 import { INITIAL_GAME_STATE } from '../model/game/game_state';
 import { MenuButton } from '../ui/menu-button';
 import { keys } from '../util/keys';
+import { localStorage } from '../util/local_storage';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -28,12 +29,15 @@ export class MainMenuScene extends Phaser.Scene {
       )
       .setFontSize(24);
 
-    new MenuButton(this, 100, 150, 'Start Game', () => {
+    new MenuButton(this, 100, 150, 'New game', () => {
       this.scene.start(keys.scenes.cannon, INITIAL_GAME_STATE);
     });
 
-    new MenuButton(this, 100, 250, 'Shop', () => {
-      this.scene.start(keys.scenes.shop, INITIAL_GAME_STATE);
-    });
+    const loadedGameState = localStorage.getGameState();
+    if (loadedGameState !== undefined) {
+      new MenuButton(this, 100, 250, 'Load game', () => {
+        this.scene.start(keys.scenes.cannon, loadedGameState);
+      });
+    }
   }
 }

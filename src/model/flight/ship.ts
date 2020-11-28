@@ -27,7 +27,7 @@ export class Ship {
       forward: new FlightShipThruster().create(sc, this.particleManager),
     };
 
-    this.sprite = sc.scene.physics.add.sprite(
+    this.sprite = sc.scene.add.sprite(
       SCREEN_DIMENSIONS.x / 2,
       SCREEN_DIMENSIONS.y / 2,
       keys.sprites.drillShip,

@@ -58,7 +58,7 @@ export const getInitialSceneConfig = (
     cannonPivot: DEFAULT_CANNON_PIVOT.clone(),
     starCount: 100,
     moonAngleRadians: Math.random() * Math.PI * 2,
-    sceneState: SceneState.TUTORIAL,
+    sceneState: SceneState.ROTATE_CANNON,
     rotationEasing: new EasingButton({
       fn: easeInOut,
       speed: 0.002,

@@ -18,6 +18,7 @@ import { keys } from '../util/keys';
 import { CannonMoonIndicator } from '../model/cannon/cannon_moon_indicator';
 import { generateArray } from '../util/arrays';
 import { TutorialOverlay } from '../ui/tutorial_overlay';
+import { localStorage } from '../util/local_storage';
 
 export class CannonScene extends Phaser.Scene {
   private sceneConfig: CannonSceneConfig;
@@ -44,6 +45,7 @@ export class CannonScene extends Phaser.Scene {
 
   /* override */
   init(gameState: GameState): void {
+    localStorage.setGameState(gameState);
     this.gameState = gameState;
   }
 
@@ -76,9 +78,13 @@ export class CannonScene extends Phaser.Scene {
       CANNON_SCENE_TUTORIAL,
       () => {
         this.sceneConfig.sceneState = SceneState.ROTATE_CANNON;
+        localStorage.markTutorialRead(keys.scenes.cannon);
       },
     );
-    this.tutorialOverlay.show();
+    if (!localStorage.wasTutorialRead(keys.scenes.cannon)) {
+      this.sceneConfig.sceneState = SceneState.TUTORIAL;
+      this.tutorialOverlay.show();
+    }
   }
 
   destroy(): void {

@@ -69,7 +69,7 @@ export class TutorialOverlay {
     this.backdrop.destroy();
     this.text.destroy();
     this.okButton.destroy();
-    this.spaceListener.destroy();
+    this.spaceListener.off('keyup');
   }
 
   show(): void {
