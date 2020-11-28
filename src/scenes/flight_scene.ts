@@ -3,6 +3,8 @@ import {
   getInitialSceneConfig,
   FlightSceneConfig,
   updateSceneConfig,
+  FlightSceneState,
+  MOON_HEIGHT,
 } from '../model/flight/flight_scene_config';
 import { Star } from '../model/flight/star';
 import { Ship } from '../model/flight/ship';
@@ -12,6 +14,8 @@ import { Altimiter } from '../model/flight/altimiter';
 import { Asteroid } from '../model/flight/asteroid';
 import { Moon } from '../model/flight/moon';
 import { generateArray } from '../util/arrays';
+import { TutorialOverlay } from '../ui/tutorial_overlay';
+import { localStorage } from '../util/local_storage';
 
 export class FlightScene extends Scene {
   private sceneConfig: FlightSceneConfig;
@@ -22,6 +26,7 @@ export class FlightScene extends Scene {
   private moon: Moon;
   private ship: Ship;
   private altimiter: Altimiter;
+  private tutorialOverlay: TutorialOverlay;
 
   constructor() {
     super({
@@ -33,6 +38,7 @@ export class FlightScene extends Scene {
 
   /* override */
   init(flightSceneInput: FlightSceneInput): void {
+    localStorage.setGameState(flightSceneInput.gameState);
     this.flightSceneInput = flightSceneInput;
   }
 
@@ -52,8 +58,19 @@ export class FlightScene extends Scene {
     this.asteroid = new Asteroid().create(this.sceneConfig);
     this.moon = new Moon().create(this.sceneConfig);
     this.ship = new Ship().create(this.sceneConfig);
-
     this.altimiter = new Altimiter().create(this.sceneConfig);
+    this.tutorialOverlay = new TutorialOverlay().create(
+      this,
+      FLIGHT_SCENE_TUTORIAL,
+      () => {
+        this.sceneConfig.sceneState = FlightSceneState.INTRO;
+        localStorage.markTutorialRead(keys.scenes.flight);
+      },
+    );
+    if (!localStorage.wasTutorialRead(keys.scenes.flight)) {
+      this.sceneConfig.sceneState = FlightSceneState.TUTORIAL;
+      this.tutorialOverlay.show();
+    }
   }
 
   destroy(): void {
@@ -64,6 +81,7 @@ export class FlightScene extends Scene {
     this.moon.destroy();
     this.ship.destroy();
     this.altimiter.destroy();
+    this.tutorialOverlay.destroy();
   }
 
   /* override */
@@ -78,3 +96,16 @@ export class FlightScene extends Scene {
     this.moon.update(this.sceneConfig);
   }
 }
+
+const FLIGHT_SCENE_TUTORIAL: string = [
+  "Now that you're flying through space, you can try to",
+  'reach the moon. Modern rat science shows that the moon',
+  `is nearly ${MOON_HEIGHT} feet away, so you may need to`,
+  'upgrade your equipment.',
+  'The ratsteroid belt orbiting our planet may have some',
+  'useful resources to help you buy some upgrades. ',
+  '',
+  'Controls:',
+  '  Left / Right: Rotate ship',
+  '  Up: Boost',
+].join('\n');

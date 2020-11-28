@@ -7,7 +7,13 @@ const minimumHeight = 50;
 export class MenuButton extends Phaser.GameObjects.Rectangle {
   private label: Phaser.GameObjects.Text;
 
-  constructor(scene: Phaser.Scene, x: number, y: number, text: string, onClick?: () => void) {
+  constructor(
+    scene: Phaser.Scene,
+    x: number,
+    y: number,
+    text: string,
+    onClick?: () => void,
+  ) {
     super(scene, x, y);
     scene.add.existing(this);
     this.setOrigin(0, 0);
@@ -34,6 +40,13 @@ export class MenuButton extends Phaser.GameObjects.Rectangle {
     }
 
     this.enterMenuButtonRestState();
+  }
+
+  /* override */
+  setVisible(visible: boolean): this {
+    super.setVisible(visible);
+    this.label.setVisible(visible);
+    return this;
   }
 
   private enterMenuButtonHoverState() {

@@ -2,7 +2,6 @@ import { Scene } from 'phaser';
 import { GameState, shipStatTotal } from '../game/game_state';
 import { CursorKeys, Vector2 } from '../../util/phaser_types';
 import {
-  easeInOut,
   easeOutElastic,
   EasingButton,
   EasingDirection,
@@ -15,6 +14,7 @@ import { MineSceneInput } from '../mine/mine_scene_input';
 import { clamp } from '../../math/math';
 
 export enum FlightSceneState {
+  TUTORIAL,
   INTRO,
   FLIGHT,
   ASTEROID_COLLISION,
@@ -35,7 +35,8 @@ export const MOON_SIZE = SCREEN_DIMENSIONS.x / 2;
  * When aimed at the moon, it shows up here. If the ship velocity changes, this
  * will need to change too.
  */
-const MOON_HEIGHT = 12000;
+export const MOON_HEIGHT = 12000;
+
 export const INITIAL_MOON_POSITION = new Vector2(
   SCREEN_DIMENSIONS.x / 2,
   -MOON_HEIGHT,
