@@ -48,7 +48,10 @@ export const getInitialSceneConfig = (
   gameState: GameState,
   onDestroy: () => void,
 ): CannonSceneConfig => {
-  const maxFuel = shipStatTotal(gameState, (x) => x.maxCannonPower);
+  const maxFuel = Math.min(
+    gameState.earthInventory.fuel,
+    shipStatTotal(gameState, (x) => x.maxCannonPower),
+  );
   return {
     scene,
     gameState,

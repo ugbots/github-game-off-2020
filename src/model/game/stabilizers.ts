@@ -27,7 +27,7 @@ export const ALUMINUM_FLAPS: Stabilizer = {
   stabilizers: 2,
   cost: {
     ...COST_FREE,
-    gold: 5_000,
+    gold: 2_000,
     emerald: 500,
   },
 };
@@ -41,7 +41,7 @@ export const SUB_QUANTUM_GYRO: Stabilizer = {
   stabilizers: 10,
   cost: {
     ...COST_FREE,
-    gold: 10_000,
+    gold: 3_000,
     ruby: 500,
   },
 };

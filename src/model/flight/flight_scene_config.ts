@@ -13,6 +13,7 @@ import { keys } from '../../util/keys';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
 import { MineSceneInput } from '../mine/mine_scene_input';
 import { clamp } from '../../math/math';
+import { peek } from '../../util/arrays';
 
 export enum FlightSceneState {
   TUTORIAL,
@@ -36,7 +37,7 @@ export const MOON_SIZE = SCREEN_DIMENSIONS.x / 2;
  * When aimed at the moon, it shows up here. If the ship velocity changes, this
  * will need to change too.
  */
-export const MOON_HEIGHT = 12000;
+export const MOON_HEIGHT = 11500;
 
 export const INITIAL_MOON_POSITION = new Vector2(
   SCREEN_DIMENSIONS.x / 2,
@@ -68,8 +69,8 @@ export interface FlightSceneConfig {
   readonly aimedAtMoon: boolean;
   readonly moonPosition: Vector2;
   readonly shipPosition: Vector2;
+  readonly asteroidPositions: Vector2[];
   shipThrusters: ShipThrusters;
-  asteroidPosition: Vector2;
   verticalPosition: number;
   shipVelocity: Vector2;
   shipRotationVelocity: number;
@@ -107,7 +108,7 @@ export const getInitialSceneConfig = (
       rotateLeft: false,
       rotateRight: false,
     },
-    asteroidPosition: new Vector2(Math.random() * SCREEN_DIMENSIONS.x, 0),
+    asteroidPositions: [new Vector2(Math.random() * SCREEN_DIMENSIONS.x, 0)],
     verticalPosition: 0,
     // If you want to change the ship velocity, also make sure to change the
     // moon's position. Do this by starting the flight scene at 100 fuel, and
@@ -251,29 +252,42 @@ const updateShipVelocity = (
 };
 
 const updateAsteroidPosition = (sc: FlightSceneConfig): FlightSceneConfig => {
-  sc.asteroidPosition.x += sc.shipVelocity.x;
-  sc.asteroidPosition.y += sc.shipVelocity.y;
+  sc.asteroidPositions.forEach((p) => {
+    p.x += sc.shipVelocity.x;
+    p.y += sc.shipVelocity.y;
+  });
+
+  const asteroid = peek(sc.asteroidPositions);
+
+  if (asteroid === undefined) {
+    return sc;
+  }
+
+  if (sc.shipVelocity.y > 0) {
+    // Going up
+    if (asteroid.y > SCREEN_DIMENSIONS.y + ASTEROID_COLLISION_RADIUS) {
+      // We passed the asteroid, so spawn a new one.
+      sc.asteroidPositions.push(
+        new Vector2(
+          Math.random() * SCREEN_DIMENSIONS.x,
+          -SCREEN_DIMENSIONS.y * (1 + 0.2 * Math.random()),
+        ),
+      );
+    }
+  } else {
+    // Going down
+    if (sc.shipPosition.y > asteroid.y + 200) {
+      // We passed the asteroid, so pop it.
+      sc.asteroidPositions.pop();
+    }
+  }
 
   const asteroidDist = Phaser.Math.Distance.Between(
     sc.shipPosition.x,
     sc.shipPosition.y,
-    sc.asteroidPosition.x,
-    sc.asteroidPosition.y,
+    asteroid.x,
+    asteroid.y,
   );
-
-  if (asteroidDist > MAX_ASTEROID_DISTANCE) {
-    sc.asteroidPosition.x = Math.random() * SCREEN_DIMENSIONS.x;
-
-    if (sc.shipVelocity.y > 0) {
-      // Spawn the asteroid above us
-      sc.asteroidPosition.y =
-        -(MAX_ASTEROID_DISTANCE / 20) - Math.random() * 200;
-    } else {
-      // Spawn the asteroid underneath us
-      sc.asteroidPosition.y =
-        SCREEN_DIMENSIONS.y + MAX_ASTEROID_DISTANCE / 2 + Math.random() * 200;
-    }
-  }
 
   if (asteroidDist < ASTEROID_COLLISION_RADIUS) {
     sc.sceneState = FlightSceneState.ASTEROID_COLLISION;
@@ -295,13 +309,12 @@ const updateShipFliesTowardAsteroid = (
   sc: FlightSceneConfig,
   dt: number,
 ): FlightSceneConfig => {
+  const asteroid = sc.asteroidPositions[sc.asteroidPositions.length - 1];
   sc.shipRotation += 0.01 * dt;
   sc.shipVelocity.x = 0;
   sc.shipVelocity.y = 0;
-  sc.asteroidPosition.x =
-    0.99 * sc.asteroidPosition.x + 0.01 * sc.shipPosition.x;
-  sc.asteroidPosition.y =
-    0.99 * sc.asteroidPosition.y + 0.01 * sc.shipPosition.y;
+  asteroid.x = 0.99 * asteroid.x + 0.01 * sc.shipPosition.x;
+  asteroid.y = 0.99 * asteroid.y + 0.01 * sc.shipPosition.y;
 
   return sc;
 };

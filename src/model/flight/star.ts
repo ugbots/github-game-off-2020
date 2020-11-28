@@ -31,7 +31,7 @@ export class Star {
       0.6 + 0.4 * Math.sin(time * 0.003 * this.alphaTime + this.alphaT);
 
     const velocityMultiplier = 0.5 * (5 - 12 / this.sprite.scale);
-    this.sprite.x += sc.shipVelocity.x * velocityMultiplier;
+    this.sprite.x += sc.shipVelocity.x * velocityMultiplier * 0.8;
     this.sprite.y += sc.shipVelocity.y * velocityMultiplier;
 
     // Sprite goes left

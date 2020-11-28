@@ -36,6 +36,7 @@ export class MineScene extends Scene {
 
   /* override */
   init(input: MineSceneInput): void {
+    console.log(input);
     this.mineSceneInput = input;
   }
 
@@ -102,4 +103,5 @@ const MINE_SCENE_TUTORIAL: string = [
   '  Up / Down / Left / Right: Move ship',
   '  Space: Activate drill',
   '  Z: Use item (if equipped)',
+  '  Q: Leave the asteroid',
 ].join('\n');

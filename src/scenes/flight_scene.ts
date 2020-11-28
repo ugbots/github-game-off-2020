@@ -26,7 +26,7 @@ export class FlightScene extends Scene {
 
   private stars: readonly Star[];
   private asteroid: Asteroid;
-  private moon: Moon;
+  private moon?: Moon;
   private ship: Ship;
   private flightGround: FlightGround;
   private asteroidIndicator?: AsteroidIndicator;
@@ -60,7 +60,9 @@ export class FlightScene extends Scene {
 
     this.stars = generateArray(50, () => new Star().create(this.sceneConfig));
     this.asteroid = new Asteroid().create(this.sceneConfig);
-    this.moon = new Moon().create(this.sceneConfig);
+    if (this.sceneConfig.aimedAtMoon) {
+      this.moon = new Moon().create(this.sceneConfig);
+    }
     this.ship = new Ship().create(this.sceneConfig);
     this.flightGround = new FlightGround().create(this.sceneConfig);
 
@@ -89,7 +91,7 @@ export class FlightScene extends Scene {
       s.destroy();
     });
     this.asteroid.destroy();
-    this.moon.destroy();
+    this.moon?.destroy();
     this.ship.destroy();
     this.flightGround.destroy();
     this.asteroidIndicator?.destroy();
@@ -108,7 +110,7 @@ export class FlightScene extends Scene {
     });
     this.altimiter.update(time, dt, this.sceneConfig);
     this.asteroid.update(time, dt, this.sceneConfig);
-    this.moon.update(this.sceneConfig);
+    this.moon?.update(this.sceneConfig);
   }
 }
 

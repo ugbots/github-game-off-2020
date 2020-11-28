@@ -45,10 +45,10 @@ const resourceForNormalizedMoonDistance = (x: number): TileType => {
     return TileType.GOLD;
   }
 
-  if (x < 2 / 4) {
+  if (x < 1 / 3) {
     return TileType.EMERALD;
   }
-  if (x < 3 / 4) {
+  if (x < 2 / 3) {
     return TileType.SAPPHIRE;
   }
 

@@ -40,7 +40,7 @@ export const BIG_BERTHA: Cannon = {
   maxCannonPower: 60,
   cost: {
     ...COST_FREE,
-    emerald: 5_000,
+    emerald: 2_000,
   },
 };
 
@@ -54,7 +54,7 @@ export const GUSTAV: Cannon = {
   maxCannonPower: 80,
   cost: {
     ...COST_FREE,
-    sapphire: 10_000,
+    sapphire: 3_000,
   },
 };
 
@@ -67,7 +67,7 @@ export const M65_ATOMIC_CANNON: Cannon = {
   maxCannonPower: 100,
   cost: {
     ...COST_FREE,
-    ruby: 25_000,
+    ruby: 4_000,
   },
 };
 

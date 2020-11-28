@@ -14,6 +14,10 @@ export const sortBy = <T>(
     return 0;
   });
 
+export const peek = <T>(xs: readonly T[]): T | undefined => {
+  return xs[xs.length - 1];
+};
+
 export const generateArray = <T>(
   length: number,
   genF: (i: number) => T,

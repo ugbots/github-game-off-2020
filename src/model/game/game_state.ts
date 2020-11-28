@@ -23,7 +23,7 @@ export const EMPTY_INVENTORY: Inventory = {
 };
 
 const INITIAL_EARTH_INVENTORY: Inventory = {
-  fuel: 1_000,
+  fuel: 2_000,
   items: [],
 };
 
@@ -41,7 +41,7 @@ export interface GameState {
   readonly shipWallet: MutableCost;
 }
 
-export const MAX_EQUIPMENT_SLOTS = 10;
+export const MAX_EQUIPMENT_SLOTS = 15;
 
 export const INITIAL_GAME_STATE: GameState = {
   earthInventory: INITIAL_EARTH_INVENTORY,
@@ -106,6 +106,18 @@ export const dequipItem = (gs: GameState, item: Item): GameState => {
     shipInventory: newShipInv,
   };
 };
+
+export const dequipAll = (gs: GameState): GameState => ({
+  ...gs,
+  earthInventory: {
+    ...gs.earthInventory,
+    items: [...gs.earthInventory.items, ...gs.shipInventory.items],
+  },
+  shipInventory: {
+    ...gs.shipInventory,
+    items: [],
+  },
+});
 
 export const buyItem = (
   gameState: GameState,

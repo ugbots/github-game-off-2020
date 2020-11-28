@@ -18,6 +18,7 @@ export const MODEL_ROCKET_ENGINE: Booster = {
   },
 };
 
+<<<<<<< Updated upstream
 export const DIESEL_BOOSTER: Booster = {
   ...EMPTY_ITEM,
   rarity: Rarity.UNCOMMON,
@@ -59,12 +60,44 @@ export const ION_ENGINE: Booster = {
     ...COST_FREE,
     gold: 1500,
     ruby: 800,
+=======
+export const FORD_TAURUS: Booster = {
+  ...EMPTY_ITEM,
+  rarity: Rarity.UNCOMMON,
+  type: ItemType.BOOSTER,
+  name: 'Ford Taurus',
+  description:
+    'We managed to repurpose your old car into a rocket engine Cool, huh?',
+  boosters: 2,
+  cost: {
+    ...COST_FREE,
+    gold: 1_000,
+  },
+};
+
+export const RAMJET: Booster = {
+  ...EMPTY_ITEM,
+  rarity: Rarity.RARE,
+  type: ItemType.BOOSTER,
+  name: 'Ramjet',
+  description: 'The original flying stovepipe.',
+  boosters: 3,
+  cost: {
+    ...COST_FREE,
+    gold: 1_000,
+    emerald: 1_000,
+>>>>>>> Stashed changes
   },
 };
 
 export const ALL_BOOSTERS: readonly Booster[] = [
   MODEL_ROCKET_ENGINE,
+<<<<<<< Updated upstream
   DIESEL_BOOSTER,
   LIQUID_OXYGEN_BOOSTER,
   ION_ENGINE,
+=======
+  FORD_TAURUS,
+  RAMJET,
+>>>>>>> Stashed changes
 ];

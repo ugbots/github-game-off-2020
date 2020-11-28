@@ -1,4 +1,6 @@
 import { clamp } from '../../math/math';
+import { peek } from '../../util/arrays';
+import { Vector2 } from '../../util/phaser_types';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
 import { shipHasItem } from '../game/game_state';
 import { FlightSceneConfig } from './flight_scene_config';
@@ -56,17 +58,25 @@ export class AsteroidIndicator {
     ind: Phaser.GameObjects.Text,
     sc: FlightSceneConfig,
   ): void {
-    ind.setText(sc.asteroidPosition.y > ind.y ? 'v' : '^');
+    const asteroid = peek(sc.asteroidPositions);
+    if (asteroid === undefined) {
+      return;
+    }
+    ind.setText(asteroid.y > ind.y ? 'v' : '^');
 
-    ind.setX(clamp(0, sc.asteroidPosition.x, SCREEN_DIMENSIONS.x - 80));
+    ind.setX(clamp(0, asteroid.x, SCREEN_DIMENSIONS.x - 80));
   }
 
   private updateVerticalIndicator(
     ind: Phaser.GameObjects.Text,
     sc: FlightSceneConfig,
   ): void {
-    ind.setText(sc.asteroidPosition.x > ind.x ? '>' : '<');
+    const asteroid = peek(sc.asteroidPositions);
+    if (asteroid === undefined) {
+      return;
+    }
+    ind.setText(asteroid.x > ind.x ? '>' : '<');
 
-    ind.setY(clamp(0, sc.asteroidPosition.y, SCREEN_DIMENSIONS.y - 80));
+    ind.setY(clamp(0, asteroid.y, SCREEN_DIMENSIONS.y - 80));
   }
 }

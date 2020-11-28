@@ -91,9 +91,19 @@ export class ShopService {
           maxShipItems: Infinity,
         });
         break;
-      // freshenup: Reset game state
-      case 'freshenup':
+      // freshness: Reset game state
+      case 'freshness':
         this.setGameState(INITIAL_GAME_STATE);
+        break;
+      // fillerup: Gain 1000 fuel
+      case 'fillerup':
+        this.setGameState({
+          ...gs,
+          earthInventory: {
+            ...gs.earthInventory,
+            fuel: gs.earthInventory.fuel + 1000,
+          },
+        });
         break;
     }
   }

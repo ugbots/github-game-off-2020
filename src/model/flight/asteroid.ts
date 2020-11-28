@@ -1,3 +1,4 @@
+import { peek } from '../../util/arrays';
 import { keys } from '../../util/keys';
 import { FlightSceneConfig, FlightSceneState } from './flight_scene_config';
 
@@ -15,8 +16,14 @@ export class Asteroid {
   }
 
   update(time: number, dt: number, sc: FlightSceneConfig): void {
-    this.sprite.x = sc.asteroidPosition.x;
-    this.sprite.y = sc.asteroidPosition.y;
+    const asteroid = peek(sc.asteroidPositions);
+    if (asteroid === undefined) {
+      this.sprite.setVisible(false);
+      return;
+    }
+
+    this.sprite.x = asteroid.x;
+    this.sprite.y = asteroid.y;
 
     if (sc.sceneState === FlightSceneState.ASTEROID_COLLISION) {
       this.sprite.scale += 0.004 * dt;

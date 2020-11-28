@@ -27,8 +27,8 @@ export const CAR_BATTERY: Battery = {
   batteries: 2,
   cost: {
     ...COST_FREE,
-    gold: 2_000,
-    emerald: 200,
+    gold: 1_500,
+    emerald: 400,
   },
 };
 
@@ -41,8 +41,8 @@ export const ELLEN_DEGENERATOR: Battery = {
   batteries: 3,
   cost: {
     ...COST_FREE,
-    gold: 5_000,
-    sapphire: 200,
+    gold: 2_000,
+    sapphire: 500,
   },
 };
 
@@ -55,9 +55,9 @@ export const COBALT_FUEL_ROD: Battery = {
   batteries: 10,
   cost: {
     ...COST_FREE,
-    gold: 10_000,
+    gold: 3_000,
     ruby: 500,
-  }
+  },
 };
 
 export const ALL_BATTERIES: readonly Battery[] = [

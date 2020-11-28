@@ -28,7 +28,7 @@ export const IRON_DRILL: Drill = {
   drills: 2,
   cost: {
     ...COST_FREE,
-    gold: 5_000,
+    gold: 1_000,
   },
 };
 
@@ -40,8 +40,8 @@ export const BRONZE_DRILL: Drill = {
   drills: 3,
   cost: {
     ...COST_FREE,
-    gold: 5_000,
-    emerald: 1_000,
+    gold: 1_000,
+    emerald: 300,
   },
 };
 
@@ -53,8 +53,8 @@ export const TITANIUM_DRILL: Drill = {
   drills: 5,
   cost: {
     ...COST_FREE,
-    gold: 7_000,
-    sapphire: 500,
+    gold: 1_000,
+    sapphire: 1_000,
   },
 };
 
@@ -66,7 +66,7 @@ export const DIAMOND_DRILL: Drill = {
   drills: 10,
   cost: {
     ...COST_FREE,
-    gold: 10_000,
+    gold: 3_000,
     ruby: 500,
   },
 };

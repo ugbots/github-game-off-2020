@@ -7,8 +7,9 @@ import {
   EventEmitter,
   SimpleChanges,
 } from '@angular/core';
-import { canAfford, Cost, COST_FREE, purchase } from '../../model/game/cost';
+import { Cost, COST_FREE, purchase } from '../../model/game/cost';
 import {
+  dequipAll,
   dequipItem,
   EMPTY_INVENTORY,
   equipItem,
@@ -143,6 +144,14 @@ export class BuildPanelComponent implements OnChanges {
     );
     this.currentSelectedEquipped = undefined;
     this.nextInventory = undefined;
+  }
+
+  hasNothingEquipped(): boolean {
+    return this.gameState.shipInventory.items.length === 0;
+  }
+
+  dequipAll(): void {
+    this.gameStateChange.emit(dequipAll(this.gameState));
   }
 
   private generateEquipmentSelectConfig(): SelectConfig<Item> {

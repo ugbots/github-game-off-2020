@@ -44,6 +44,7 @@ export interface MineSceneConfig {
   readonly scene: Scene;
   readonly cursorKeys: CursorKeys;
   readonly zKey: Phaser.Input.Keyboard.Key;
+  readonly qKey: Phaser.Input.Keyboard.Key;
   readonly shipConfig: MineShipConfig;
   readonly onDestroy: () => void;
   sceneState: MineSceneState;
@@ -110,6 +111,7 @@ export const getInitialMineSceneConfig = (
     scene,
     cursorKeys: scene.input.keyboard.createCursorKeys(),
     zKey: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
+    qKey: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q),
     sceneState: MineSceneState.ROAMING,
     shipConfig: getInitialMineShipConfig(input.gameState),
     onDestroy,
@@ -128,6 +130,7 @@ export const updateMineSceneConfig = (
       break;
     case MineSceneState.ROAMING:
       updateShip(dt, sc);
+      updateQKey(sc);
       break;
     case MineSceneState.SHIP_BLEW_UP:
       // Do nothing so far.
@@ -151,6 +154,21 @@ const updateShip = (dt: number, sc: MineSceneConfig): void => {
   updateBattery(dt, sc);
   updateShipMovement(dt, sc);
   updateShipMining(dt, sc);
+};
+
+const updateQKey = (sc: MineSceneConfig): void => {
+  if (sc.qKey.isDown) {
+    const input: LootSceneInput = {
+      gameState: {
+        ...sc.gameState,
+        shipWallet: truncateCost(sc.gameState.shipWallet),
+      },
+      wasShipDestroyed: false,
+    };
+    sc.scene.scene.start(keys.scenes.loot, input);
+
+    sc.onDestroy();
+  }
 };
 
 const updateFoolsGoldRadar = (dt: number, sc: MineSceneConfig): void => {
