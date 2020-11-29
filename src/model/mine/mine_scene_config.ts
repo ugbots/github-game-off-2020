@@ -61,7 +61,7 @@ const getBatteryDrainSpeed = (gs: GameState, scalar: number) =>
   0.00005 *
   scalar *
   Math.pow(
-    0.75,
+    0.9,
     shipStatTotal(gs, (x) => x.batteries),
   );
 
