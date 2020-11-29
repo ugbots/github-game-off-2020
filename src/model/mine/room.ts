@@ -147,6 +147,9 @@ const carveExits = (spec: RoomSpec, room: MutableRoom): void => {
   const hasNorth = room.exits.has(Direction.NORTH);
   for (let x = spec.width * (2 / 5); x < spec.width * (3 / 5); x++) {
     tiles[x][0] = buildTile(hasNorth ? TileType.GROUND : TileType.WALL);
+    if (hasNorth) {
+      tiles[x][1] = buildTile(TileType.GROUND);
+    }
   }
 
   const hasSouth = room.exits.has(Direction.SOUTH);
@@ -154,6 +157,9 @@ const carveExits = (spec: RoomSpec, room: MutableRoom): void => {
     tiles[x][spec.height - 1] = buildTile(
       hasSouth ? TileType.GROUND : TileType.WALL,
     );
+    if (hasSouth) {
+      tiles[x][spec.height - 2] = buildTile(TileType.GROUND);
+    }
   }
 
   const hasEast = room.exits.has(Direction.EAST);
@@ -161,10 +167,16 @@ const carveExits = (spec: RoomSpec, room: MutableRoom): void => {
     tiles[spec.width - 1][y] = buildTile(
       hasEast ? TileType.GROUND : TileType.WALL,
     );
+    if (hasEast) {
+      tiles[spec.width - 2][y] = buildTile(TileType.GROUND);
+    }
   }
 
   const hasWest = room.exits.has(Direction.WEST);
   for (let y = spec.height * (1 / 3); y < spec.height * (2 / 3); y++) {
     tiles[0][y] = buildTile(hasWest ? TileType.GROUND : TileType.WALL);
+    if (hasWest) {
+      tiles[1][y] = buildTile(TileType.GROUND);
+    }
   }
 };
