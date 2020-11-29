@@ -14,7 +14,7 @@ export class MiningIndicator {
 
     this.miningText = sc.scene.add.text(
       center.x - 80,
-      center.y - 40,
+      center.y - 80,
       this.generateMiningText(sc),
       {
         fontFamily: 'monospace',

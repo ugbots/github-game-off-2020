@@ -52,6 +52,10 @@ export class MineSceneBatteryIndicator {
   }
 
   update(sc: MineSceneConfig): void {
+    const radar = sc.shipConfig.foolsGoldRadarEasing.getValue();
+    this.fgRect.fillColor = radar > 0 ? 0xff0000 : 0x00ff00;
+    this.text.style.setColor(radar > 0 ? '#f00' : '#0f0');
+
     this.fgRect.width =
       (this.bgRect.width * sc.shipConfig.batteryEasing.getValue()) / 100;
 

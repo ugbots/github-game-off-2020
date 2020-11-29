@@ -11,6 +11,7 @@ import { MineShip } from '../model/mine/mine_ship';
 import { MiningDirt } from '../model/mine/mining_dirt';
 import { MiningIndicator } from '../model/mine/mining_indicator';
 import { RoomRenderer } from '../model/mine/room_renderer';
+import { FoolsGoldRadarIndicator } from '../model/mine/wobbly_indicator';
 import { TutorialOverlay } from '../ui/tutorial_overlay';
 import { keys } from '../util/keys';
 import { localStorage } from '../util/local_storage';
@@ -23,6 +24,7 @@ export class MineScene extends Scene {
   private roomRenderer: RoomRenderer;
   private batteryIndicator: MineSceneBatteryIndicator;
   private miningIndicator: MiningIndicator;
+  private wobblyIndicator: FoolsGoldRadarIndicator;
   private miningDirt: MiningDirt;
   private tutorialOverlay?: TutorialOverlay;
 
@@ -58,6 +60,9 @@ export class MineScene extends Scene {
       this.sceneConfig,
     );
     this.miningIndicator = new MiningIndicator().create(this.sceneConfig);
+    this.wobblyIndicator = new FoolsGoldRadarIndicator().create(
+      this.sceneConfig,
+    );
 
     if (!localStorage.wasTutorialRead(keys.scenes.mine)) {
       this.tutorialOverlay = new TutorialOverlay().create(
@@ -80,6 +85,7 @@ export class MineScene extends Scene {
     this.miningDirt.destroy();
     this.batteryIndicator.destroy();
     this.miningIndicator.destroy();
+    this.wobblyIndicator.destroy();
     this.tutorialOverlay?.destroy();
   }
 
@@ -89,6 +95,7 @@ export class MineScene extends Scene {
     this.ship.update(this.sceneConfig);
     this.roomRenderer.update(this.sceneConfig);
     this.batteryIndicator.update(this.sceneConfig);
+    this.wobblyIndicator.update(this.sceneConfig);
     this.miningIndicator.update(this.sceneConfig);
     this.miningDirt.update(this.sceneConfig);
   }
