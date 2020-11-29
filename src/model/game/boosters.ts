@@ -24,7 +24,7 @@ export const DIESEL_BOOSTER: Booster = {
   type: ItemType.BOOSTER,
   name: 'Diesel booster',
   description:
-    'Launch yourself skyward with the stored chemical energy of liquid' +
+    'Launch yourself skyward with the stored chemical energy of liquid ' +
     'dinosaurs. Not eco-friendly, but dang this baby purrs.',
   boosters: 2,
   cost: {
@@ -70,3 +70,7 @@ export const ALL_BOOSTERS: readonly Booster[] = [
   LIQUID_OXYGEN_BOOSTER,
   ION_ENGINE,
 ];
+
+export const BOOSTER_HELP =
+  "Boosters increase the speed of you ship while you're flying, and while " +
+  "you're on an asteroid.";

@@ -78,3 +78,7 @@ export const ALL_CANNONS: readonly Cannon[] = [
   GUSTAV,
   M65_ATOMIC_CANNON,
 ];
+
+export const CANNON_HELP =
+  "Cannons launch you further into space. It's best to upgrade your cannon " +
+  'as soon as you can.';

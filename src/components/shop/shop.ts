@@ -70,7 +70,7 @@ export class ShopComponent implements OnChanges {
   handleCheatCodeSubmit(e: KeyboardEvent): void {
     const inputBox = e.target as HTMLInputElement;
     const cheatCode = inputBox.value;
-
+ 
     this.shopService.applyCheatCode(cheatCode);
     inputBox.value = '';
   }

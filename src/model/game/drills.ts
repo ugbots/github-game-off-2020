@@ -78,3 +78,6 @@ export const ALL_DRILLS: readonly Drill[] = [
   TITANIUM_DRILL,
   DIAMOND_DRILL,
 ];
+
+export const DRILL_HELP =
+  'Drills decrease the time it takes to mine resources on asteroids.';

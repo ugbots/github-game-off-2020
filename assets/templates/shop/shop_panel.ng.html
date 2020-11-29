@@ -22,13 +22,18 @@
                       (sellItem)="handleSellItem()">
     </rat-item-summary>
   </div>
-  <div class="rounded-lg m-2 w-1/6 h-3/6 bg-gray-800 text-gray-100 p-4">
-    <div class="text-base">
-      Your wallet
+  <div class="flex flex-col w-1/6">
+    <div class="rounded-lg h-3/6 bg-gray-800 text-gray-100 p-4 m-2">
+      <div class="text-base">
+        Your wallet
+      </div>
+      <rat-item-cost *ngIf="wallet !== undefined"
+                    [cost]="wallet"
+                    [isWallet]="true">
+      </rat-item-cost>
     </div>
-    <rat-item-cost *ngIf="wallet !== undefined"
-                  [cost]="wallet"
-                  [isWallet]="true">
-    </rat-item-cost>
+    <span class="text-sm h-3/6 text-gray-100">
+      {{itemCategoryHelp}}
+    </span>
   </div>
 </div>

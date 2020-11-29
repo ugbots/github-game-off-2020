@@ -56,3 +56,7 @@ export const ALL_RADARS: readonly Radar[] = [
   VOID_SONAR,
   QUANTUM_WIBBLY,
 ];
+
+export const RADAR_HELP =
+  'Radar items give more information about the world around you. Read their ' +
+  'descriptions for more details.';

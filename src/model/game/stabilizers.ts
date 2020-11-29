@@ -51,3 +51,6 @@ export const ALL_STABILIZERS: readonly Stabilizer[] = [
   ALUMINUM_FLAPS,
   SUB_QUANTUM_GYRO,
 ];
+
+export const STABILIZER_HELP =
+  'Stabilizers help aim you ship when trying to land on an asteroid.';

@@ -66,3 +66,6 @@ export const ALL_BATTERIES: readonly Battery[] = [
   ELLEN_DEGENERATOR,
   COBALT_FUEL_ROD,
 ];
+
+export const BATTERY_HELP =
+  'Batteries increase the time you have to mine on an asteroid.';

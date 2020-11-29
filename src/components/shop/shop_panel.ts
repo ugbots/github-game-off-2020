@@ -8,10 +8,15 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ALL_ITEMS } from '../../model/game/all_items';
+import { BATTERY_HELP } from '../../model/game/batteries';
+import { BOOSTER_HELP } from '../../model/game/boosters';
+import { CANNON_HELP } from '../../model/game/cannons';
 import { canAfford, Cost } from '../../model/game/cost';
-import { ALL_DRILLS } from '../../model/game/drills';
+import { ALL_DRILLS, DRILL_HELP } from '../../model/game/drills';
 import { buyItem, GameState, sellItem } from '../../model/game/game_state';
 import { Item, itemEquals, ItemType } from '../../model/game/item';
+import { RADAR_HELP } from '../../model/game/radars';
+import { STABILIZER_HELP } from '../../model/game/stabilizers';
 import { isSuccess } from '../../types/result';
 import { selectTab, Tab, TabGroupConfig } from '../tabs/tab_group_config';
 
@@ -31,6 +36,7 @@ export class ShopPanelComponent implements OnChanges {
   selectedItem?: Item;
   canBuySelectedItem = false;
   wallet?: Cost;
+  itemCategoryHelp = DRILL_HELP;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['gameState']) {
@@ -43,6 +49,7 @@ export class ShopPanelComponent implements OnChanges {
     this.equipmentTabGroupConfig = selectTab(this.equipmentTabGroupConfig, tab);
     this.items = ALL_ITEMS.filter((x) => x.type === tab.value);
     this.selectedItem = undefined;
+    this.itemCategoryHelp = this.generateItemCategoryHelp(tab.value);
   }
 
   getQuantity(item?: Item): number {
@@ -125,6 +132,25 @@ export class ShopPanelComponent implements OnChanges {
         },
       ],
     };
+  }
+
+  private generateItemCategoryHelp(itemType?: ItemType): string {
+    switch (itemType) {
+      case undefined:
+        return '(unknown ItemType)';
+      case ItemType.DRILL:
+        return DRILL_HELP;
+      case ItemType.BATTERY:
+        return BATTERY_HELP;
+      case ItemType.BOOSTER:
+        return BOOSTER_HELP;
+      case ItemType.CANNON:
+        return CANNON_HELP;
+      case ItemType.STABILIZER:
+        return STABILIZER_HELP;
+      case ItemType.RADAR:
+        return RADAR_HELP;
+    }
   }
 
   private generateCanBuySelectedItem(): boolean {
