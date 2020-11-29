@@ -19,6 +19,8 @@ import { CannonMoonIndicator } from '../model/cannon/cannon_moon_indicator';
 import { generateArray } from '../util/arrays';
 import { TutorialOverlay } from '../ui/tutorial_overlay';
 import { localStorage } from '../util/local_storage';
+import { SCREEN_DIMENSIONS } from '../util/screen';
+import { MenuButton } from '../ui/menu-button';
 
 export class CannonScene extends Phaser.Scene {
   private sceneConfig: CannonSceneConfig;
@@ -34,6 +36,7 @@ export class CannonScene extends Phaser.Scene {
   private fuelIndicator: FuelIndicator;
   private moonIndicator?: CannonMoonIndicator;
   private tutorialOverlay?: TutorialOverlay;
+  private backToShopButton: MenuButton;
 
   constructor() {
     super({
@@ -78,6 +81,17 @@ export class CannonScene extends Phaser.Scene {
     this.fuelIndicator = new FuelIndicator().create(this, this.sceneConfig);
     this.moonIndicator = new CannonMoonIndicator().create(this.sceneConfig);
 
+    this.backToShopButton = new MenuButton(
+      this,
+      10,
+      SCREEN_DIMENSIONS.y - 60,
+      'Go to shop',
+      () => {
+        this.scene.start(keys.scenes.shop, this.sceneConfig.gameState);
+        this.sceneConfig.onDestroy();
+      },
+    );
+
     if (!localStorage.wasTutorialRead(keys.scenes.cannon)) {
       this.tutorialOverlay = new TutorialOverlay().create(
         this,
@@ -105,6 +119,7 @@ export class CannonScene extends Phaser.Scene {
     this.fuelIndicator.destroy();
     this.moonIndicator?.destroy();
     this.tutorialOverlay?.destroy();
+    this.backToShopButton.destroy();
   }
 
   /* override */
@@ -139,7 +154,7 @@ const CANNON_SCENE_TUTORIAL: readonly string[] = [
     'the moon which orbits our rat planet is made of none other',
     'than...',
     '',
-    'DELICOUS CHEESE!',
+    'DELICIOUS CHEESE!',
   ].join('\n'),
   [
     'As the head of the Splinter Labs space program, you will',

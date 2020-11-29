@@ -45,6 +45,8 @@ export class ShopComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['shopState']) {
       this.hidden = this.shopState === ShopState.SHOP_HIDE;
+      this.shouldShowShopPanel = true;
+      this.shouldShowBuildPanel = false;
       this.tabGroupConfig = this.generateTabGroupConfig();
     }
   }
@@ -70,7 +72,7 @@ export class ShopComponent implements OnChanges {
   handleCheatCodeSubmit(e: KeyboardEvent): void {
     const inputBox = e.target as HTMLInputElement;
     const cheatCode = inputBox.value;
- 
+
     this.shopService.applyCheatCode(cheatCode);
     inputBox.value = '';
   }

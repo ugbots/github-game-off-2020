@@ -1,3 +1,6 @@
+import { generateArray } from '../../util/arrays';
+import { directionOffset, DIRECTIONS, oppositeDirection } from './direction';
+import * as MazeGenerator from './maze_generator';
 import { RoomSpec } from './room_spec';
 import { TileType } from './tile';
 
@@ -23,10 +26,7 @@ const generateScatteredResources = (
     if (x === 0 || y === 0 || x === s.width - 1 || y === s.height - 1) {
       return TileType.WALL;
     }
-    if (Math.random() < 0.1) {
-      return resourceForNormalizedMoonDistance(s.normalizedMoonDistance);
-    }
-    return TileType.GROUND;
+    return resourceOrGround(s.normalizedMoonDistance);
   });
 
 const generateMiddleCross = (
@@ -36,18 +36,50 @@ const generateMiddleCross = (
     if (x !== Math.floor(s.width / 2) && y !== Math.floor(s.height / 2)) {
       return TileType.WALL;
     }
-    if (Math.random() < 0.1) {
-      return resourceForNormalizedMoonDistance(s.normalizedMoonDistance);
-    }
-    return TileType.GROUND;
+    return resourceOrGround(s.normalizedMoonDistance);
   });
+
+const generateMaze = (s: RoomSpec): ReadonlyArray<ReadonlyArray<TileType>> => {
+  const maze = MazeGenerator.generate(
+    Math.floor((s.width - 1) / 2),
+    Math.floor((s.height - 1) / 2),
+  );
+
+  const tiles = tilesFromFn(s, () => TileType.WALL) as TileType[][];
+
+  for (let x = 1; x < s.width - 1; x += 2) {
+    for (let y = 1; y < s.height - 1; y += 2) {
+      tiles[x][y] = resourceOrGround(s.normalizedMoonDistance);
+      const node = maze[Math.floor(x / 2)][Math.floor(y / 2)];
+      if (node === undefined) {
+        continue;
+      }
+      for (const dir of DIRECTIONS) {
+        if (node.exits.has(dir)) {
+          const [xx, yy] = directionOffset(dir);
+          tiles[x + xx][y + yy] = resourceOrGround(s.normalizedMoonDistance);
+        }
+      }
+    }
+  }
+
+  return tiles;
+};
 
 export const ROOM_GENERATORS: ReadonlyArray<(
   s: RoomSpec,
 ) => ReadonlyArray<ReadonlyArray<TileType>>> = [
   generateScatteredResources,
   generateMiddleCross,
+  generateMaze,
 ];
+
+const resourceOrGround = (normalizedMoonDistance: number): TileType => {
+  if (Math.random() < 0.1) {
+    return resourceForNormalizedMoonDistance(normalizedMoonDistance);
+  }
+  return TileType.GROUND;
+};
 
 const resourceForNormalizedMoonDistance = (x: number): TileType => {
   if (Math.random() > 0.2 || x < 1 / 6) {
