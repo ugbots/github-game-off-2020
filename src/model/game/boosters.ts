@@ -9,6 +9,7 @@ export const MODEL_ROCKET_ENGINE: Booster = {
   ...EMPTY_ITEM,
   rarity: Rarity.COMMON,
   type: ItemType.BOOSTER,
+  imageUrl: 'assets/sprites/model_rocket_engine.png',
   name: 'Model rocket engine',
   description: "This can take any rocket to the moon, as long as it's small.",
   boosters: 1,
@@ -22,6 +23,7 @@ export const DIESEL_BOOSTER: Booster = {
   ...EMPTY_ITEM,
   rarity: Rarity.UNCOMMON,
   type: ItemType.BOOSTER,
+  imageUrl: 'assets/sprites/diesel_booster.png',
   name: 'Diesel booster',
   description:
     'Launch yourself skyward with the stored chemical energy of liquid ' +
@@ -37,6 +39,7 @@ export const LIQUID_OXYGEN_BOOSTER: Booster = {
   ...EMPTY_ITEM,
   rarity: Rarity.RARE,
   type: ItemType.BOOSTER,
+  imageUrl: 'assets/sprites/liquid_oxygen_booster.png',
   name: 'Liquid oxygen booster',
   description:
     'Uses a compressed volatile mixture to achieve superior space scoots.',
@@ -52,6 +55,7 @@ export const ION_ENGINE: Booster = {
   ...EMPTY_ITEM,
   rarity: Rarity.EPIC,
   type: ItemType.BOOSTER,
+  imageUrl: 'assets/sprites/ion_engine.png',
   name: 'Ion Engine',
   description:
     'Stolen Imperial tech allows for maximum propulsion without chemical fuel, ' +

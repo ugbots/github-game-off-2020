@@ -13,6 +13,7 @@ export const COPPER_DRILL: Drill = {
   type: ItemType.DRILL,
   rarity: Rarity.COMMON,
   name: 'Copper drill',
+  imageUrl: 'assets/sprites/copper_drill.png',
   drills: 1,
   cost: {
     ...COST_FREE,
@@ -24,6 +25,7 @@ export const IRON_DRILL: Drill = {
   ...EMPTY_ITEM,
   type: ItemType.DRILL,
   rarity: Rarity.UNCOMMON,
+  imageUrl: 'assets/sprites/iron_drill.png',
   name: 'Iron drill',
   drills: 2,
   cost: {
@@ -36,6 +38,7 @@ export const BRONZE_DRILL: Drill = {
   ...EMPTY_ITEM,
   type: ItemType.DRILL,
   rarity: Rarity.RARE,
+  imageUrl: 'assets/sprites/bronze_drill.png',
   name: 'Bronze drill',
   drills: 3,
   cost: {
@@ -49,6 +52,7 @@ export const TITANIUM_DRILL: Drill = {
   ...EMPTY_ITEM,
   type: ItemType.DRILL,
   rarity: Rarity.EPIC,
+  imageUrl: 'assets/sprites/titanium_drill.png',
   name: 'Titanium drill',
   drills: 5,
   cost: {
@@ -62,6 +66,7 @@ export const DIAMOND_DRILL: Drill = {
   ...EMPTY_ITEM,
   type: ItemType.DRILL,
   rarity: Rarity.LEGENDARY,
+  imageUrl: 'assets/sprites/diamond_drill.png',
   name: 'Diamond drill',
   drills: 10,
   cost: {

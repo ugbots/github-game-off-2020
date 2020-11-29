@@ -6,7 +6,7 @@
     <div *ngFor="let key of costKeys"
         class="flex items-center">
       <img *ngIf="iconSrc(key); let src"
-           class="cursor-context-menu inline transform scale-50 h-6" 
+           class="cursor-context-menu inline transform scale-50 h-6 pixelated" 
            [attr.src]="src"
            [attr.title]="titleCase(key)">
       <ng-container *ngIf="cost[key] > 0">

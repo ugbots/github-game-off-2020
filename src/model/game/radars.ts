@@ -9,6 +9,7 @@ export const TELESCOPE: Radar = {
   ...EMPTY_ITEM,
   rarity: Rarity.LEGENDARY,
   type: ItemType.RADAR,
+  imageUrl: 'assets/sprites/telescope.png',
   name: 'Telescope',
   description:
     'Our brightest minds at Splinter Labs came up with this device to reveal ' +
@@ -24,6 +25,7 @@ export const VOID_SONAR: Radar = {
   ...EMPTY_ITEM,
   rarity: Rarity.RARE,
   type: ItemType.RADAR,
+  imageUrl: 'assets/sprites/void_sonar.png',
   name: 'Void sonar',
   description:
     'This device sends sound waves through space to find the closest ' +
@@ -40,6 +42,7 @@ export const QUANTUM_WIBBLY: Radar = {
   ...EMPTY_ITEM,
   rarity: Rarity.EPIC,
   type: ItemType.RADAR,
+  imageUrl: 'assets/sprites/quantum_wibbly.png',
   name: 'Quantum Wibbly',
   description:
     "Look through this goofy device to see Fool's Gold. I'm no fool!",
