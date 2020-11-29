@@ -5,17 +5,15 @@ import {
   EasingDirection,
   linear,
 } from '../../math/easing';
-import { LootScene } from '../../scenes/loot_scene';
 import { keys } from '../../util/keys';
 import { CursorKeys, Vector2 } from '../../util/phaser_types';
 import { choose } from '../../util/random';
-import { SceneState } from '../cannon/cannon_scene_config';
 import { COST_FREE, truncateCost } from '../game/cost';
 import { GameState, shipStatTotal } from '../game/game_state';
 import { LootSceneInput } from '../loot/loot_scene_input';
 import { Direction, directionOffset } from './direction';
 import { MineSceneInput } from './mine_scene_input';
-import { generateRooms, Room, TILE_SIZE } from './room';
+import { generateRooms, getRandomEmptySpace, Room, TILE_SIZE } from './room';
 import { isMineable, isWalkable, Tile, TileResource, TileType } from './tile';
 
 export enum ShipState {
@@ -67,8 +65,11 @@ const getBatteryDrainSpeed = (gs: GameState, scalar: number) =>
     shipStatTotal(gs, (x) => x.batteries),
   );
 
-export const getInitialMineShipConfig = (gs: GameState): MineShipConfig => ({
-  position: new Vector2(100, 100),
+export const getInitialMineShipConfig = (
+  gs: GameState,
+  currentRoom: Room,
+): MineShipConfig => ({
+  position: getRandomEmptySpace(currentRoom),
   batteryEasing: new EasingButton({
     speed: getBatteryDrainSpeed(gs, 1),
     scale: 100,
@@ -106,6 +107,8 @@ export const getInitialMineSceneConfig = (
     },
   );
 
+  const currentRoom = choose(rooms);
+
   return {
     gameState: input.gameState,
     scene,
@@ -113,9 +116,9 @@ export const getInitialMineSceneConfig = (
     zKey: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
     qKey: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q),
     sceneState: MineSceneState.ROAMING,
-    shipConfig: getInitialMineShipConfig(input.gameState),
+    shipConfig: getInitialMineShipConfig(input.gameState, currentRoom),
     onDestroy,
-    currentRoom: choose(rooms),
+    currentRoom,
   };
 };
 

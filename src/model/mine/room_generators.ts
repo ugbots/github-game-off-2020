@@ -16,7 +16,7 @@ const tilesFromFn = (
   return cols;
 };
 
-const generateScatteredGold = (
+const generateScatteredResources = (
   s: RoomSpec,
 ): ReadonlyArray<ReadonlyArray<TileType>> =>
   tilesFromFn(s, (x, y) => {
@@ -29,9 +29,25 @@ const generateScatteredGold = (
     return TileType.GROUND;
   });
 
+const generateMiddleCross = (
+  s: RoomSpec,
+): ReadonlyArray<ReadonlyArray<TileType>> =>
+  tilesFromFn(s, (x, y) => {
+    if (x !== Math.floor(s.width / 2) && y !== Math.floor(s.height / 2)) {
+      return TileType.WALL;
+    }
+    if (Math.random() < 0.1) {
+      return resourceForNormalizedMoonDistance(s.normalizedMoonDistance);
+    }
+    return TileType.GROUND;
+  });
+
 export const ROOM_GENERATORS: ReadonlyArray<(
   s: RoomSpec,
-) => ReadonlyArray<ReadonlyArray<TileType>>> = [generateScatteredGold];
+) => ReadonlyArray<ReadonlyArray<TileType>>> = [
+  generateScatteredResources,
+  generateMiddleCross,
+];
 
 const resourceForNormalizedMoonDistance = (x: number): TileType => {
   if (Math.random() > 0.2 || x < 1 / 6) {

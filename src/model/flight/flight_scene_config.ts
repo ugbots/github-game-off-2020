@@ -273,7 +273,10 @@ const updateAsteroidPosition = (sc: FlightSceneConfig): FlightSceneConfig => {
     }
   } else {
     // Going down
-    if (sc.shipPosition.y > asteroid.y + 200) {
+    if (
+      sc.shipPosition.y > asteroid.y + 200 &&
+      sc.asteroidPositions.length > 1
+    ) {
       // We passed the asteroid, so pop it.
       sc.asteroidPositions.pop();
     }

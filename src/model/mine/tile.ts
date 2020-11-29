@@ -73,7 +73,7 @@ const resourceForTileType = (type: TileType): TileResource => {
 
 const textures = keys.atlas.asteroidTiles.textures;
 
-export const textureForTile = (tile?: TileType): string => {
+export const textureForTile = (tile: TileType): string => {
   if (tile === undefined) {
     return textures.transparent;
   }
@@ -99,7 +99,7 @@ export const textureForTile = (tile?: TileType): string => {
  * If a tile should have another tile rendered underneath it, returns that
  * tile.
  */
-export const tileUnderneath = (tile?: TileType): TileType | undefined => {
+export const tileUnderneath = (tile?: TileType): TileType => {
   switch (tile) {
     case TileType.GOLD: // fall through
     case TileType.RUBY: // fall through
@@ -109,8 +109,9 @@ export const tileUnderneath = (tile?: TileType): TileType | undefined => {
     case TileType.EMERALD:
       return TileType.GROUND;
     case TileType.WALL:
+      return TileType.WALL;
     case undefined:
-      return undefined;
+      return TileType.GOLD;
   }
 };
 

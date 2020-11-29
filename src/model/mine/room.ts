@@ -1,3 +1,5 @@
+import { VectorFactory } from 'matter';
+import { Vector2 } from '../../util/phaser_types';
 import { choose } from '../../util/random';
 import {
   Direction,
@@ -7,7 +9,7 @@ import {
 } from './direction';
 import { ROOM_GENERATORS } from './room_generators';
 import { RoomSpec } from './room_spec';
-import { buildTile, Tile, TileType } from './tile';
+import { buildTile, isWalkable, Tile, TileType } from './tile';
 
 export const TILE_SIZE = {
   x: 64,
@@ -85,6 +87,23 @@ export const roomAdjacency = (
   );
 };
 
+export const getRandomEmptySpace = (room: Room): Vector2 => {
+  const walkableCoords: Array<{ x: number; y: number }> = [];
+
+  for (let x = 0; x < room.tiles.length; x++) {
+    for (let y = 0; y < room.tiles[x].length; y++) {
+      if (isWalkable(room.tiles[x][y])) {
+        walkableCoords.push({ x, y });
+      }
+    }
+  }
+
+  const { x, y } = choose(walkableCoords);
+  return new Vector2(x, y)
+    .multiply(new Vector2(TILE_SIZE.x, TILE_SIZE.y))
+    .add(new Vector2(TILE_SIZE.x / 2, TILE_SIZE.y / 2));
+};
+
 const generateAndLinkRooms = (
   spec: RoomSpec,
   rooms: readonly MutableRoom[],
@@ -125,24 +144,27 @@ const linkRoom = (
 const carveExits = (spec: RoomSpec, room: MutableRoom): void => {
   const tiles = room.tiles;
 
-  if (room.exits.has(Direction.NORTH)) {
-    for (let x = spec.width * (2 / 5); x < spec.width * (3 / 5); x++) {
-      tiles[x][0] = buildTile(TileType.GROUND);
-    }
+  const hasNorth = room.exits.has(Direction.NORTH);
+  for (let x = spec.width * (2 / 5); x < spec.width * (3 / 5); x++) {
+    tiles[x][0] = buildTile(hasNorth ? TileType.GROUND : TileType.WALL);
   }
-  if (room.exits.has(Direction.SOUTH)) {
-    for (let x = spec.width * (2 / 5); x < spec.width * (3 / 5); x++) {
-      tiles[x][spec.height - 1] = buildTile(TileType.GROUND);
-    }
+
+  const hasSouth = room.exits.has(Direction.SOUTH);
+  for (let x = spec.width * (2 / 5); x < spec.width * (3 / 5); x++) {
+    tiles[x][spec.height - 1] = buildTile(
+      hasSouth ? TileType.GROUND : TileType.WALL,
+    );
   }
-  if (room.exits.has(Direction.EAST)) {
-    for (let y = spec.height * (1 / 3); y < spec.height * (2 / 3); y++) {
-      tiles[spec.width - 1][y] = buildTile(TileType.GROUND);
-    }
+
+  const hasEast = room.exits.has(Direction.EAST);
+  for (let y = spec.height * (1 / 3); y < spec.height * (2 / 3); y++) {
+    tiles[spec.width - 1][y] = buildTile(
+      hasEast ? TileType.GROUND : TileType.WALL,
+    );
   }
-  if (room.exits.has(Direction.WEST)) {
-    for (let y = spec.height * (1 / 3); y < spec.height * (2 / 3); y++) {
-      tiles[0][y] = buildTile(TileType.GROUND);
-    }
+
+  const hasWest = room.exits.has(Direction.WEST);
+  for (let y = spec.height * (1 / 3); y < spec.height * (2 / 3); y++) {
+    tiles[0][y] = buildTile(hasWest ? TileType.GROUND : TileType.WALL);
   }
 };

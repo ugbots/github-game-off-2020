@@ -1,12 +1,18 @@
 import { Inject, Injectable, NgZone } from '@angular/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
+import { COBALT_FUEL_ROD } from '../../model/game/batteries';
+import { ION_ENGINE } from '../../model/game/boosters';
+import { M65_ATOMIC_CANNON } from '../../model/game/cannons';
 import { addFunds } from '../../model/game/cost';
+import { DIAMOND_DRILL } from '../../model/game/drills';
 import {
   GameState,
   INITIAL_GAME_STATE,
   moveShipWalletToWallet,
 } from '../../model/game/game_state';
+import { QUANTUM_WIBBLY, TELESCOPE, VOID_SONAR } from '../../model/game/radars';
+import { SUB_QUANTUM_GYRO } from '../../model/game/stabilizers';
 import { finishShopping } from '../../scenes/shop_scene';
 
 export enum ShopState {
@@ -102,6 +108,27 @@ export class ShopService {
           earthInventory: {
             ...gs.earthInventory,
             fuel: gs.earthInventory.fuel + 1000,
+          },
+        });
+        break;
+      // armstrong: Equip awesome upgrades
+      case 'armstrong':
+        const items = [
+          DIAMOND_DRILL,
+          COBALT_FUEL_ROD,
+          ION_ENGINE,
+          SUB_QUANTUM_GYRO,
+          M65_ATOMIC_CANNON,
+          TELESCOPE,
+          VOID_SONAR,
+          QUANTUM_WIBBLY,
+        ];
+        this.setGameState({
+          ...gs,
+          maxShipItems: items.length,
+          shipInventory: {
+            ...gs.shipInventory,
+            items,
           },
         });
         break;
