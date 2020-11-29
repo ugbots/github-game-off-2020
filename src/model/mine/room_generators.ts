@@ -53,7 +53,7 @@ const resourceForNormalizedMoonDistance = (x: number): TileType => {
   if (Math.random() > 0.2 || x < 1 / 6) {
     // Fool's gold spawns instead of gold in the second half, increasing up to
     // 20% of the time.
-    const foolsGoldSpawnPercentage = Math.max(0, x * 0.4 - 0.2);
+    const foolsGoldSpawnPercentage = Math.max(0, x - 0.5);
     if (Math.random() < foolsGoldSpawnPercentage) {
       return TileType.FOOLS_GOLD;
     }
