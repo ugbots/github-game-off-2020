@@ -88,7 +88,7 @@ export const getInitialMineShipConfig = (
   }),
   drillPower: shipStatTotal(gs, (x) => x.drills),
   shipState: ShipState.MOVING,
-  speed: 0.7,
+  speed: 0.2 + 0.05 * shipStatTotal(gs, (x) => x.boosters),
   direction: Direction.EAST,
 });
 

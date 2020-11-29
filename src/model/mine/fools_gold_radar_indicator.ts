@@ -1,6 +1,12 @@
 import { SCREEN_DIMENSIONS } from '../../util/screen';
 import { MineSceneConfig } from './mine_scene_config';
 
+const GREEN = 0x00ff00;
+const BLUE = 0x0066ff;
+
+const GREEN_STRING = '#0f0';
+const BLUE_STRING = '#06f';
+
 export class FoolsGoldRadarIndicator {
   private bgRect: Phaser.GameObjects.Rectangle;
   private fgRect: Phaser.GameObjects.Rectangle;
@@ -22,7 +28,7 @@ export class FoolsGoldRadarIndicator {
       centerY,
       width,
       16,
-      0x0066ff,
+      BLUE,
     );
 
     this.text = sc.scene.add.text(
@@ -30,7 +36,7 @@ export class FoolsGoldRadarIndicator {
       centerY - 30,
       '',
       {
-        color: '#06f',
+        color: BLUE_STRING,
       },
     );
 
@@ -53,12 +59,16 @@ export class FoolsGoldRadarIndicator {
 
   update(sc: MineSceneConfig): void {
     const radarStrength = sc.shipConfig.foolsGoldRadarEasing.getValue();
+
     if (radarStrength <= 0) {
       this.setVisible(false);
       return;
     }
-
     this.setVisible(true);
+
+    const radarFull = radarStrength === 1;
+    this.fgRect.fillColor = radarFull ? GREEN : BLUE;
+    this.text.setColor(radarFull ? GREEN_STRING : BLUE_STRING);
 
     this.fgRect.width = radarStrength * this.bgRect.width;
     this.text.setText(`Fool's Gold radar: ${Math.floor(radarStrength * 100)}%`);

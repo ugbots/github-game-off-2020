@@ -11,7 +11,7 @@ import { MineShip } from '../model/mine/mine_ship';
 import { MiningDirt } from '../model/mine/mining_dirt';
 import { MiningIndicator } from '../model/mine/mining_indicator';
 import { RoomRenderer } from '../model/mine/room_renderer';
-import { FoolsGoldRadarIndicator } from '../model/mine/wobbly_indicator';
+import { FoolsGoldRadarIndicator } from '../model/mine/fools_gold_radar_indicator';
 import { TutorialOverlay } from '../ui/tutorial_overlay';
 import { keys } from '../util/keys';
 import { localStorage } from '../util/local_storage';
