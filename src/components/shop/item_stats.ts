@@ -42,6 +42,7 @@ export class ItemStatsComponent implements OnChanges {
       { name: 'Moon radar', value: this.item.moonRadar },
       { name: 'Asteroid radar', value: this.item.asteroidRadar },
       { name: "Fool's Gold radar", value: this.item.foolsGoldRadar },
+      { name: 'Equipment slots', value: this.item.equipmentSlots },
     ].filter((x) => x.value !== 0 && x.value !== false);
   }
 }

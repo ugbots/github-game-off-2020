@@ -5,7 +5,9 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { Item, Rarity } from '../../model/game/item';
+import { Cost } from '../../model/game/cost';
+import { GameState } from '../../model/game/game_state';
+import { getCost, Item, Rarity } from '../../model/game/item';
 import { titleCase } from '../../util/strings';
 import { imageBannerClasses, quantityString } from './items';
 
@@ -26,6 +28,7 @@ const SELECTED_CLASSES: readonly string[] = [
 })
 export class ItemCardComponent implements OnChanges {
   @Input() item?: Item;
+  @Input() gameState?: GameState;
   @Input() quantity?: number;
   @Input() isSelected = false;
 
@@ -33,11 +36,16 @@ export class ItemCardComponent implements OnChanges {
   quantityString = '(unknown quantity)';
   baseClasses: readonly string[] = NOT_SELECTED_CLASSES;
   imageBannerClasses: readonly string[] = [];
+  cost?: Cost;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['item'] && this.item !== undefined) {
       this.rarityString = titleCase(Rarity[this.item.rarity]);
       this.imageBannerClasses = imageBannerClasses(this.item);
+      this.cost = this.generateCost();
+    }
+    if (changes['gameState']) {
+      this.cost = this.generateCost();
     }
     if (changes['quantity']) {
       this.quantityString = this.generateQuantityString();
@@ -45,6 +53,14 @@ export class ItemCardComponent implements OnChanges {
     if (changes['isSelected']) {
       this.baseClasses = this.generateSelectionClasses();
     }
+  }
+
+  private generateCost(): Cost | undefined {
+    if (this.item === undefined || this.gameState === undefined) {
+      return undefined;
+    }
+
+    return getCost(this.item, this.gameState);
   }
 
   private generateQuantityString(): string {

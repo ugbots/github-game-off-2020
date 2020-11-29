@@ -9,6 +9,7 @@
     <rat-item-card *ngFor="let item of items"
                    class="cursor-pointer"
                    [item]="item"
+                   [gameState]="gameState"
                    [quantity]="getQuantity(item)"
                    [isSelected]="item === selectedItem"
                    (click)="selectItem(item)">
@@ -16,6 +17,7 @@
   </div>
   <div class="rounded-lg m-2 w-2/6 h-full bg-gray-200 shadow-lg">
     <rat-item-summary [item]="selectedItem"
+                      [gameState]="gameState"
                       [quantity]="getQuantity(selectedItem)"
                       [canBuy]="canBuySelectedItem"
                       (buyItem)="handleBuyItem()"

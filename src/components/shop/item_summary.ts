@@ -8,7 +8,8 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { Cost, salePrice } from '../../model/game/cost';
-import { Item } from '../../model/game/item';
+import { GameState } from '../../model/game/game_state';
+import { getCost, Item } from '../../model/game/item';
 import { UNIT, Unit } from '../../types/unit';
 import { imageBannerClasses, quantityString } from './items';
 
@@ -57,12 +58,14 @@ const BUY_BUTTON_CLASSES = [
 })
 export class ItemSummaryComponent implements OnChanges {
   @Input() item?: Item;
+  @Input() gameState?: GameState;
   @Input() quantity?: number;
   @Input() canBuy?: boolean;
   @Output() sellItem = new EventEmitter<Unit>();
   @Output() buyItem = new EventEmitter<Unit>();
 
   quantityString = '(unknown quantity)';
+  cost?: Cost;
   itemSalePrice?: Cost;
 
   imageBannerClasses: readonly string[] = [];
@@ -73,7 +76,12 @@ export class ItemSummaryComponent implements OnChanges {
     if (changes['item'] && this.item !== undefined) {
       this.imageBannerClasses = imageBannerClasses(this.item);
       this.buyButtonClasses = this.generateBuyButtonClasses();
-      this.itemSalePrice = salePrice(this.item.cost);
+      this.cost = this.generateCost();
+      this.itemSalePrice = this.generateSalePrice();
+    }
+    if (changes['gameState']) {
+      this.cost = this.generateCost();
+      this.itemSalePrice = this.generateSalePrice();
     }
     if (changes['quantity']) {
       this.quantityString = quantityString(this.quantity ?? 0);
@@ -112,5 +120,20 @@ export class ItemSummaryComponent implements OnChanges {
       return BUTTON_DISABLED_CLASSES;
     }
     return BUY_BUTTON_CLASSES;
+  }
+
+  private generateCost(): Cost | undefined {
+    if (this.gameState === undefined || this.item === undefined) {
+      return undefined;
+    }
+
+    return getCost(this.item, this.gameState);
+  }
+
+  private generateSalePrice(): Cost | undefined {
+    if (this.item === undefined) {
+      return undefined;
+    }
+    return salePrice(this.item.cost);
   }
 }

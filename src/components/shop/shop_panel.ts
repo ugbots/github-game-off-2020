@@ -14,8 +14,9 @@ import { CANNON_HELP } from '../../model/game/cannons';
 import { canAfford, Cost } from '../../model/game/cost';
 import { ALL_DRILLS, DRILL_HELP } from '../../model/game/drills';
 import { buyItem, GameState, sellItem } from '../../model/game/game_state';
-import { Item, itemEquals, ItemType } from '../../model/game/item';
+import { getCost, Item, itemEquals, ItemType } from '../../model/game/item';
 import { RADAR_HELP } from '../../model/game/radars';
+import { SHIP_UPGRADE_HELP } from '../../model/game/ship_upgrades';
 import { STABILIZER_HELP } from '../../model/game/stabilizers';
 import { isSuccess } from '../../types/result';
 import { selectTab, Tab, TabGroupConfig } from '../tabs/tab_group_config';
@@ -76,6 +77,24 @@ export class ShopPanelComponent implements OnChanges {
       throw new Error("Can't buy item, selectedItem is undefined!");
     }
 
+    // Do custom GameState change if the item requests it, or just buy the item
+    // if it doesn't.
+    if (this.selectedItem.handleBuy !== undefined) {
+      const cost = getCost(this.selectedItem, this.gameState);
+      if (cost === undefined) {
+        throw new Error("Can't buy item, it's not for sale!");
+      }
+
+      const buyResult = this.selectedItem.handleBuy(this.gameState, cost);
+
+      if (!isSuccess(buyResult)) {
+        throw new Error(buyResult.error);
+      }
+
+      this.gameStateChange.emit(buyResult.value);
+      return;
+    }
+
     const result = buyItem(this.gameState, this.selectedItem);
     if (!isSuccess(result)) {
       throw new Error(result.error);
@@ -131,6 +150,11 @@ export class ShopPanelComponent implements OnChanges {
           isSelected: false,
           value: ItemType.RADAR,
         },
+        {
+          label: 'Ship',
+          isSelected: false,
+          value: ItemType.SHIP_UPGRADE,
+        },
       ],
     };
   }
@@ -151,6 +175,8 @@ export class ShopPanelComponent implements OnChanges {
         return STABILIZER_HELP;
       case ItemType.RADAR:
         return RADAR_HELP;
+      case ItemType.SHIP_UPGRADE:
+        return SHIP_UPGRADE_HELP;
     }
   }
 
@@ -162,6 +188,11 @@ export class ShopPanelComponent implements OnChanges {
       return false;
     }
 
-    return canAfford(this.gameState.wallet, this.selectedItem.cost);
+    const itemCost = getCost(this.selectedItem, this.gameState);
+    if (itemCost === undefined) {
+      return false;
+    }
+
+    return canAfford(this.gameState.wallet, itemCost);
   }
 }

@@ -1,4 +1,6 @@
+import { Result } from '../../types/result';
 import { Cost, COST_FREE } from './cost';
+import { GameState } from './game_state';
 
 export enum ItemType {
   DRILL,
@@ -7,6 +9,7 @@ export enum ItemType {
   STABILIZER,
   CANNON,
   RADAR,
+  SHIP_UPGRADE,
 }
 
 export enum Rarity {
@@ -24,6 +27,13 @@ export interface Item {
   readonly imageUrl: string;
   readonly description: string;
   readonly cost: Cost;
+  /**
+   * If set, uses this instead of Cost. If the cost returned is undefined,
+   * this item is not for sale.
+   */
+  readonly costFn?: (gs: GameState) => Cost | undefined;
+  /** If set, will compute the next GameState based on this function. */
+  readonly handleBuy?: (gs: GameState, cost: Cost) => Result<string, GameState>;
   readonly drills: number;
   readonly boosters: number;
   readonly batteries: number;
@@ -35,6 +45,8 @@ export interface Item {
   readonly asteroidRadar: boolean;
   /** The higher this is, the less battery used when detection Fool's Gold. */
   readonly foolsGoldRadar: number;
+  /** The number of equipment slots gained when buying this item. */
+  readonly equipmentSlots: number;
 }
 
 export const EMPTY_ITEM = {
@@ -52,6 +64,15 @@ export const EMPTY_ITEM = {
   moonRadar: false,
   asteroidRadar: false,
   foolsGoldRadar: 0,
+  equipmentSlots: 0,
 };
 
 export const itemEquals = (a: Item, b: Item): boolean => a.name === b.name;
+
+export const getCost = (item: Item, gs: GameState): Cost | undefined => {
+  if (item.costFn === undefined) {
+    return item.cost;
+  }
+
+  return item.costFn(gs);
+};

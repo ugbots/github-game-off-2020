@@ -14,21 +14,27 @@ import { titleCase } from '../../util/strings';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemCostComponent implements OnChanges {
-  @Input() cost: Cost = COST_FREE;
+  @Input() cost?: Cost;
   @Input() salePrice?: Cost;
   @Input() isWallet: boolean;
 
   costKeys: readonly string[] = [];
   isFree = false;
+  isNotForSale = true;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['cost']) {
-      this.costKeys = Object.keys(this.cost);
+      this.costKeys = Object.keys(this.cost ?? {});
       this.isFree = this.generateIsFree();
+      this.isNotForSale = this.generateIsNotForSale();
     }
   }
 
   iconSrc(key: string): string | undefined {
+    if (this.cost === undefined) {
+      return undefined;
+    }
+
     const saleKey = this.salePrice ?? {}[key];
     if (this.cost[key] > 0 || (saleKey ?? 0) > 0) {
       return `assets/sprites/${key}.png`;
@@ -47,6 +53,15 @@ export class ItemCostComponent implements OnChanges {
   private generateIsFree(): boolean {
     const isSalePriceFree =
       this.salePrice === undefined || isFree(this.salePrice);
+    // In this case, the item is not for sale.
+    if (this.cost === undefined) {
+      return false;
+    }
+
     return isFree(this.cost) && isSalePriceFree;
+  }
+
+  private generateIsNotForSale(): boolean {
+    return this.cost === undefined;
   }
 }

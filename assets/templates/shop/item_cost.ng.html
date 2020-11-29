@@ -1,4 +1,7 @@
 <div class="text-sm select-none">
+  <div *ngIf="isNotForSale">
+    Not for sale
+  </div>
   <div *ngIf="isFree">
     {{isWallet ? 'Empty' : 'Free'}}
   </div>
