@@ -13,6 +13,7 @@
     <div class="w-16 h-16">
       <rat-button
         text="→"
+        title="Equip item"
         [disabled]="currentSelectedEquipment === undefined"
         (click)="equipCurrentSelection()"
       >
@@ -22,6 +23,7 @@
     <div class="w-16 h-16">
       <rat-button
         text="←"
+        title="Remove item"
         [disabled]="currentSelectedEquipped === undefined"
         (click)="removeCurrentSelection()"
       >
@@ -31,6 +33,7 @@
     <div class="w-16 h-16">
       <rat-button
         text="⇚"
+        title="Remove all items"
         [disabled]="hasNothingEquipped()"
         (click)="dequipAll()"
       >

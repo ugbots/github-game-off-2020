@@ -123,25 +123,55 @@ export const buyItem = (
   gameState: GameState,
   item: Item,
 ): Result<string, GameState> => {
-  return map(purchase(gameState.wallet, item.cost), (wallet) => ({
-    ...gameState,
-    wallet,
-    earthInventory: addItem(gameState.earthInventory, item),
-  }));
+  return map(purchase(gameState.wallet, item.cost), (wallet) => {
+    // If we can equip an item right away, do it.
+    const equippedItemCount = gameState.shipInventory.items.length;
+    if (equippedItemCount < gameState.maxShipItems) {
+      return {
+        ...gameState,
+        wallet,
+        shipInventory: addItem(gameState.shipInventory, item),
+      };
+    }
+
+    // Otherwise, stick it in earth inventory.
+    return {
+      ...gameState,
+      wallet,
+      earthInventory: addItem(gameState.earthInventory, item),
+    };
+  });
 };
 
 export const sellItem = (
   gameState: GameState,
   item: Item,
 ): Result<string, GameState> => {
-  if (!gameState.earthInventory.items.find((x) => itemEquals(x, item))) {
-    return failure("Can't sell item, no item in inventory!");
+  const earthItem = gameState.earthInventory.items.find((x) =>
+    itemEquals(x, item),
+  );
+  const shipItem = gameState.shipInventory.items.find((x) =>
+    itemEquals(x, item),
+  );
+
+  // Sell from earth first, then from the ship if earth doesn't have the item.
+  if (earthItem !== undefined) {
+    return success({
+      ...gameState,
+      wallet: addFunds(gameState.wallet, salePrice(item.cost)),
+      earthInventory: removeItem(gameState.earthInventory, item),
+    });
   }
-  return success({
-    ...gameState,
-    wallet: addFunds(gameState.wallet, salePrice(item.cost)),
-    earthInventory: removeItem(gameState.earthInventory, item),
-  });
+
+  if (shipItem !== undefined) {
+    return success({
+      ...gameState,
+      wallet: addFunds(gameState.wallet, salePrice(item.cost)),
+      shipInventory: removeItem(gameState.shipInventory, item),
+    });
+  }
+
+  return failure("Can't sell item, no item in inventory!");
 };
 
 const moveItem = (

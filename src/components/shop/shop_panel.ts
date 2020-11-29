@@ -57,9 +57,10 @@ export class ShopPanelComponent implements OnChanges {
       return 0;
     }
 
-    const owned = this.gameState?.earthInventory?.items ?? [];
+    const earthInv = this.gameState?.earthInventory?.items ?? [];
+    const shipInv = this.gameState?.shipInventory?.items ?? [];
 
-    return owned.filter((x) => itemEquals(x, item)).length;
+    return [...earthInv, ...shipInv].filter((x) => itemEquals(x, item)).length;
   }
 
   selectItem(item: Item): void {
