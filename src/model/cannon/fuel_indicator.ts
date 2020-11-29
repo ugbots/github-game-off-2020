@@ -32,7 +32,7 @@ export class FuelIndicator {
         borderY - 20,
         `Remaining fuel: ${Math.floor(sc.gameState.earthInventory.fuel)}`,
       )
-      .setFontFamily('"Press Start 2P", monospace')
+      .setFontFamily('monospace')
       .setFontSize(12)
       .setColor('#00ff00');
 
@@ -40,7 +40,7 @@ export class FuelIndicator {
 
     this.label = scene.add
       .text(borderX - 50, borderY + 30, `Propellant: ${loadedFuel}%`)
-      .setFontFamily('"Press Start 2P", monospace')
+      .setFontFamily('monospace')
       .setFontSize(12)
       .setColor('#00ff00');
 

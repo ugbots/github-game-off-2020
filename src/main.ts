@@ -33,7 +33,7 @@ const start = async () => {
     physics: {
       default: 'arcade',
       arcade: {
-        debug: true,
+        debug: false,
       },
     },
 
@@ -45,4 +45,3 @@ const start = async () => {
 };
 
 start();
-
