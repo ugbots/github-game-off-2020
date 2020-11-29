@@ -26,9 +26,6 @@ export enum FlightSceneState {
 /** How fast the earth pulls on the ship */
 const GRAVITY = 0.0025;
 
-/** Used to respawn the asteroid when it gets too far away */
-const MAX_ASTEROID_DISTANCE = SCREEN_DIMENSIONS.y * 1.75;
-
 /** How close we need to be to the asteroid for it to suck us in */
 const ASTEROID_COLLISION_RADIUS = SCREEN_DIMENSIONS.x / 12;
 
@@ -95,7 +92,7 @@ export const getInitialSceneConfig = (
       speed: 0.0005 + 0.0002 * (1 + stabilizers),
       scale: 1,
       friction: Math.max(0, 1 - 0.01 * stabilizers),
-      initialValue: 1,
+      initialValue: 0,
       canGoNegative: true,
     }),
     shipAcceleration: 0.001 * (1 + boosters),

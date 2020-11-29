@@ -51,7 +51,7 @@ export interface MineSceneConfig {
   currentRoom: Room;
 }
 
-const ROOM_COUNT = { min: 3, max: 7 };
+const ROOM_COUNT = { min: 5, max: 9 };
 const BASE_ROOM_SPEC = {
   width: 20,
   height: 9,
