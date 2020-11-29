@@ -119,10 +119,12 @@ export default class BootScene extends Phaser.Scene {
       keys.sprites.blownUpDrillship,
       'assets/sprites/blown_up_drillship.png',
     );
+    this.load.image(keys.sprites.mainMenuBg, 'assets/sprites/main_menu_bg.png');
     this.load.image(keys.sprites.planetFg, 'assets/sprites/frontPlanet.png');
-    this.load.image(keys.sprites.white, 'assets/sprites/white.png');
     this.load.image(keys.sprites.planetBg, 'assets/sprites/planet.png');
     this.load.image(keys.sprites.asteroid, 'assets/sprites/asteroid.png');
+    this.load.image(keys.sprites.white, 'assets/sprites/white.png');
+
     this.load.atlas(
       keys.atlas.asteroidTiles.key,
       'assets/sprites/asteroid_tiles.png',

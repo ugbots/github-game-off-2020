@@ -188,7 +188,7 @@ const updateVertically = (
     sc.sceneState = FlightSceneState.MOON_COLLISION;
 
     setTimeout(() => {
-      sc.scene.scene.start(keys.scenes.mainMenu);
+      sc.scene.scene.start(keys.scenes.moon, sc.gameState);
       sc.onDestroy();
     }, 2_000);
   }

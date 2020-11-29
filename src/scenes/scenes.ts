@@ -5,6 +5,7 @@ import { FlightScene } from './flight_scene';
 import { LootScene } from './loot_scene';
 import { MainMenuScene } from './main_menu_scene';
 import { MineScene } from './mine_scene';
+import { MoonScene } from './moon_scene';
 import { ShopScene } from './shop_scene';
 
 export const ALL_SCENES = [
@@ -15,5 +16,6 @@ export const ALL_SCENES = [
   LootScene,
   MainMenuScene,
   MineScene,
+  MoonScene,
   ShopScene,
 ];

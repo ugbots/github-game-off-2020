@@ -38,7 +38,6 @@ export class MineScene extends Scene {
 
   /* override */
   init(input: MineSceneInput): void {
-    console.log(input);
     this.mineSceneInput = input;
   }
 
@@ -101,14 +100,16 @@ export class MineScene extends Scene {
   }
 }
 
-const MINE_SCENE_TUTORIAL: string = [
-  "Now that you're on an asteroid, you can mine it for",
-  'resources. Watch out though, mining asteroids can be',
-  'dangerous!',
-  '',
-  'Controls:',
-  '  Up / Down / Left / Right: Move ship',
-  '  Space: Activate drill',
-  '  Z: Use item (if equipped)',
-  '  Q: Leave the asteroid',
-].join('\n');
+const MINE_SCENE_TUTORIAL: readonly string[] = [
+  [
+    "Now that you're on an asteroid, you can mine it for",
+    'resources. Watch out though, mining asteroids can be',
+    'dangerous!',
+    '',
+    'Controls:',
+    '  Up / Down / Left / Right: Move ship',
+    '  Space: Activate drill',
+    '  Z: Use item (if equipped)',
+    '  Q: Leave the asteroid',
+  ].join('\n'),
+];

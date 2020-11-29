@@ -2,43 +2,64 @@ import { INITIAL_GAME_STATE } from '../model/game/game_state';
 import { MenuButton } from '../ui/menu-button';
 import { keys } from '../util/keys';
 import { localStorage } from '../util/local_storage';
-
-const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
-  active: false,
-  visible: false,
-  key: keys.scenes.mainMenu,
-};
+import { SCREEN_DIMENSIONS } from '../util/screen';
 
 /**
  * The initial scene that starts, shows the splash screens, and loads the necessary assets.
  */
 export class MainMenuScene extends Phaser.Scene {
+  private bgImage: Phaser.GameObjects.Image;
+
   constructor() {
-    super(sceneConfig);
+    super({
+      active: false,
+      visible: false,
+      key: keys.scenes.mainMenu,
+    });
   }
 
   public create(): void {
-    this.add
-      .text(
-        100,
-        50,
-        'This is a sample main menu. Click the "Start" button below to run your game.',
-        {
-          fill: '#FFFFFF',
-        },
-      )
-      .setFontSize(24);
+    this.add.image(
+      SCREEN_DIMENSIONS.x / 2,
+      SCREEN_DIMENSIONS.y / 2,
+      keys.sprites.mainMenuBg,
+    );
 
-    new MenuButton(this, 100, 150, 'New game', () => {
-      localStorage.reset();
-      this.scene.start(keys.scenes.cannon, INITIAL_GAME_STATE);
+    const githubUrl = 'github.com/ugbots/github-game-off-2020';
+    const githubText = this.add.text(10, 10, githubUrl);
+
+    githubText.setInteractive({
+      useHandCursor: true,
     });
+
+    githubText.on('pointerdown', () => {
+      window.open('https://' + githubUrl, '_blank');
+    });
+
+    this.add.text(SCREEN_DIMENSIONS.x - 170, 10, '© 2020 Ugly Robot');
+
+    new MenuButton(
+      this,
+      SCREEN_DIMENSIONS.x / 2,
+      SCREEN_DIMENSIONS.y * (4 / 5),
+      'New game',
+      () => {
+        localStorage.reset();
+        this.scene.start(keys.scenes.cannon, INITIAL_GAME_STATE);
+      },
+    );
 
     const loadedGameState = localStorage.getGameState();
     if (loadedGameState !== undefined) {
-      new MenuButton(this, 100, 250, 'Load game', () => {
-        this.scene.start(loadedGameState.currentScene, loadedGameState);
-      });
+      new MenuButton(
+        this,
+        SCREEN_DIMENSIONS.x / 2 + 300,
+        SCREEN_DIMENSIONS.y * (4 / 5),
+        'Load game',
+        () => {
+          this.scene.start(loadedGameState.currentScene, loadedGameState);
+        },
+      );
     }
   }
 }

@@ -3,6 +3,8 @@ import { SCREEN_DIMENSIONS } from '../util/screen';
 import { MenuButton } from './menu-button';
 
 export class TutorialOverlay {
+  private messages: readonly string[];
+
   private backdrop: Phaser.GameObjects.Rectangle;
   private card: Phaser.GameObjects.Rectangle;
   private text: Phaser.GameObjects.Text;
@@ -10,7 +12,11 @@ export class TutorialOverlay {
   private onOkClick: () => void;
   private spaceListener: Phaser.Input.Keyboard.KeyboardPlugin;
 
-  create(scene: Scene, text: string, onOkClick: () => void): TutorialOverlay {
+  create(
+    scene: Scene,
+    messages: readonly string[],
+    onOkClick: () => void,
+  ): TutorialOverlay {
     this.backdrop = scene.add.rectangle(
       SCREEN_DIMENSIONS.x / 2,
       SCREEN_DIMENSIONS.y / 2,
@@ -28,10 +34,11 @@ export class TutorialOverlay {
       0x222222,
     );
 
+    this.messages = messages;
     this.text = scene.add.text(
       SCREEN_DIMENSIONS.x * (1 / 7),
       SCREEN_DIMENSIONS.y * (1 / 7),
-      text,
+      this.messages[0],
       {
         fontFamily: 'monospace',
         color: 'white',
@@ -43,9 +50,9 @@ export class TutorialOverlay {
       scene,
       SCREEN_DIMENSIONS.x * (3 / 5),
       SCREEN_DIMENSIONS.y * (4 / 5),
-      'OK',
+      this.messages.length === 1 ? 'OK' : 'Next...',
       () => {
-        this.hide();
+        this.hideOrAdvance();
       },
     );
 
@@ -71,13 +78,22 @@ export class TutorialOverlay {
       'keyup',
       (e: KeyboardEvent) => {
         if (e.key === ' ' || e.key === 'Escape' || e.key === 'Enter') {
-          this.hide();
+          this.hideOrAdvance();
         }
       },
     );
   }
 
-  private hide(): void {
+  private hideOrAdvance(): void {
+    this.messages = this.messages.slice(1);
+    if (this.messages.length === 1) {
+      this.okButton.setText('OK');
+    }
+    if (this.messages.length > 0) {
+      this.text.setText(this.messages[0]);
+      return;
+    }
+
     this.onOkClick();
     this.setVisible(false);
     if (this.spaceListener !== undefined) {

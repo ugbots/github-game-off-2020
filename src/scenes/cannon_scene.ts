@@ -124,14 +124,39 @@ export class CannonScene extends Phaser.Scene {
   }
 }
 
-const CANNON_SCENE_TUTORIAL: string = [
-  "You'll need to launch your ship out of the cannon to",
-  "reach the moon. You can only reach the moon if you're",
-  "aiming for it, but it's hard to see without the proper",
-  'equipment.',
-  '',
-  'Controls:',
-  '  Up / Down: Add / Remove propellant',
-  '  Left / Right: Aim cannon',
-  '  Space: Launch cannon',
-].join('\n');
+const CANNON_SCENE_TUTORIAL: readonly string[] = [
+  [
+    'Ratkind needs your help!',
+    '',
+    'Scientists at Splinter Labs have recently discovered that',
+    'the moon which orbits our rat planet is made of none other',
+    'than...',
+  ].join('\n'),
+  [
+    'Ratkind needs your help!',
+    '',
+    'Scientists at Splinter Labs have recently discovered that',
+    'the moon which orbits our rat planet is made of none other',
+    'than...',
+    '',
+    'DELICOUS CHEESE!',
+  ].join('\n'),
+  [
+    'As the head of the Splinter Labs space program, you will',
+    'need to head to the moon to get some of that cheese at once.',
+    '',
+    'Splinter Labs has set you up with our state-of-the-art',
+    'launchable ship cannon, but the rest is up to you.',
+  ].join('\n'),
+  [
+    "You'll need to launch your ship out of the cannon to",
+    "reach the moon. You can only reach the moon if you're",
+    "aiming for it, but it's hard to see without the proper",
+    'equipment.',
+    '',
+    'Controls:',
+    '  Up / Down: Add / Remove propellant',
+    '  Left / Right: Aim cannon',
+    '  Space: Launch cannon',
+  ].join('\n'),
+];

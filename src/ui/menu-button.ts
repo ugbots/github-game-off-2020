@@ -42,6 +42,10 @@ export class MenuButton extends Phaser.GameObjects.Rectangle {
     this.enterMenuButtonRestState();
   }
 
+  setText(text: string): void {
+    this.label.setText(text);
+  }
+
   /* override */
   setVisible(visible: boolean): this {
     super.setVisible(visible);

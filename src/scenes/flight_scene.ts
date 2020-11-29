@@ -114,15 +114,17 @@ export class FlightScene extends Scene {
   }
 }
 
-const FLIGHT_SCENE_TUTORIAL: string = [
-  "Now that you're flying through space, you can try to",
-  'reach the moon. Modern rat science shows that the moon',
-  `is nearly ${MOON_HEIGHT} feet away, so you may need to`,
-  'upgrade your equipment.',
-  'The ratsteroid belt orbiting our planet may have some',
-  'useful resources to help you buy some upgrades. ',
-  '',
-  'Controls:',
-  '  Left / Right: Rotate ship',
-  '  Up: Boost',
-].join('\n');
+const FLIGHT_SCENE_TUTORIAL: readonly string[] = [
+  [
+    "Now that you're flying through space, you can try to",
+    'reach the moon. Modern rat science shows that the moon',
+    `is nearly ${MOON_HEIGHT} feet away, so you may need to`,
+    'upgrade your equipment.',
+    'The ratsteroid belt orbiting our planet may have some',
+    'useful resources to help you buy some upgrades. ',
+    '',
+    'Controls:',
+    '  Left / Right: Rotate ship',
+    '  Up: Boost',
+  ].join('\n'),
+];

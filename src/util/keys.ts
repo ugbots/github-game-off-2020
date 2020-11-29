@@ -6,6 +6,7 @@ export const keys = Object.freeze({
     loot: 'LootScene',
     mainMenu: 'MainMenuScene',
     mine: 'MineScene',
+    moon: 'MoonScene',
     shop: 'ShopScene',
   },
   sprites: {
@@ -13,6 +14,7 @@ export const keys = Object.freeze({
     cannonBase: 'CannonBaseSprite',
     cannonTurret: 'CannonTurretSprite',
     drillShip: 'DrillShipSprite',
+    mainMenuBg: 'MainMenuBgSprite',
     planetBg: 'PlanetBackgroundSprite',
     white: 'WhiteSprite',
     planetFg: 'PlanetForegroundSprite',
