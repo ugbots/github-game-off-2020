@@ -39,6 +39,9 @@ export const keys = Object.freeze({
   sounds: {
     crash: 'Crash',
   },
+  tutorials: {
+    foolsGold: 'FoolsGoldTutorial',
+  },
   particles: {
     dirt: {
       atlas: 'DirtParticlesAtlas',

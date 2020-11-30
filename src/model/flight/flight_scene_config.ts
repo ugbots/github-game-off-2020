@@ -264,11 +264,20 @@ const updateAsteroidPosition = (sc: FlightSceneConfig): FlightSceneConfig => {
     // Going up
     if (asteroid.y > SCREEN_DIMENSIONS.y + ASTEROID_COLLISION_RADIUS) {
       // We passed the asteroid, so spawn a new one.
+      let newX;
+      if (Math.random() < 0.3) {
+        newX =
+          SCREEN_DIMENSIONS.x / 2 +
+          2 * (Math.random() - 0.5) * (SCREEN_DIMENSIONS.x / 6);
+      } else {
+        // Most of the time, put the asteroid near the edge.
+        const left = Math.random() > 0.5;
+        const range = Math.random() * SCREEN_DIMENSIONS.x * (2 / 6);
+
+        newX = left ? range : SCREEN_DIMENSIONS.x - range;
+      }
       sc.asteroidPositions.push(
-        new Vector2(
-          Math.random() * SCREEN_DIMENSIONS.x,
-          -SCREEN_DIMENSIONS.y * (1 + 0.2 * Math.random()),
-        ),
+        new Vector2(newX, -SCREEN_DIMENSIONS.y * (1 + 0.2 * Math.random())),
       );
     }
   } else {

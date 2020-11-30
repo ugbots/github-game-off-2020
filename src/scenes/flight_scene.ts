@@ -19,7 +19,6 @@ import { localStorage } from '../util/local_storage';
 import { AsteroidIndicator } from '../model/flight/asteroid_indicator';
 import { shipHasItem } from '../model/game/game_state';
 import { FlightGround } from '../model/flight/flight_ground';
-import { MenuButton } from '../ui/menu-button';
 
 export class FlightScene extends Scene {
   private sceneConfig: FlightSceneConfig;

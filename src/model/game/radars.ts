@@ -45,7 +45,9 @@ export const QUANTUM_WIBBLY: Radar = {
   imageUrl: 'assets/sprites/quantum_wibbly.png',
   name: 'Quantum Wibbly',
   description:
-    "Look through this goofy device to see Fool's Gold. I'm no fool!",
+    "Don't be a fool! Look through this device on an astreoid to see Fool's " +
+    "Gold. Activate with 'z'. Drains your battery, but equipping the more " +
+    'you equip, the slower it drains.',
   foolsGoldRadar: 1,
   cost: {
     ...COST_FREE,
@@ -55,9 +57,9 @@ export const QUANTUM_WIBBLY: Radar = {
 };
 
 export const ALL_RADARS: readonly Radar[] = [
-  TELESCOPE,
   VOID_SONAR,
   QUANTUM_WIBBLY,
+  TELESCOPE,
 ];
 
 export const RADAR_HELP =

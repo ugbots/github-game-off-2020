@@ -76,6 +76,24 @@ export class MineScene extends Scene {
       this.sceneConfig.sceneState = MineSceneState.TUTORIAL;
       this.tutorialOverlay.show(this);
     }
+
+    const foolsGoldAvailable = this.mineSceneInput.normalizedMoonDistance > 0.5;
+    if (
+      foolsGoldAvailable &&
+      !localStorage.wasTutorialRead(keys.tutorials.foolsGold)
+    ) {
+      this.tutorialOverlay = new TutorialOverlay().create(
+        this,
+        FOOLS_GOLD_TUTORIAL,
+        () => {
+          this.sceneConfig.sceneState = MineSceneState.ROAMING;
+          this.sceneConfig.shipConfig.batteryEasing.resetSpeed();
+          localStorage.markTutorialRead(keys.tutorials.foolsGold);
+        },
+      );
+      this.sceneConfig.sceneState = MineSceneState.TUTORIAL;
+      this.tutorialOverlay.show(this);
+    }
   }
 
   destroy(): void {
@@ -111,5 +129,17 @@ const MINE_SCENE_TUTORIAL: readonly string[] = [
     '  Space: Activate drill',
     '  Z: Use item (if equipped)',
     '  Q: Leave the asteroid',
+  ].join('\n'),
+];
+
+const FOOLS_GOLD_TUTORIAL: readonly string[] = [
+  [
+    'The outer reaches of the asteroid belt are dangerous.',
+    "A mysterious element known as Fool's Gold is known to",
+    'be out here which can destroy your ship instantly!',
+    '',
+    'Splinter Labs scientists have developed a tool called',
+    'the "Quantum Wibbly" to help with this. Make sure you',
+    'have one when exploring further!',
   ].join('\n'),
 ];

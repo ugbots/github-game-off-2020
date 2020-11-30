@@ -26,7 +26,7 @@ const generateScatteredResources = (
     if (x === 0 || y === 0 || x === s.width - 1 || y === s.height - 1) {
       return TileType.WALL;
     }
-    return resourceOrGround(s.normalizedMoonDistance);
+    return resourceOrGround(s.normalizedMoonDistance, 0.1);
   });
 
 const generateMaze = (s: RoomSpec): ReadonlyArray<ReadonlyArray<TileType>> => {
@@ -39,7 +39,7 @@ const generateMaze = (s: RoomSpec): ReadonlyArray<ReadonlyArray<TileType>> => {
 
   for (let x = 1; x < s.width - 1; x += 2) {
     for (let y = 1; y < s.height - 1; y += 2) {
-      tiles[x][y] = resourceOrGround(s.normalizedMoonDistance);
+      tiles[x][y] = resourceOrGround(s.normalizedMoonDistance, 0.2);
       const node = maze[Math.floor(x / 2)][Math.floor(y / 2)];
       if (node === undefined) {
         continue;
@@ -47,7 +47,10 @@ const generateMaze = (s: RoomSpec): ReadonlyArray<ReadonlyArray<TileType>> => {
       for (const dir of DIRECTIONS) {
         if (node.exits.has(dir)) {
           const [xx, yy] = directionOffset(dir);
-          tiles[x + xx][y + yy] = resourceOrGround(s.normalizedMoonDistance);
+          tiles[x + xx][y + yy] = resourceOrGround(
+            s.normalizedMoonDistance,
+            0.2,
+          );
         }
       }
     }
@@ -63,15 +66,18 @@ export const ROOM_GENERATORS: ReadonlyArray<(
   generateMaze,
 ];
 
-const resourceOrGround = (normalizedMoonDistance: number): TileType => {
-  if (Math.random() < 0.1) {
+const resourceOrGround = (
+  normalizedMoonDistance: number,
+  resourceChance: number,
+): TileType => {
+  if (Math.random() < resourceChance) {
     return resourceForNormalizedMoonDistance(normalizedMoonDistance);
   }
   return TileType.GROUND;
 };
 
 const resourceForNormalizedMoonDistance = (x: number): TileType => {
-  if (Math.random() > 0.2 || x < 1 / 6) {
+  if (Math.random() > 0.2 || x < 1 / 8) {
     // Fool's gold spawns instead of gold in the second half, increasing up to
     // 20% of the time.
     const foolsGoldSpawnPercentage = Math.max(0, x - 0.5);

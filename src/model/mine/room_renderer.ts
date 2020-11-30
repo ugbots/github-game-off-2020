@@ -114,13 +114,11 @@ export class RoomRenderer {
         this.sprites[x][y][0].setFrame(underTexture);
         this.sprites[x][y][1].setFrame(spriteTexture);
 
-        /*
         if (isMineable(tile)) {
           this.sprites[x][y][1].setScale(
             (tile.resourceLeft / tile.resourceMax) * (TILE_SIZE.x / 32),
           );
         }
-        */
 
         this.sprites[x][y].forEach((sprite) => {
           sprite.setOrigin(0.5);

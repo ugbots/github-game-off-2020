@@ -23,7 +23,7 @@ export const EMPTY_INVENTORY: Inventory = {
 };
 
 const INITIAL_EARTH_INVENTORY: Inventory = {
-  fuel: 2_000,
+  fuel: 3_000,
   items: [],
 };
 
