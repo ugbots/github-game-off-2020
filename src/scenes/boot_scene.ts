@@ -133,7 +133,25 @@ export default class BootScene extends Phaser.Scene {
     );
 
     // Sounds
+    this.load.audio(keys.sounds.booster, 'assets/sound/booster.mp3');
+    this.load.audio(keys.sounds.cashRegister, 'assets/sound/cash_register.mp3');
     this.load.audio(keys.sounds.crash, 'assets/sound/crash.mp3');
+    this.load.audio(keys.sounds.cannonBlast, 'assets/sound/cannon_blast.mp3');
+    this.load.audio(
+      keys.sounds.cannonMovement,
+      'assets/sound/cannon_movement.mp3',
+    );
+    this.load.audio(keys.sounds.drill, 'assets/sound/drill.mp3');
+    this.load.audio(keys.sounds.explosion, 'assets/sound/explosion.mp3');
+    this.load.audio(keys.sounds.fanfare, 'assets/sound/fanfare.mp3');
+    this.load.audio(keys.sounds.fuelPump, 'assets/sound/fuel_pump.mp3');
+    this.load.audio(keys.sounds.powerUp, 'assets/sound/power_up.mp3');
+    this.load.audio(keys.sounds.shipEngine, 'assets/sound/ship_engine.mp3');
+    this.load.audio(
+      keys.sounds.suckedIntoAsteroid,
+      'assets/sound/sucked_into_asteroid.mp3',
+    );
+    this.load.audio(keys.sounds.wibbly, 'assets/sound/wibbly.mp3');
 
     // Particles
     this.load.atlas(

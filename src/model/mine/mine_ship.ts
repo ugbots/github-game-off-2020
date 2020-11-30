@@ -1,3 +1,6 @@
+import { Sound } from 'phaser';
+import { easeInOut, EasingDirection } from '../../math/easing';
+import { SoundEasing } from '../../ui/sound_easing';
 import { keys } from '../../util/keys';
 import { Sprite } from '../../util/phaser_types';
 import { Direction } from './direction';
@@ -15,6 +18,10 @@ export class MineShip {
   private smokeEmitter: Phaser.GameObjects.Particles.ParticleEmitter;
 
   private sprite: Phaser.GameObjects.Sprite;
+
+  private engineSound: SoundEasing;
+  private drillSound: SoundEasing;
+  private explosionSound: Phaser.Sound.BaseSound;
   private blewUp = false;
 
   create(sc: MineSceneConfig): MineShip {
@@ -48,7 +55,7 @@ export class MineShip {
         min: 2,
         max: 10,
       },
-      quantity: 0,
+      quantity: 0.1,
       blendMode: 'OVERLAY',
     });
 
@@ -77,6 +84,35 @@ export class MineShip {
       blendMode: 'COPY',
     });
 
+    this.engineSound = new SoundEasing().create(
+      sc.scene,
+      keys.sounds.shipEngine,
+      {
+        fn: easeInOut,
+        speed: 0.005,
+        friction: 1,
+        minVolume: 0.5,
+      },
+      {
+        loop: true,
+      },
+    );
+
+    this.drillSound = new SoundEasing().create(
+      sc.scene,
+      keys.sounds.drill,
+      {
+        fn: easeInOut,
+        speed: 0.05,
+        friction: 1,
+      },
+      {
+        loop: true,
+      },
+    );
+
+    this.explosionSound = sc.scene.sound.add(keys.sounds.explosion);
+
     return this;
   }
 
@@ -84,12 +120,15 @@ export class MineShip {
     this.fireManager.destroy();
     this.smokeManager.destroy();
     this.sprite.destroy();
+    this.engineSound.destroy();
+    this.drillSound.destroy();
+    this.explosionSound.destroy();
   }
 
-  update(sc: MineSceneConfig): void {
+  update(dt: number, sc: MineSceneConfig): void {
     switch (sc.sceneState) {
       case MineSceneState.ROAMING:
-        this.updateRoaming(sc);
+        this.updateRoaming(dt, sc);
         break;
       case MineSceneState.SHIP_BLEW_UP:
         this.updateShipBlewUp(sc);
@@ -97,7 +136,12 @@ export class MineShip {
     }
   }
 
-  private updateRoaming(sc: MineSceneConfig): void {
+  private updateRoaming(dt: number, sc: MineSceneConfig): void {
+    this.smokeEmitter.setPosition(
+      sc.shipConfig.position.x,
+      sc.shipConfig.position.y,
+    );
+
     this.sprite.rotation = this.generateRotation(sc.shipConfig);
     this.sprite.scale = 2;
 
@@ -116,6 +160,25 @@ export class MineShip {
       sc.shipConfig.position.x + (2 * Math.random() - 1) * shakeMul;
     this.sprite.y =
       sc.shipConfig.position.y + (2 * Math.random() - 1) * shakeMul;
+
+    // Play drill sound
+    if (sc.shipConfig.shipState === ShipState.MINING) {
+      this.drillSound.update(dt, EasingDirection.INCREASE);
+    } else {
+      this.drillSound.update(dt, EasingDirection.DECREASE);
+    }
+
+    // Change engine sound
+    if (
+      sc.cursorKeys.left?.isDown ||
+      sc.cursorKeys.right?.isDown ||
+      sc.cursorKeys.up?.isDown ||
+      sc.cursorKeys.down?.isDown
+    ) {
+      this.engineSound.update(dt, EasingDirection.INCREASE);
+    } else {
+      this.engineSound.update(dt, EasingDirection.DECREASE);
+    }
   }
 
   private updateShipBlewUp(sc: MineSceneConfig): void {
@@ -131,6 +194,8 @@ export class MineShip {
       );
       this.fireEmitter.setQuantity(500);
       this.smokeEmitter.setQuantity(1);
+
+      this.explosionSound.play();
 
       this.blewUp = true;
     } else {

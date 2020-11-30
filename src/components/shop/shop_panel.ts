@@ -18,7 +18,9 @@ import { getCost, Item, itemEquals, ItemType } from '../../model/game/item';
 import { RADAR_HELP } from '../../model/game/radars';
 import { SHIP_UPGRADE_HELP } from '../../model/game/ship_upgrades';
 import { STABILIZER_HELP } from '../../model/game/stabilizers';
+import { shopScenePlaySound } from '../../scenes/shop_scene';
 import { isSuccess } from '../../types/result';
+import { keys } from '../../util/keys';
 import { selectTab, Tab, TabGroupConfig } from '../tabs/tab_group_config';
 
 @Component({
@@ -92,6 +94,7 @@ export class ShopPanelComponent implements OnChanges {
       }
 
       this.gameStateChange.emit(buyResult.value);
+      shopScenePlaySound(keys.sounds.cashRegister);
       return;
     }
 
@@ -100,6 +103,7 @@ export class ShopPanelComponent implements OnChanges {
       throw new Error(result.error);
     }
     this.gameStateChange.emit(result.value);
+    shopScenePlaySound(keys.sounds.cashRegister);
   }
 
   handleSellItem(): void {
@@ -115,6 +119,7 @@ export class ShopPanelComponent implements OnChanges {
       throw new Error(result.error);
     }
     this.gameStateChange.emit(result.value);
+    shopScenePlaySound(keys.sounds.cashRegister);
   }
 
   private generateEquipmentTabGroupConfig(): TabGroupConfig<ItemType> {

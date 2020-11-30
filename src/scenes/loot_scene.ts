@@ -11,6 +11,7 @@ export class LootScene extends Scene {
   private cursorKeys: CursorKeys;
 
   private lootText: Phaser.GameObjects.Text;
+  private cashRegisterSound: Phaser.Sound.BaseSound;
 
   constructor() {
     super({
@@ -33,6 +34,11 @@ export class LootScene extends Scene {
     });
 
     this.cursorKeys = this.input.keyboard.createCursorKeys();
+    this.cashRegisterSound = this.sound.add(keys.sounds.cashRegister);
+
+    if (!this.lootSceneInput.wasShipDestroyed) {
+      this.cashRegisterSound.play();
+    }
 
     this.timeout = setTimeout(() => {
       this.advanceScene();
@@ -41,6 +47,7 @@ export class LootScene extends Scene {
 
   destroy(): void {
     this.lootText.destroy();
+    this.cashRegisterSound.destroy();
   }
 
   update(): void {

@@ -1,3 +1,6 @@
+import { Sound } from 'phaser';
+import { easeInOut, EasingDirection } from '../../math/easing';
+import { SoundEasing } from '../../ui/sound_easing';
 import { keys } from '../../util/keys';
 import { SCREEN_DIMENSIONS } from '../../util/screen';
 import {
@@ -15,6 +18,7 @@ export class Ship {
     rotateLeft: FlightShipThruster;
     forward: FlightShipThruster;
   };
+  private boosterSound: SoundEasing;
 
   create(sc: FlightSceneConfig): Ship {
     this.particleManager = sc.scene.add.particles(keys.particles.fire.atlas);
@@ -28,12 +32,25 @@ export class Ship {
     this.sprite = sc.scene.add.sprite(0, 0, keys.sprites.drillShip);
     this.sprite.scale = 2;
 
+    this.boosterSound = new SoundEasing().create(
+      sc.scene,
+      keys.sounds.booster,
+      {
+        fn: easeInOut,
+        speed: 0.01,
+      },
+      {
+        loop: true,
+      },
+    );
+
     return this;
   }
 
   destroy(): void {
     this.sprite.destroy();
     this.particleManager.destroy();
+    this.boosterSound.destroy();
   }
 
   update(time: number, dt: number, sc: FlightSceneConfig): void {
@@ -53,6 +70,18 @@ export class Ship {
       sc.sceneState === FlightSceneState.MOON_COLLISION
     ) {
       this.sprite.scale += 0.001 * dt;
+    }
+
+    // Update the booster sound
+    if (
+      sc.cursorKeys.left?.isDown ||
+      sc.cursorKeys.right?.isDown ||
+      sc.cursorKeys.up?.isDown ||
+      false
+    ) {
+      this.boosterSound.update(dt, EasingDirection.INCREASE);
+    } else {
+      this.boosterSound.update(dt, EasingDirection.DECREASE);
     }
   }
 

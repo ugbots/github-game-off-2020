@@ -6,14 +6,11 @@ import { ION_ENGINE } from '../../model/game/boosters';
 import { M65_ATOMIC_CANNON } from '../../model/game/cannons';
 import { addFunds } from '../../model/game/cost';
 import { DIAMOND_DRILL } from '../../model/game/drills';
-import {
-  GameState,
-  INITIAL_GAME_STATE,
-  moveShipWalletToWallet,
-} from '../../model/game/game_state';
+import { GameState, INITIAL_GAME_STATE } from '../../model/game/game_state';
 import { QUANTUM_WIBBLY, TELESCOPE, VOID_SONAR } from '../../model/game/radars';
 import { SUB_QUANTUM_GYRO } from '../../model/game/stabilizers';
-import { finishShopping } from '../../scenes/shop_scene';
+import { finishShopping, shopScenePlaySound } from '../../scenes/shop_scene';
+import { keys } from '../../util/keys';
 
 export enum ShopState {
   SHOP_SHOW,
@@ -77,6 +74,8 @@ export class ShopService {
   applyCheatCode(cheatCode: string): void {
     const gs = this.gameStateSubject.value ?? INITIAL_GAME_STATE;
 
+    let validCheatCode = true;
+
     switch (cheatCode) {
       // rosebud: Gain 10,000 of each currency
       case 'rosebud':
@@ -132,6 +131,13 @@ export class ShopService {
           },
         });
         break;
+      default:
+        validCheatCode = false;
+        break;
+    }
+
+    if (validCheatCode) {
+      shopScenePlaySound(keys.sounds.powerUp);
     }
   }
 }

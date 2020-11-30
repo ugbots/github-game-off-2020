@@ -109,10 +109,10 @@ export class MineScene extends Scene {
   /* override */
   update(time: number, dt: number): void {
     updateMineSceneConfig(time, dt, this.sceneConfig);
-    this.ship.update(this.sceneConfig);
+    this.ship.update(dt, this.sceneConfig);
     this.roomRenderer.update(this.sceneConfig);
     this.batteryIndicator.update(this.sceneConfig);
-    this.wobblyIndicator.update(this.sceneConfig);
+    this.wobblyIndicator.update(dt, this.sceneConfig);
     this.miningIndicator.update(this.sceneConfig);
     this.miningDirt.update(this.sceneConfig);
   }

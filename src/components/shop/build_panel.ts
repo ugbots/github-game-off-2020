@@ -19,7 +19,9 @@ import {
   Inventory,
 } from '../../model/game/game_state';
 import { Item, ItemType } from '../../model/game/item';
+import { shopScenePlaySound } from '../../scenes/shop_scene';
 import { isSuccess } from '../../types/result';
+import { keys } from '../../util/keys';
 import {
   buildEmptySelectConfig,
   SelectConfig,
@@ -102,6 +104,7 @@ export class BuildPanelComponent implements OnChanges {
         maxShipItems: this.gameState.maxShipItems + 1,
         wallet: purchaseTry.value,
       });
+      shopScenePlaySound(keys.sounds.cashRegister);
     }
   }
 

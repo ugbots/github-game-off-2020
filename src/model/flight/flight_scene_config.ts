@@ -187,10 +187,14 @@ const updateVertically = (
   if (sc.verticalPosition >= MOON_HEIGHT && sc.aimedAtMoon) {
     sc.sceneState = FlightSceneState.MOON_COLLISION;
 
-    setTimeout(() => {
-      sc.scene.scene.start(keys.scenes.moon, sc.gameState);
-      sc.onDestroy();
-    }, 5_000);
+    setTimeout(
+      () => {
+        sc.scene.scene.start(keys.scenes.moon, sc.gameState);
+        sc.onDestroy();
+      },
+      // The fanfare is around 8s long.
+      8_000,
+    );
   }
 
   return sc;
