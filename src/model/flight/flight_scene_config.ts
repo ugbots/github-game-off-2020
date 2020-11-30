@@ -190,7 +190,7 @@ const updateVertically = (
     setTimeout(() => {
       sc.scene.scene.start(keys.scenes.moon, sc.gameState);
       sc.onDestroy();
-    }, 2_000);
+    }, 5_000);
   }
 
   return sc;

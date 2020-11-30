@@ -20,6 +20,7 @@ export const keys = Object.freeze({
     white: 'WhiteSprite',
     planetFg: 'PlanetForegroundSprite',
     asteroid: 'AsteroidSprite',
+    moon: 'MoonSprite',
   },
   atlas: {
     asteroidTiles: {

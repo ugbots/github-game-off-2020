@@ -8,7 +8,7 @@ export class Moon {
     this.sprite = sc.scene.add.sprite(
       sc.moonPosition.x,
       sc.moonPosition.y,
-      keys.sprites.planetFg,
+      keys.sprites.moon,
     );
 
     this.sprite.setScale(5);
