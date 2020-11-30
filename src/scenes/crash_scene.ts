@@ -22,7 +22,11 @@ export class CrashScene extends Scene {
     this.gameState = gameState;
     this.cursorkeys = this.scene.scene.input.keyboard.createCursorKeys();
     this.timeout = setTimeout(() => {
-      this.scene.start(keys.scenes.shop, gameState);
+      if (gameState.earthInventory.fuel <= 0) {
+        this.scene.start(keys.scenes.failure, gameState);
+      } else {
+        this.scene.start(keys.scenes.shop, gameState);
+      }
       setTimeout(() => {
         this.destroy();
       }, 1);

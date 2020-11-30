@@ -54,7 +54,11 @@ export class LootScene extends Scene {
   private advanceScene(): void {
     const newGameState = moveShipWalletToWallet(this.lootSceneInput.gameState);
 
-    this.scene.start(keys.scenes.shop, newGameState);
+    if (this.lootSceneInput.gameState.earthInventory.fuel <= 0) {
+      this.scene.start(keys.scenes.failure, newGameState);
+    } else {
+      this.scene.start(keys.scenes.shop, newGameState);
+    }
 
     setTimeout(() => {
       this.destroy();

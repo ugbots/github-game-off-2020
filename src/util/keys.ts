@@ -2,6 +2,7 @@ export const keys = Object.freeze({
   scenes: {
     cannon: 'CannonScene',
     crash: 'CrashScene',
+    failure: 'FailureScene',
     flight: 'FlightScene',
     loot: 'LootScene',
     mainMenu: 'MainMenuScene',
