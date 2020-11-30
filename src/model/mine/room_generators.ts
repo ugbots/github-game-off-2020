@@ -29,16 +29,6 @@ const generateScatteredResources = (
     return resourceOrGround(s.normalizedMoonDistance);
   });
 
-const generateMiddleCross = (
-  s: RoomSpec,
-): ReadonlyArray<ReadonlyArray<TileType>> =>
-  tilesFromFn(s, (x, y) => {
-    if (x !== Math.floor(s.width / 2) && y !== Math.floor(s.height / 2)) {
-      return TileType.WALL;
-    }
-    return resourceOrGround(s.normalizedMoonDistance);
-  });
-
 const generateMaze = (s: RoomSpec): ReadonlyArray<ReadonlyArray<TileType>> => {
   const maze = MazeGenerator.generate(
     Math.floor((s.width - 1) / 2),
@@ -70,7 +60,6 @@ export const ROOM_GENERATORS: ReadonlyArray<(
   s: RoomSpec,
 ) => ReadonlyArray<ReadonlyArray<TileType>>> = [
   generateScatteredResources,
-  generateMiddleCross,
   generateMaze,
 ];
 
