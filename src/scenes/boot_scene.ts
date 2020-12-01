@@ -121,7 +121,7 @@ export default class BootScene extends Phaser.Scene {
     );
     this.load.image(keys.sprites.mainMenuBg, 'assets/sprites/main_menu_bg.png');
     this.load.image(keys.sprites.planetFg, 'assets/sprites/frontPlanet.png');
-    this.load.image(keys.sprites.planetBg, 'assets/sprites/planet.png');
+    this.load.image(keys.sprites.planetBg, 'assets/sprites/planetBg.png');
     this.load.image(keys.sprites.asteroid, 'assets/sprites/asteroid.png');
     this.load.image(keys.sprites.white, 'assets/sprites/white.png');
     this.load.image(keys.sprites.moon, 'assets/sprites/moon.png');
