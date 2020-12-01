@@ -8,7 +8,11 @@ Launch your spaceship to the moon and eat delicious moon cheese.
 This is our entry for the 
 [2020 Github Game-off](https://itch.io/jam/game-off-2020).
 
+<<<<<<< HEAD
 ## [Play the game here.](https://sixstring982.itch.io/ratstronauts)
+=======
+<iframe frameborder="0" src="https://itch.io/embed/837658?bg_color=111827&amp;fg_color=f3f4f6&amp;border_color=374151" width="552" height="167"><a href="https://sixstring982.itch.io/ratstronauts">Ratstronauts by Sixstring982</a></iframe>
+>>>>>>> b432e1c58de9335a78029a7be3b64d309f1a39d8
 
 ## Build instructions
 
