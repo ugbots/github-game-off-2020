@@ -36,6 +36,14 @@ export class SoundEasing {
     return this;
   }
 
+  stop(): void {
+    this.sound.stop();
+  }
+
+  play(): void {
+    this.sound.play();
+  }
+
   destroy(): void {
     this.sound.destroy();
   }

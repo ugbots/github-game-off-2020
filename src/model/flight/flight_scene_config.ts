@@ -146,9 +146,11 @@ export const updateSceneConfig = (
     }
     case FlightSceneState.ASTEROID_COLLISION: {
       updateShipFliesTowardAsteroid(sc, dt);
+      break;
     }
     case FlightSceneState.MOON_COLLISION: {
       updateShipFliesTowardMoon(sc, dt);
+      break;
     }
   }
   return sc;
@@ -266,9 +268,15 @@ const updateAsteroidPosition = (sc: FlightSceneConfig): FlightSceneConfig => {
 
   if (sc.shipVelocity.y > 0) {
     // Going up
-    if (asteroid.y > SCREEN_DIMENSIONS.y + ASTEROID_COLLISION_RADIUS) {
+    const moonAround =
+      sc.aimedAtMoon &&
+      sc.verticalPosition >= MOON_HEIGHT - SCREEN_DIMENSIONS.y * 2;
+    if (
+      asteroid.y > SCREEN_DIMENSIONS.y + ASTEROID_COLLISION_RADIUS &&
+      !moonAround
+    ) {
       // We passed the asteroid, so spawn a new one.
-      let newX;
+      let newX: number;
       if (Math.random() < 0.3) {
         newX =
           SCREEN_DIMENSIONS.x / 2 +

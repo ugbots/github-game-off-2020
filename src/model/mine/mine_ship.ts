@@ -25,23 +25,27 @@ export class MineShip {
   private blewUp = false;
 
   create(sc: MineSceneConfig): MineShip {
+    this.smokeManager = sc.scene.add.particles(keys.particles.smoke.atlas);
+
     this.sprite = sc.scene.add.sprite(
       sc.shipConfig.position.x,
       sc.shipConfig.position.y,
       keys.sprites.drillShip,
     );
 
-    this.smokeManager = sc.scene.add.particles(keys.particles.smoke.atlas);
     this.fireManager = sc.scene.add.particles(keys.particles.fire.atlas);
 
     this.smokeEmitter = this.smokeManager.createEmitter({
       frame: keys.particles.smoke.frames,
       x: 0,
       y: 0,
-      lifespan: 1500,
+      lifespan: {
+        min: 1_500,
+        max: 3_000,
+      },
       speed: {
-        min: 5,
-        max: 40,
+        min: 10,
+        max: 80,
       },
       angle: {
         min: 260,
@@ -56,7 +60,7 @@ export class MineShip {
         max: 10,
       },
       quantity: 0.1,
-      blendMode: 'OVERLAY',
+      blendMode: 'NORMAL',
     });
 
     this.fireEmitter = this.fireManager.createEmitter({
@@ -137,12 +141,13 @@ export class MineShip {
   }
 
   private updateRoaming(dt: number, sc: MineSceneConfig): void {
+    const rotation = this.generateRotation(sc.shipConfig);
     this.smokeEmitter.setPosition(
-      sc.shipConfig.position.x,
-      sc.shipConfig.position.y,
+      sc.shipConfig.position.x + Math.cos(rotation + Math.PI / 2) * 32,
+      sc.shipConfig.position.y + Math.sin(rotation + Math.PI / 2) * 20,
     );
 
-    this.sprite.rotation = this.generateRotation(sc.shipConfig);
+    this.sprite.rotation = rotation;
     this.sprite.scale = 2;
 
     const wobbly = sc.shipConfig.foolsGoldRadarEasing.getValue();
@@ -195,6 +200,7 @@ export class MineShip {
       this.fireEmitter.setQuantity(500);
       this.smokeEmitter.setQuantity(1);
 
+      this.engineSound.stop();
       this.explosionSound.play();
 
       this.blewUp = true;

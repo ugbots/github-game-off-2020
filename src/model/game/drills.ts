@@ -12,8 +12,10 @@ export const COPPER_DRILL: Drill = {
   ...EMPTY_ITEM,
   type: ItemType.DRILL,
   rarity: Rarity.COMMON,
-  name: 'Copper drill',
   imageUrl: 'assets/sprites/copper_drill.png',
+  name: 'Copper drill',
+  description:
+    'We had to do a lot to this drill to keep it from falling apart.',
   drills: 1,
   cost: {
     ...COST_FREE,
@@ -27,6 +29,7 @@ export const IRON_DRILL: Drill = {
   rarity: Rarity.UNCOMMON,
   imageUrl: 'assets/sprites/iron_drill.png',
   name: 'Iron drill',
+  description: 'Trusty iron. A little heavy, but never fails!',
   drills: 2,
   cost: {
     ...COST_FREE,
@@ -40,6 +43,7 @@ export const BRONZE_DRILL: Drill = {
   rarity: Rarity.RARE,
   imageUrl: 'assets/sprites/bronze_drill.png',
   name: 'Bronze drill',
+  description: 'Cuts like a hot knife through butter.',
   drills: 3,
   cost: {
     ...COST_FREE,
@@ -54,6 +58,9 @@ export const TITANIUM_DRILL: Drill = {
   rarity: Rarity.EPIC,
   imageUrl: 'assets/sprites/titanium_drill.png',
   name: 'Titanium drill',
+  description:
+    'Finally, a drill made from a material you might actually make a drill ' +
+    'out of.',
   drills: 5,
   cost: {
     ...COST_FREE,
@@ -68,6 +75,7 @@ export const DIAMOND_DRILL: Drill = {
   rarity: Rarity.LEGENDARY,
   imageUrl: 'assets/sprites/diamond_drill.png',
   name: 'Diamond drill',
+  description: "Don't go cutting through any diamonds with this!",
   drills: 10,
   cost: {
     ...COST_FREE,

@@ -4,9 +4,7 @@ import { keys } from '../util/keys';
 import { localStorage } from '../util/local_storage';
 import { SCREEN_DIMENSIONS } from '../util/screen';
 
-/**
- * The initial scene that starts, shows the splash screens, and loads the necessary assets.
- */
+/** This Scene shows the main menu. */
 export class MainMenuScene extends Phaser.Scene {
   private bgImage: Phaser.GameObjects.Image;
 
