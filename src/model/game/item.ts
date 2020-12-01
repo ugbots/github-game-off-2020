@@ -51,10 +51,6 @@ export interface Item {
 
 export const EMPTY_ITEM = {
   imageUrl: 'assets/sprites/character.png',
-  description:
-    'Here is the description for an item. Boy, it can be really ' +
-    'long. Who knows what items this game might have? Better ' +
-    'build some more so we can get rid of this sample text!',
   cost: COST_FREE,
   drills: 0,
   boosters: 0,

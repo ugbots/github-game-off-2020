@@ -8,6 +8,8 @@ Launch your spaceship to the moon and eat delicious moon cheese.
 This is our entry for the 
 [2020 Github Game-off](https://itch.io/jam/game-off-2020).
 
+<iframe frameborder="0" src="https://itch.io/embed/837658?bg_color=111827&amp;fg_color=f3f4f6&amp;border_color=374151" width="552" height="167"><a href="https://sixstring982.itch.io/ratstronauts">Ratstronauts by Sixstring982</a></iframe>
+
 ## Build instructions
 
 ### Dependencies
@@ -29,6 +31,13 @@ these steps:
 After that, every other time you want to run the game just type `yarn dev` to
 start the development server.
 
+## Troubleshooting
+
+### The keyboard controls aren't working!
+
+You may have to remove some extensions if you're running Chrome. The evernote
+extension is known to cause issues with Phaser's keyboard controls.
+
 ## Credits
 
 ### Concept
@@ -39,6 +48,7 @@ start the development server.
 
 ### Programming
 
+- 🧑‍💻 krbroyl
 - 🧑‍💻 sixstring982
 
 ### Art

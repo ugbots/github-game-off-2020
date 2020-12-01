@@ -39,7 +39,7 @@ export class Planet {
   }
 
   update(time: number, dt: number, sc: CannonSceneConfig): Planet {
-    this.background.rotation = sc.rotation;
+    this.background.rotation = sc.rotation + Math.PI / 2;
     this.foreground.rotation = sc.rotation;
     return this;
   }
